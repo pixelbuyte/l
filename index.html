@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LISA (Lalisa Manobal) — Complete Career Archive | Photos, Videos, Appearances by Year</title>
+  <meta name="description" content="A museum-grade public archive of the career of Lisa of BLACKPINK — every photo, video, release, and appearance dated by year, event, and purpose. 1997–2026.">
+  <meta property="og:title" content="LALISA — The Complete Public Archive">
+  <meta property="og:description" content="Ten eras, one archive. Every picture answers: what year, where, what for.">
+  <meta name="theme-color" content="#070707">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23070707'/%3E%3Ctext x='32' y='46' font-family='serif' font-style='italic' font-size='44' fill='%23C8B273' text-anchor='middle'%3EL%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Archivo:wght@300..700&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div id="app">
+
+    <div class="load-veil" id="load-veil" aria-hidden="true">
+      <div class="veil-mark">
+        <div class="veil-l">L</div>
+        <div class="veil-num">0 3 2 7</div>
+      </div>
+    </div>
+
+    <header class="topbar">
+      <a class="brand" href="#/home" aria-label="LALISA — home">
+        <span>L<em>·</em>ARCHIVE</span>
+        <span class="b-num">0327</span>
+      </a>
+      <nav class="mainnav" id="mainnav" aria-label="Primary"></nav>
+      <div class="topbar-actions">
+        <span class="era-chip" id="era-chip" aria-live="polite">1997—2026</span>
+        <button class="icon-btn" id="search-open" aria-label="Search the archive (press slash)">SEARCH ⌕</button>
+        <button class="icon-btn" id="lang-toggle" aria-label="Toggle Thai and Korean name labels">EN</button>
+      </div>
+    </header>
+
+    <main id="view" tabindex="-1"></main>
+
+    <footer class="site-footer" id="site-footer"></footer>
+
+    <nav class="bottomnav" id="bottomnav" aria-label="Mobile"></nav>
+
+    <div class="overlay" id="search-overlay" role="dialog" aria-modal="true" aria-label="Search the archive">
+      <div class="search-panel">
+        <input id="search-input" type="text" placeholder="Search people, songs, years, cities, shows…" autocomplete="off">
+        <div class="search-results" id="search-results"></div>
+      </div>
+    </div>
+
+    <div class="overlay" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lb-title">
+      <button class="lb-close" aria-label="Close record">ESC / CLOSE ✕</button>
+      <button class="lb-nav lb-prev" aria-label="Previous record">‹</button>
+      <button class="lb-nav lb-next" aria-label="Next record">›</button>
+      <div class="lightbox-inner">
+        <div class="lb-visual" id="lb-visual" aria-hidden="true"></div>
+        <div class="lb-meta">
+          <div id="lb-metabox"></div>
+          <div class="lb-id" id="lb-count" style="margin-top:20px"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/data/eras.js"></script>
+  <script src="js/data/timeline.js"></script>
+  <script src="js/data/releases.js"></script>
+  <script src="js/data/videos.js"></script>
+  <script src="js/data/appearances.js"></script>
+  <script src="js/data/photos.js"></script>
+  <script src="js/data/fashion.js"></script>
+  <script src="js/data/live.js"></script>
+  <script src="js/data/records.js"></script>
+  <script src="js/data/essays.js"></script>
+  <script src="js/data/bio.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
