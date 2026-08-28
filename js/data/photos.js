@@ -195,7 +195,7 @@ DB.photos = [
   "era": "debut",
   "collection": "debut-2016",
   "sourceType": "official music video frame",
-  "whyItMatters": "The one deliberately bright detour of the early catalog. Lisa's frames in the candy-toned set became long-running fan canon, and the single carried BLACKPINK through 2017 while the Japanese expansion was being built.",
+  "whyItMatters": "The one deliberately bright detour of the early catalog. Lisa's frames in the candy-toned set became some of the most circulated stills of the group's first years, and the single carried BLACKPINK through 2017 while the Japanese expansion was being built.",
   "alt": "Colorful music video frame of Lisa in the pastel-and-primary palette of As If It's Your Last.",
   "palette": [
    "#1C1420",
@@ -310,7 +310,7 @@ DB.photos = [
   "collection": "ktl-2019",
   "sourceType": "official tour photography",
   "location": "Bangkok, Thailand",
-  "whyItMatters": "January 2019, before Kill This Love arrived: the tour reaches Bangkok, and the trainee who left Thailand around 2011 returns as the country's biggest pop export on an arena stage. In the archive this card opens the 2019 chapter, and it is one of the most emotionally weighted live records of the era.",
+  "whyItMatters": "January 2019, before Kill This Love arrived: the tour reaches Bangkok, and the trainee who left Thailand around 2011 returns as one of the country's most prominent pop exports, on an arena stage before a home crowd. In the archive this card opens the 2019 chapter, and it is one of the most emotionally weighted live records of the era.",
   "alt": "Tour photograph of Lisa performing in Bangkok during the In Your Area World Tour, home crowd in view.",
   "palette": [
    "#130F16",
@@ -423,7 +423,7 @@ DB.photos = [
   "era": "thealbum",
   "collection": "hylt-2020",
   "sourceType": "official music video frame",
-  "whyItMatters": "26 June 2020: the comeback that opened The Album era arrived as a fortress of a video, bunker sets dressed in couture. Lisa's frames, especially the dance-break passages, are the most screen-captured moments of the release and mark the point where her individual global following visibly outgrew the frame.",
+  "whyItMatters": "26 June 2020: the comeback that opened The Album era arrived as a fortress of a video, bunker sets dressed in couture. Lisa's frames, especially the dance-break passages, are the most screen-captured moments of the release and mark the point where her individual global following visibly outgrew the group frame.",
   "alt": "Music video frame of Lisa in couture styling within the dark bunker set of How You Like That.",
   "palette": [
    "#12151A",
@@ -490,7 +490,7 @@ DB.photos = [
   "era": "thealbum",
   "collection": "hylt-2020",
   "sourceType": "official music video frame",
-  "whyItMatters": "2 October 2020: the first full-length Korean studio album arrives with Lovesick Girls as its closer of a title track. Lisa's open-road frames give the era its most cinematic, least fortress-like image, and mark the last full group cycle before her solo debut year.",
+  "whyItMatters": "2 October 2020: the first full-length Korean studio album arrives with Lovesick Girls as its title track. Lisa's open-road frames give the era its most cinematic, least fortress-like image, and mark the last full group cycle before her solo debut year.",
   "alt": "Cinematic music video frame of Lisa from Lovesick Girls, shot in the warmer open landscape of The Album era.",
   "palette": [
    "#171219",
@@ -602,7 +602,7 @@ DB.photos = [
   "era": "lalisa",
   "collection": "lalisa-2021",
   "sourceType": "official music video frame",
-  "whyItMatters": "The pole-framed choreography passage is the video's purest dance document, built to showcase line and control rather than costume. It is the frame dance analysts return to when arguing the case for Lisa as her generation's defining K-pop mover.",
+  "whyItMatters": "The pole-framed choreography passage is the video's purest dance document, built to showcase line and control rather than costume. It is the frame analysts return to when assessing Lisa's standing as one of her generation's defining K-pop dancers.",
   "alt": "Music video frame of Lisa mid-choreography within the pole-framed set piece of the Lalisa video.",
   "palette": [
    "#0C0C10",
@@ -802,7 +802,7 @@ DB.photos = [
   "era": "thealbum",
   "collection": "fashion-week",
   "sourceType": "campaign imagery",
-  "whyItMatters": "In 2020 Celine named Lisa its first global female ambassador, the opening move in the fashion-house triad that would define her off-stage image. The archive holds the appointment at year precision; the partnership itself would carry through the Louis Vuitton era announced in 2023.",
+  "whyItMatters": "In 2020 Celine named Lisa its first global female ambassador, the opening move in the fashion-house triad that would define her off-stage image. The archive holds the appointment at year precision; the Celine relationship ran from 2020, well before the separate Louis Vuitton house ambassadorship announced in July 2023.",
   "alt": "Campaign-styled portrait of Lisa in Celine's spare, monochrome tailoring aesthetic from the 2020 ambassadorship.",
   "palette": [
    "#0F0E0B",
@@ -971,8 +971,8 @@ DB.photos = [
  {
   "id": "lisa-2023-coachella-headline",
   "year": 2023,
-  "date": "2023-04-15",
-  "datePrecision": "day",
+  "date": "2023-04",
+  "datePrecision": "month",
   "title": "Coachella 2023 Headline Set",
   "type": "live",
   "event": "Coachella Valley Music and Arts Festival, headline performance",
@@ -981,7 +981,7 @@ DB.photos = [
   "sourceType": "festival press photography",
   "location": "Indio, California",
   "purpose": "festival headline documentation",
-  "whyItMatters": "15 April 2023. Four years after becoming the first K-pop girl group to play Coachella in 2019, BLACKPINK returned as headliners — the festival's first K-pop headline act. The hanbok-inspired custom stagewear made the set an image event as much as a musical one; this is the era's defining festival frame.",
+  "whyItMatters": "April 2023. Four years after becoming the first K-pop girl group to play Coachella in 2019, BLACKPINK returned as headliners — the festival's first K-pop headline act. The hanbok-inspired custom stagewear made the set an image event as much as a musical one; this is the era's defining festival frame.",
   "alt": "Lisa performing on the Coachella main stage at night in hanbok-inspired custom stagewear, desert sky behind her and festival lighting rigs overhead.",
   "palette": [
    "#4a7fb5",
@@ -1267,11 +1267,11 @@ DB.photos = [
   "confusedWith": "crazy-horse-2023 cabaret stills — the feathered-glamour register overlaps, but this is the 2024 New York runway broadcast, not the Paris cabaret stage."
  },
  {
-  "id": "lisa-2024-vsfs-wings",
+  "id": "lisa-2024-vsfs-styling",
   "year": 2024,
   "date": "2024-10-15",
   "datePrecision": "day",
-  "title": "Victoria's Secret Show, Winged Look",
+  "title": "Victoria's Secret Show, Styling Study",
   "type": "fashion",
   "event": "Victoria's Secret Fashion Show appearance",
   "era": "alterego",
@@ -1279,15 +1279,15 @@ DB.photos = [
   "sourceType": "runway broadcast still",
   "location": "New York",
   "purpose": "runway-performance documentation",
-  "whyItMatters": "15 October 2024. The winged silhouette — the show's house iconography — worn by a performing musician rather than a walking model. The frame documents how thoroughly the 2024 edition folded its musical guests into the runway's visual vocabulary.",
-  "alt": "Lisa in a winged runway look at the Victoria's Secret Fashion Show, the structured wings backlit against deep pink staging.",
+  "whyItMatters": "15 October 2024. Between her two numbers, the evening's styling carried Lisa from Rockstar's dark glamour to Moonlit Floor's pale romance — two wardrobe registers on one working runway. The frame documents costume as the hinge between the broadcast's Lisa segments.",
+  "alt": "Lisa photographed on the Victoria's Secret Fashion Show runway in dark glamour styling, models and the show's pink staging visible behind her under runway lighting.",
   "palette": [
    "#FF2D7B",
-   "#C8B273"
+   "#101010"
   ],
-  "motif": "winged house iconography",
+  "motif": "two registers, one runway",
   "famous": false,
-  "confusedWith": "crazy-horse-2023 feathered silhouettes — wings and feathers read alike in thumbnails; this is the Victoria's Secret runway, a year later and an ocean away."
+  "confusedWith": "crazy-horse-2023 cabaret stills — the glamour registers read alike in thumbnails; this is the Victoria's Secret runway broadcast, a year later and an ocean away."
  },
  {
   "id": "lisa-2024-vsfs-moonlit-runway",
@@ -1700,7 +1700,7 @@ DB.photos = [
   "sourceType": "festival press photography",
   "location": "Indio, California",
   "purpose": "surprise appearance documentation",
-  "whyItMatters": "18 April 2026. Ten days after the release of Bad Angel with Anyma, Lisa appeared unannounced in his Coachella set to perform it — her third distinct Coachella incarnation after the 2023 group headline and 2025 solo run, and the first public stage of the 2026 solo chapter that leads toward Press Play.",
+  "whyItMatters": "18 April 2026. Ten days after the release of Bad Angel with Anyma, Lisa appeared unannounced in his Coachella set to perform it — a third mode of presence at the festival, after the BLACKPINK stages of 2019 and 2023 and the solo billing of 2025, and the first public stage of the 2026 chapter that leads toward Press Play.",
   "alt": "Lisa emerging into Anyma's Coachella 2026 stage production to perform Bad Angel, monumental digital visuals towering behind her.",
   "palette": [
    "#F4F1EA",

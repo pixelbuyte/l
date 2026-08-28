@@ -13,16 +13,18 @@ DB.releases = [
   "label": "YG Entertainment",
   "era": "debut",
   "notes": "BLACKPINK's debut single album, released 8 August 2016 after Lisa's roughly five years as YG Entertainment's first non-Korean trainee. Two tracks, two registers: the minimalist swagger of Whistle and the brass-driven announcement of Boombayah. This is the founding document of the catalogue.",
-  "lisaRole": "Lisa delivers the opening rap of Boombayah — the first recorded line of BLACKPINK's career — and anchors the track's dance breaks as main dancer. On Whistle her verses set the group's rap identity from day one.",
+  "lisaRole": "Lisa opens Boombayah with the group's introduction call and anchors the track's dance breaks as main dancer. On Whistle her verses set the group's rap identity from the first release.",
   "chartNotes": "",
   "tracks": [
    {
     "n": 1,
-    "title": "Boombayah"
+    "title": "Whistle",
+    "note": "Lead track of the debut single album."
    },
    {
     "n": 2,
-    "title": "Whistle"
+    "title": "Boombayah",
+    "note": "Debut companion single; opens on Lisa's introduction call."
    }
   ],
   "upcoming": false
@@ -38,7 +40,7 @@ DB.releases = [
   "year": 2016,
   "label": "YG Entertainment",
   "era": "debut",
-  "notes": "The second single album of the debut year, pairing the torch-lit drama of Playing With Fire with the softer, tropical-leaning Stay. Released within three months of debut, it confirmed the group's double-sided identity: hard-edged single and melodic counterweight.",
+  "notes": "The second single album of the debut year, pairing the torch-lit drama of Playing With Fire with the softer, acoustic-tinged Stay. Released within three months of debut, it confirmed the group's double-sided identity: hard-edged single and melodic counterweight.",
   "lisaRole": "Her rap verse on Playing With Fire supplies the track's rhythmic ignition, and on stages of this cycle she carries the choreography's sharpest accents as main dancer.",
   "chartNotes": "",
   "tracks": [
@@ -117,7 +119,7 @@ DB.releases = [
   "label": "YG Entertainment / Interscope",
   "era": "iya",
   "notes": "The 2019 EP built around the martial brass of its title track, released days before the group's landmark Coachella appearance. It is the record that carried the In Your Area World Tour through its biggest stages.",
-  "lisaRole": "Lisa opens Kill This Love's rap assault and owns its live drop; her solo dance break during this cycle — including the Coachella stages — became a fixed highlight of the group's set.",
+  "lisaRole": "Lisa opens Kill This Love's verses and owns its live drop; her solo dance break during this cycle — including the Coachella stages — became a fixed highlight of the group's set.",
   "chartNotes": "Its 2019 cycle included Coachella, where BLACKPINK became the first K-pop girl group to perform at the festival.",
   "tracks": [
    {
@@ -276,7 +278,7 @@ DB.releases = [
   "date": "2021-10-22",
   "datePrecision": "day",
   "year": 2021,
-  "label": "Geffen Records",
+  "label": "Interscope Records",
   "era": "lalisa",
   "notes": "Released 22 October 2021, six weeks after her solo debut — a four-artist, trilingual global-pop summit with a Colin Tilley video. Her first placement in a Western multi-star single, confirming that the Lalisa era had crossed markets.",
   "lisaRole": "Guest rapper and vocalist among four leads, delivering her section's verse and sharing the video's centerpiece imagery — her first Western collaboration as a soloist.",
@@ -330,7 +332,7 @@ DB.releases = [
   "label": "YG Entertainment / Interscope",
   "era": "bornpink",
   "notes": "The second Korean studio album, released 16 September 2022 and carried by the Born Pink World Tour through 2023 — a run capped by the group's Coachella 2023 headline set, the era's defining stage.",
-  "lisaRole": "Lead rapper across the record — Pink Venom and Shut Down verses, the Typa Girl flex — and main dancer of a world tour that included her solo stage as a nightly showcase.",
+  "lisaRole": "Lead rapper across the record — the Pink Venom and Shut Down verses and the boast-built Typa Girl — and main dancer of a world tour that included her solo stage as a nightly showcase.",
   "chartNotes": "",
   "tracks": [
    {
@@ -376,8 +378,8 @@ DB.releases = [
   "artistLine": "Taeyang feat. Lisa",
   "type": "feature",
   "scope": "collab",
-  "date": "2023-04-25",
-  "datePrecision": "day",
+  "date": "2023",
+  "datePrecision": "year",
   "year": 2023,
   "label": "The Black Label",
   "era": "bornpink",
@@ -546,7 +548,7 @@ DB.releases = [
   "year": 2025,
   "label": "LLOUD / RCA Records",
   "era": "alterego",
-  "notes": "The 2025 video and single push for the Alter Ego track with Tyla, extending the album campaign through the year with an Olivia De Camps-directed visual — two of pop's ascendant Southern Hemisphere and Southeast Asian stars in one frame.",
+  "notes": "The 2025 video and single push for the Alter Ego track with Tyla, extending the album campaign through the year with an Olivia De Camps-directed visual.",
   "lisaRole": "Lead artist opposite Tyla's feature, fronting the track's flirtatious duet dynamic and its 2025 visual campaign.",
   "chartNotes": "",
   "tracks": [],
@@ -635,7 +637,7 @@ DB.releases = [
   "date": "2026-05-21",
   "datePrecision": "day",
   "year": 2026,
-  "label": "Official FIFA World Cup 26 soundtrack",
+  "label": "Official 2026 FIFA World Cup soundtrack",
   "era": "pressplay",
   "notes": "Released 21 May 2026 in the official 2026 FIFA World Cup soundtrack lane — a three-continent single with Anitta and Rema, performed at the tournament's opening ceremony in the Los Angeles / SoFi Stadium context in June 2026.",
   "lisaRole": "Co-lead artist representing Asia in the tournament's global lineup, fronting the opening-ceremony performance.",
@@ -671,7 +673,7 @@ DB.releases = [
   "year": 2026,
   "label": "LLOUD / RCA Records",
   "era": "pressplay",
-  "notes": "Her second solo era's centerpiece, an EP scheduled for 23 October 2026 and preceded by the single Sawadika on 4 September. Its full tracklist is not yet established in this archive; the release leads into the VIVA LA LISA residency at The Colosseum at Caesars Palace, the first K-pop Las Vegas residency.",
+  "notes": "The centerpiece of her third solo era, an EP scheduled for 23 October 2026 and preceded by the single Sawadika on 4 September. Its full tracklist is not yet established in this archive; the release leads into the VIVA LA LISA residency at The Colosseum at Caesars Palace, the first K-pop Las Vegas residency.",
   "lisaRole": "Lead artist and label principal — the first full project of the era that gives the pressplay chapter its name.",
   "chartNotes": "",
   "tracks": [],

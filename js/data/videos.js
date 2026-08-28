@@ -12,7 +12,7 @@ DB.videos = [
   "scope": "solo",
   "era": "lalisa",
   "visualThesis": "Seo Hyun-seung stages the solo debut as a coronation: Thai royal and gold-goddess imagery, a literal throne, couture armor, and a Ducati parked like a museum object. The palette is ceremonial and jewel-dense, presenting the group's maknae as a sovereign figure in her own right. This is the 2021 throne image — power conferred and staged — the reference point against which the 2024 independence image is later read.",
-  "premiere": "Premiered 10 September 2021 with the Lalisa single album under YG Entertainment and Interscope; roughly 73.6 million views in 24 hours set the Guinness record for the most-viewed YouTube music video in a day by a solo artist.",
+  "premiere": "Premiered 10 September 2021 with the Lalisa single album under YG Entertainment and Interscope; roughly 73.6 million views in 24 hours set the Guinness record for the most-viewed YouTube music video in 24 hours by a solo artist. The song's Best K-pop win at the 2021 MTV EMAs made her the first solo K-pop artist to win an MTV EMA.",
   "stillsNote": "The gold-throne tableau in Thai royal dress is the era's defining still; the mass-choreography finale supplies its kinetic counterpart.",
   "youtubeQuery": "LISA - LALISA M/V",
   "upcoming": false
@@ -20,15 +20,15 @@ DB.videos = [
  {
   "id": "money-performance",
   "title": "Money (Exclusive Performance Video)",
-  "date": "2021-11-24",
-  "datePrecision": "day",
+  "date": "2021",
+  "datePrecision": "year",
   "year": 2021,
   "director": "",
   "type": "performance",
   "scope": "solo",
   "era": "lalisa",
   "visualThesis": "An exclusive performance video rather than a narrative film: chair choreography, monochrome swagger, and a camera that treats the dancer's line as the entire subject. Where the Lalisa video ornaments, Money strips — a black-and-chrome study in attitude that became the single album's second life.",
-  "premiere": "Released 24 November 2021 on the group's official channel as a dedicated performance piece for the Lalisa B-side.",
+  "premiere": "Released in 2021 on the group's official channel, after the single album's September release, as a dedicated performance piece for the Lalisa B-side; the archive holds the upload at year precision.",
   "stillsNote": "The chair sequence is the signature passage; Money later became the first solo track by a female K-pop artist in the billion-stream class on Spotify, and this video is its visual anchor.",
   "youtubeQuery": "LISA - MONEY Exclusive Performance Video",
   "upcoming": false
@@ -108,7 +108,7 @@ DB.videos = [
   "scope": "solo",
   "era": "lloud",
   "visualThesis": "Raja Virdi trades the era's chrome for moonlight: a soft-lit, romantic performance register built around the Sixpence None the Richer interpolation. The choreography is intimate rather than monumental — proof the independence era could whisper as well as declare.",
-  "premiere": "Released 3 October 2024 with the single, days after its live debut context at Global Citizen Festival in New York; performed again at the Victoria's Secret Fashion Show on 15 October 2024.",
+  "premiere": "Released 3 October 2024 with the single, days after its live debut context at Global Citizen Festival in New York; performed again, alongside Rockstar, at the Victoria's Secret Fashion Show on 15 October 2024.",
   "stillsNote": "The moon-washed ensemble passages supply the single's signature frames.",
   "youtubeQuery": "LISA - Moonlit Floor Official Performance Video",
   "upcoming": false
@@ -124,7 +124,7 @@ DB.videos = [
   "scope": "solo",
   "era": "alterego",
   "visualThesis": "Bardia Zeinali stages the album's opening statement in disco-noir: Lisa, Doja Cat, and Raye trading the song across mirrored nightlife sets. The imagery announces Alter Ego's premise — identity as wardrobe — with three stars framed as reflections of one idea.",
-  "premiere": "Premiered with the single on 6 February 2025, three weeks ahead of the Alter Ego album; the song later anchored her 97th Academy Awards appearance, the first Oscars performance by a K-pop artist.",
+  "premiere": "Premiered with the single on 6 February 2025, three weeks ahead of the Alter Ego album; the song later anchored her 97th Academy Awards appearance on 2 March 2025, the first Oscars performance by a K-pop artist.",
   "stillsNote": "The three-artist lineup shots are the promotional stills of record for the album's launch act.",
   "youtubeQuery": "LISA - Born Again feat. Doja Cat & RAYE Official Music Video",
   "upcoming": false
@@ -132,15 +132,15 @@ DB.videos = [
  {
   "id": "fxck-up-the-world-vixi",
   "title": "Fxck Up the World (Vixi Solo Version)",
-  "date": "2025-02",
-  "datePrecision": "month",
+  "date": "2025",
+  "datePrecision": "year",
   "year": 2025,
   "director": "Christian Breslauer",
   "type": "mv",
   "scope": "solo",
   "era": "alterego",
   "visualThesis": "Christian Breslauer gives Vixi — one of the album's five alter egos, alongside Roxi, Sunni, Kiki, and Speedi — a dedicated solo-version visual with an action-film pulse. The persona system becomes literal casting: the same artist, played as somebody else.",
-  "premiere": "Released in the Alter Ego album window, February 2025, as the Vixi solo version of the album track that features Future on the record.",
+  "premiere": "Released in 2025, within the Alter Ego album campaign, as the Vixi solo version of the album track that features Future on the record; the archive dates the upload at year precision.",
   "stillsNote": "The Vixi persona styling separates this solo version from the album's collaboration cut; the persona-reveal frames are the keepers.",
   "youtubeQuery": "LISA - FUTW Vixi Solo Version Official Music Video",
   "upcoming": false
@@ -171,10 +171,26 @@ DB.videos = [
   "type": "short-film",
   "scope": "solo",
   "era": "alterego",
-  "visualThesis": "Ojun Kwon closes the album shelf as cinema: a narrative short film in a melancholic, filmic grade, held on faces rather than formations. It is archived as performance cinema — acting imagery, labeled as such — and it sits naturally beside the White Lotus season that made 2025 her screen-debut year.",
+  "visualThesis": "Ojun Kwon closes the album shelf as cinema: a narrative short film in a melancholic, filmic grade, held on faces rather than formations. It is archived as performance cinema — acting imagery, labeled as such — and it sits beside her actual screen debut of the same year, The White Lotus Season 3 on HBO, in which she played the wellness-resort staff figure most widely reported as Mook, a role some sources name Pearl.",
   "premiere": "Released in 2025 as the short-film treatment of the Alter Ego closing track.",
   "stillsNote": "Held close-ups rather than choreography frames; the stills read as film production photography, not concert imagery.",
   "youtubeQuery": "LISA - Dream Short Film",
+  "upcoming": false
+ },
+ {
+  "id": "priceless",
+  "title": "Priceless",
+  "date": "2025",
+  "datePrecision": "year",
+  "year": 2025,
+  "director": "",
+  "type": "collab-mv",
+  "scope": "collab",
+  "era": "alterego",
+  "visualThesis": "The Maroon 5 single places her as the featured voice inside an American pop institution's frame — a billing that measures how far the solo profile traveled between the 2021 throne image and 2025. The archive holds this entry at year precision and catalogues the billing over the imagery.",
+  "premiere": "Released in 2025 as a Maroon 5 single featuring Lisa, extending the collaboration shelf into legacy American pop.",
+  "stillsNote": "Archived at year precision; the collaboration's record here is the billing itself, and the still record is kept conservative.",
+  "youtubeQuery": "Maroon 5 - Priceless ft. LISA",
   "upcoming": false
  },
  {
@@ -210,6 +226,22 @@ DB.videos = [
   "upcoming": false
  },
  {
+  "id": "sawadika",
+  "title": "Sawadika",
+  "date": "2026-09-04",
+  "datePrecision": "day",
+  "year": 2026,
+  "director": "",
+  "type": "mv",
+  "scope": "solo",
+  "era": "pressplay",
+  "visualThesis": "An entry held open in advance of release: the pre-release single ahead of the Press Play EP of 23 October 2026, the first new solo material after the World Cup summer. No visual record exists yet, and the archive reserves description until the pictures arrive.",
+  "premiere": "Scheduled for 4 September 2026 as the pre-release single ahead of the Press Play EP; the visual record will be catalogued on release.",
+  "stillsNote": "No stills; the entry awaits its premiere.",
+  "youtubeQuery": "LISA - Sawadika",
+  "upcoming": true
+ },
+ {
   "id": "whistle-mv",
   "title": "Whistle",
   "date": "2016-08-08",
@@ -237,7 +269,7 @@ DB.videos = [
   "era": "debut",
   "visualThesis": "Whistle's louder twin from the same debut day: saturated color, harder tempo, the group's physical firepower foregrounded. Together the two videos split the debut thesis — restraint on one channel, detonation on the other.",
   "premiere": "Premiered 8 August 2016 with Square One; the companion piece to Whistle.",
-  "stillsNote": "Lisa's opening rap announces the group by name, and her ponytail-whip in the dance break became the debut era's most looped Lisa moment.",
+  "stillsNote": "Lisa's opening rap announces the group by name, and her ponytail-whip in the dance break became the debut era's most circulated Lisa excerpt.",
   "youtubeQuery": "BLACKPINK - BOOMBAYAH M/V",
   "upcoming": false
  },
@@ -301,7 +333,7 @@ DB.videos = [
   "era": "iya",
   "visualThesis": "The imperial phase opens: monumental single-artist set pieces, weaponized luxury iconography, and a chorus built for stadiums the group had not yet played. This is the In Your Area image that Coachella 2019 would take worldwide.",
   "premiere": "Premiered 15 June 2018 with Square Up; the video became one of YouTube's most-viewed by a K-pop group.",
-  "stillsNote": "Lisa's rap verse and her center slot in the final dance break are the video's most screenshotted Lisa beats.",
+  "stillsNote": "Lisa's rap verse and her center slot in the final dance break are the video's most reproduced Lisa passages.",
   "youtubeQuery": "BLACKPINK - DDU-DU DDU-DU M/V",
   "upcoming": false
  },
@@ -333,7 +365,7 @@ DB.videos = [
   "era": "thealbum",
   "visualThesis": "Pandemic-era spectacle built entirely inside constructed worlds — ruined classicism, neon jungle, winged thrones — because there was nowhere else to shoot. The house style at its most concentrated.",
   "premiere": "Premiered 26 June 2020, opening The Album campaign with a then-record-scale YouTube premiere.",
-  "stillsNote": "Lisa's rap verse and the final-chorus formation with Lisa forward carried the video's most-clipped passages.",
+  "stillsNote": "Lisa's rap verse and the final-chorus formation with Lisa forward supplied the video's most excerpted passages.",
   "youtubeQuery": "BLACKPINK - How You Like That M/V",
   "upcoming": false
  },
@@ -411,8 +443,8 @@ DB.videos = [
   "type": "mv",
   "scope": "group",
   "era": "deadline",
-  "visualThesis": "Dave Meyers shoots the reunion single as anarchic, high-velocity crowd spectacle — an image built for the stadium run it announced. Notably, its director belongs to Lisa's solo shelf too: the New Woman auteur now framing the group.",
-  "premiere": "Premiered in July 2025, days after the Deadline World Tour opened at Goyang Stadium, where the song had already been performed live.",
+  "visualThesis": "Dave Meyers shoots the reunion single as anarchic, high-velocity crowd spectacle — an image built for the stadium run it announced. Notably, its director belongs to Lisa's solo shelf too: the New Woman director now framing the group.",
+  "premiere": "Premiered 11 July 2025, six days after the Deadline World Tour opened at Goyang Stadium, where the song had already been performed live.",
   "stillsNote": "Lisa's section arrives with the solo era's confidence visibly banked; her verse styling led the video's coverage.",
   "youtubeQuery": "BLACKPINK - JUMP M/V",
   "upcoming": false

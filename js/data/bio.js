@@ -1,10 +1,87 @@
+/* Generated archive database — verified content. */
 window.DB = window.DB || {};
 DB.bio = {
-  chapters: [{ id: "c1", title: "Buriram and Bangkok beginnings", paragraphs: ["Stub chapter copy.", "Second paragraph."] }],
-  homeIntro: "Lalisa Manobal left Buriram for Seoul at fourteen and debuted in 2016 as the youngest member of BLACKPINK. This archive dates the pictures, names the rooms she walked into, and separates a group-era still from a solo-era still.",
-  missionNote: "A curated public-record fan archive — not an official LLOUD, YG, or RCA property.",
-  sourcesCopy: "Stub sources copy.",
-  lloudCopy: ["Stub LLOUD paragraph.", "Second.", "Third."],
-  screenCopy: ["Stub screen paragraph.", "Second.", "Third."],
-  onThisArchive: "A dated, searchable public archive of the career of Lisa of BLACKPINK."
+ "chapters": [
+  {
+   "id": "c1",
+   "title": "Buriram and Bangkok Beginnings",
+   "paragraphs": [
+    "Lalisa Manobal was born Pranpriya Manobal on 27 March 1997 in Buriram Province, in Thailand's northeast. She was raised by her Thai mother, Chitthip, and her Swiss stepfather, the chef Marco Bruschweiler — the public record on her family ends there, and this archive respects that boundary. In adolescence she legally changed her first name to Lalisa, a name understood to mean \"the one being praised.\" The stage name Lisa is simply that name, shortened.",
+    "The dancing came first, long before any label. She trained as a child performer in Thailand and competed with the local dance crew We Zaa Cool. Around 2009 — approximately age twelve, and the date can only be given at that precision — she appears as a young dancer in a provincial Thai New Year-style promotional music video. The footage survives as low-resolution archival material rather than a polished production, and this archive presents it as exactly that: a historical document of a working child dancer, not a debut.",
+    "In 2010, YG Entertainment held auditions in Bangkok. From among thousands of applicants, the thirteen-year-old from Buriram was selected — the company's first non-Korean trainee. It is the hinge of the entire story. Everything that follows — Seoul, BLACKPINK, the solo catalog, the company she would one day own — passes through that single audition room in Bangkok."
+   ]
+  },
+  {
+   "id": "c2",
+   "title": "YG Trainee Years",
+   "paragraphs": [
+    "Around 2011, at roughly fourteen, she relocated from Thailand to South Korea and entered YG Entertainment's trainee system. What followed was approximately five years of training — dance, rap, vocals, Korean-language immersion — conducted almost entirely out of public view. The trainee period is, by design, the least documented chapter of any K-pop career, and the honest archival position is that only fragments of it are visible.",
+    "One fragment is dated with confidence. In November 2013, she appeared as a backup dancer in the music video for Taeyang's \"Ringa Linga.\" It is her first traceable appearance in the YG machine: a trainee visible at the edge of the frame, roughly two and a half years into the system, just under three years from debut.",
+    "The long silence broke in June 2016, when YG revealed her as a member of its new girl group, BLACKPINK. On 8 August 2016, the group debuted with the single album Square One, carrying \"Whistle\" and \"Boombayah.\" Lisa debuted as the group's main dancer, lead rapper, sub-vocalist, and maknae — the youngest member, and the first non-Korean trainee in the company's history to reach a YG debut stage."
+   ]
+  },
+  {
+   "id": "c3",
+   "title": "BLACKPINK Explosion",
+   "paragraphs": [
+    "The group era moved fast. Square One (2016) was followed within months by Square Two (\"Playing With Fire,\" \"Stay\"), then \"As If It's Your Last\" in 2017 and a Japan showcase expansion in the Budokan era. In 2018, Square Up and its lead single \"DDU-DU DDU-DU\" turned BLACKPINK into a global export, and the Kill This Love EP (2019) confirmed it. Within this machinery, Lisa's public identity was built through dance breaks — the sections of a BLACKPINK performance engineered around her — and through a rap delivery that became one of the group's signatures.",
+    "In April 2019, BLACKPINK became the first K-pop girl group to perform at Coachella, a group milestone that reads in hindsight as a rehearsal for Lisa's own later relationship with that stage. The In Your Area World Tour carried the group across Asia, North America, Europe, and Oceania through 2018 and 2019. In 2020, \"How You Like That,\" \"Ice Cream\" with Selena Gomez, and the full-length The Album — with \"Lovesick Girls\" — arrived into a touring world closed by the pandemic; the online concert The Show, staged in January 2021, stands as the era's document of a stadium act performing to cameras.",
+    "The same period produced her first authored space. From 2018, her personal YouTube channel, Lilifilm Official, hosted the LILI's FILM dance performance series alongside vlogs — a self-directed shelf inside a heavily managed group career, and the earliest evidence of the independent instinct that would surface fully in 2024."
+   ]
+  },
+  {
+   "id": "c4",
+   "title": "Solo Rupture: Lalisa / Money",
+   "paragraphs": [
+    "On 10 September 2021, the single album Lalisa was released under YG Entertainment and Interscope. It was named after her legal name, and the title track's music video — directed by Seo Hyun-seung — staged her in Thai royal and gold-goddess imagery: a throne, couture armor, a Ducati. The numbers were immediate and historic. First-week sales in Korea reached approximately 736,000 copies, a record for a Korean female soloist at the time, and the \"Lalisa\" video drew roughly 73.6 million views in twenty-four hours, certified by Guinness World Records as the most-viewed YouTube music video in a day by a solo artist.",
+    "Release week put her on American late-night television — The Tonight Show Starring Jimmy Fallon on 10 September 2021 — alongside Korean music-show stages on Inkigayo and Show! Music Core. That November, \"Lalisa\" won Best K-pop at the MTV Europe Music Awards, making her the first solo K-pop artist to win an MTV EMA.",
+    "The B-side outran the single. \"Money,\" supported by an exclusive performance video built on chair choreography and monochrome swagger, became a slow-burn global streaming phenomenon and ultimately the first solo track by a female K-pop artist to reach the billion-stream class on Spotify. A featured turn on DJ Snake's \"SG\" with Ozuna and Megan Thee Stallion followed on 22 October 2021. The 2021 era proved something specific: her name alone, without the group's, could carry records. What it could not yet offer was ownership. That question waited until 2024."
+   ]
+  },
+  {
+   "id": "c5",
+   "title": "Independence: LLOUD + RCA",
+   "paragraphs": [
+    "Between the 2021 solo rupture and the 2024 one lay the group's largest cycle to date. In 2022, BLACKPINK released \"Pink Venom,\" \"Shut Down,\" and the Born Pink album, and the Born Pink World Tour carried the group through 2022 and 2023 to a Coachella headline set in 2023. Lisa's individual ledger in the same window included the Crazy Horse Paris cabaret shows in 2023, a featured turn on Taeyang's \"Shoong!\" (2023), a Louis Vuitton house ambassadorship announced in July 2023, and, on 26 January 2024, a \"Lalisa\"/\"Money\" medley at Le Gala des Pieces Jaunes in Paris — the final major solo stage of the pre-LLOUD era.",
+    "Then, in February 2024, Lisa announced LLOUD, her own company, established to manage her solo career — and shortly afterward a solo label partnership with RCA Records. The structural meaning was plain: her group work would continue under YG Entertainment, but her solo catalog, image, and business would now run through an entity she controls. In the economics of K-pop, where careers are conventionally company property, this was the rupture that the 2021 era had only implied.",
+    "The first artifact of independence arrived on 27 June 2024: \"Rockstar,\" the debut LLOUD/RCA single. Directed by Henry Scholfield and shot in Bangkok, the video framed her as a Thai-rooted star-myth — the independence image, deliberately distinct from the 2021 throne image. \"New Woman,\" featuring Rosalia and directed by Dave Meyers, followed in August 2024; \"Moonlit Floor (Kiss Me),\" interpolating Sixpence None the Richer's \"Kiss Me,\" arrived in early October with a performance video by Raja Virdi.",
+    "The infrastructure of 2024 matched the catalog. On 11 September 2024, she became the first K-pop soloist to perform at the MTV Video Music Awards and won Best K-Pop for \"Rockstar.\" Late September brought the Global Citizen Festival in New York — the live-debut context for \"Moonlit Floor\" — and on 15 October 2024 she performed \"Rockstar\" and \"Moonlit Floor\" at the returned Victoria's Secret Fashion Show. A five-show Asia Fan Meetup tour opened on 11 November, and the year closed at the Amazing Thailand Countdown in Bangkok on 31 December 2024: the Buriram dancer ending her independence year on a hometown national stage."
+   ]
+  },
+  {
+   "id": "c6",
+   "title": "Alter Ego and Acting",
+   "paragraphs": [
+    "\"Born Again,\" featuring Doja Cat and Raye, arrived in early February 2025 with a music video directed by Bardia Zeinali, and on 28 February 2025 the full-length statement followed: Alter Ego, her debut studio album under LLOUD and RCA. The record is built around five invented personae — Roxi, Sunni, Kiki, Speedi, and Vixi — each carrying a register of her artistic identity across a tracklist that runs from \"Rockstar\" and \"New Woman\" through \"Fxck Up the World\" with Future, \"Rapunzel\" with Megan Thee Stallion, and \"When I'm With You\" with Tyla. It debuted at No. 7 on the Billboard 200 and No. 1 on Top Album Sales.",
+    "The album's visual campaign extended through 2025: Christian Breslauer's Vixi solo version of \"Fxck Up the World,\" Olivia De Camps's \"When I'm With You,\" and Ojun Kwon's \"Dream\" short film — a body of directed work this archive treats as performance cinema in its own right, with each frame dated and credited.",
+    "The same window produced her literal acting debut. In The White Lotus Season 3 (HBO, February to April 2025), set in Thailand, she played a wellness-resort staff member most widely reported under the name Mook; some sources render the character's name as Pearl, and this archive presents Mook as primary while noting the discrepancy. It was a deliberately scaled entry — an ensemble role in a prestige series, in her home country, on her own company's terms."
+   ]
+  },
+  {
+   "id": "c7",
+   "title": "2025–2026: Global Infrastructure",
+   "paragraphs": [
+    "On 2 March 2025, at the 97th Academy Awards, Lisa became the first K-pop artist to perform at the Oscars, appearing in the ceremony's James Bond tribute segment — publicly reported alongside Doja Cat and Raye, in the \"Born Again\" era. Weeks later came her solo Coachella sets in April 2025 — six years after the group's 2019 first and two years after its 2023 headline set, she returned to that stage alone. A featured turn on Maroon 5's \"Priceless\" extended the 2025 collaboration ledger.",
+    "The group machinery ran in parallel at its largest-ever scale. The BLACKPINK Deadline World Tour opened at Goyang Stadium, South Korea, on 5 July 2025, made the group the first K-pop girl group to headline Wembley Stadium, played US stadium-class dates at SoFi Stadium and Citi Field, and closed at Kai Tak Stadium, Hong Kong, on 24–26 January 2026. Within the group show, Lisa carried reported solo inserts of \"Thunder,\" \"Lifestyle,\" and \"Rockstar\" — the LLOUD catalog performed inside the YG production. The Deadline EP, led by the single \"Go,\" followed on 27 February 2026.",
+    "The 2026 solo lane widened. \"Bad Angel,\" with Anyma, arrived on 8 April 2026 and reached the stage in a surprise Coachella appearance on 18 April. On 21 May 2026 came \"Goals,\" with Anitta and Rema, in the official 2026 FIFA World Cup soundtrack lane — performed that June at the World Cup opening ceremony in the Los Angeles / SoFi Stadium context, making her the first female K-pop act and the first Thai artist to headline a World Cup opening ceremony.",
+    "As of this archive's context date in late August 2026, the next chapter is announced but not yet lived: the pre-release single \"Sawadika\" is scheduled for 4 September 2026, the Press Play EP for 23 October 2026, and the VIVA LA LISA residency at The Colosseum at Caesars Palace, Las Vegas — the first K-pop Las Vegas residency — is booked for 13–14 and 27–28 November 2026. All three are catalogued here as upcoming, and will be re-dated as record once they occur."
+   ]
+  }
+ ],
+ "homeIntro": "Lalisa Manobal left Buriram for Seoul at fourteen and debuted in 2016 as the youngest member of BLACKPINK. The public learned her name through dance breaks first, then through a solo catalog that turned Lalisa and Money into 2021 artifacts, Rockstar into a 2024 independence flag, and Alter Ego into a 2025 full-length statement. This archive dates the pictures, names the rooms she walked into, and separates a group-era still from a solo-era still — because the difference between a YG frame and a LLOUD frame is the difference between an era and its rupture.",
+ "missionNote": "This archive exists because a career this fast gets blurred in the retelling. Dates drift, group images get captioned as solo images, rumors get filed next to records. We wanted one quiet room where the public record of Lalisa Manobal's work — and only the work — is dated, credited, and kept in order. This is a curated fan archive built from public sources. It is not an official property of LLOUD, YG Entertainment, RCA Records, or any of their partners, and it claims nothing beyond care.",
+ "sourcesCopy": "Entries in this archive are compiled from publicly available sources: Wikipedia and its cited references, Billboard and other trade charts, official YouTube channels (BLACKPINK, Lisa, and Lilifilm Official), award-show broadcasts and their published results, and official announcements from LLOUD, RCA Records, YG Entertainment, and partner brands. Where the public record supports an exact day, the entry carries one; where it supports only a month, a year, or an approximation — as with pre-debut material — the entry says so through its date-precision label rather than pretending to certainty. Items reported but not formally confirmed are marked as reported, and events dated after this archive's context date of late August 2026 are marked as upcoming. Nothing here is sourced from private life, and nothing here is invented.",
+ "lloudCopy": [
+  "In February 2024, Lisa announced the formation of LLOUD, her own company, created to steer her solo career in music and beyond. The name reads as a declaration — her own voice, at volume, on her own letterhead. Within months came a solo label partnership with RCA Records, giving the company major-label distribution and promotion while the creative and business center of gravity stayed with the artist herself.",
+  "The structural logic matters more than the branding. Under the conventional K-pop arrangement, an artist's catalog, image, and calendar are company assets; the 2021 Lalisa era, for all its records, was released under YG Entertainment and Interscope. LLOUD inverts that arrangement for her solo work: BLACKPINK activity continues under YG, but everything released under her own name from 2024 onward — the masters, the videos, the touring and residency decisions — runs through an entity she founded and controls.",
+  "The company's early output is its argument. \"Rockstar\" in June 2024, \"New Woman\" with Rosalia in August, \"Moonlit Floor\" in October, and the Alter Ego album in February 2025 — a No. 7 debut on the Billboard 200 and No. 1 on Top Album Sales — were all delivered on LLOUD's clock, alongside a VMAs performance and win, a Victoria's Secret stage, and an Oscars appearance. By 2026 the LLOUD slate extended to a World Cup opening ceremony, the forthcoming Press Play EP, and the announced VIVA LA LISA residency in Las Vegas.",
+  "This archive treats February 2024 as a genuine dividing line, not a marketing beat. A LLOUD-era image is captioned as such, and separated from the YG-era images that precede it, because the ownership behind a picture is part of what the picture means."
+ ],
+ "screenCopy": [
+  "Lisa's screen-acting debut came in The White Lotus Season 3 (HBO, February to April 2025), the anthology's Thailand season. She played a staff member at the story's wellness resort, in a role most widely reported under the character name Mook; a portion of coverage renders the name as Pearl, and this archive presents Mook as the primary name while noting the conflict rather than resolving it by fiat. The casting logic was precise — a Thai superstar making her acting debut in a prestige series set in Thailand, in an ensemble role scaled for a first performance rather than a vanity showcase.",
+  "Two further screen projects sit in the record at reported precision, and are labeled accordingly. A 2026 chapter in the Extraction universe, referred to publicly as TYGO, has been announced with her attached and is catalogued here as reported until release. A documentary, Always Lalisa, is reported to be in production; it too is filed as reported, with no invented details about its scope or date.",
+  "This archive also treats her music-video body of work as performance cinema, because that is what it is: directed, credited, dated screen acting. From Seo Hyun-seung's gold-and-throne \"Lalisa\" (2021) through Henry Scholfield's Bangkok-shot \"Rockstar\" (2024), Dave Meyers's \"New Woman,\" Bardia Zeinali's \"Born Again,\" and Ojun Kwon's \"Dream\" short film (2025), each video is an acting performance inside an authored frame, and the archive credits the directors alongside the artist.",
+  "One rule governs the entire screen shelf: acting imagery is labeled as acting. A still of Mook is a still of a character; a frame of Vixi from the Alter Ego campaign is a frame of a persona. Neither is presented as documentary evidence of the person, and the captions keep that line clean."
+ ],
+ "onThisArchive": "A curated public-record archive of the career of Lalisa Manobal — LISA of BLACKPINK — covering her biography, solo and group discography, videography, appearances, fashion partnerships, records, and screen work from Buriram to the announced 2026 Las Vegas residency. Every entry is dated to its honest precision, credited where credits are public, and marked upcoming where the event has not yet occurred. This is an unofficial fan-built archive and is not affiliated with LLOUD, YG Entertainment, or RCA Records."
 };
