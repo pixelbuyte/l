@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How People Write — a corpus of human prose and the habits that give machines away</title>
+<meta name="description" content="Twenty-eight annotated passages of human writing, a library of 169 machine-writing habits, and the measurements that separate the two.">
+<link rel="stylesheet" href="css/main.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>&#9998;</text></svg>">
+</head>
+<body>
+<a class="skip sr" href="#main">Skip to content</a>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">How People Write<span> — a corpus</span></a>
+    <nav class="site" aria-label="Primary">
+      <a href="index.html" aria-current="page">Corpus</a>
+      <a href="index.html#separates">What separates them</a>
+      <a href="index.html#patterns">Pattern library</a>
+      <a href="index.html#method">Method</a>
+      <a href="humanize.html">Rewriter &rarr;</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+      <p class="eyebrow">A reference corpus</p>
+      <h1>People do not write the way machines write.</h1>
+      <p class="lede">This is a collection of ordinary human prose — invoices chased, radiators bled,
+        pianos given away — annotated line by line with what makes each passage read as though a
+        person wrote it. Alongside it sits a library of the habits that give unedited machine prose
+        away, and the measurements that tell the two apart.</p>
+      <p class="lede small" style="margin-top:1rem">Every number on this page is computed in your
+        browser from the passages below. Nothing is hand-entered, so you can check any figure by
+        reading the text it came from.</p>
+      <div class="cta-row">
+        <a class="btn" href="#corpus">Read the corpus</a>
+        <a class="btn ghost" href="humanize.html">Rewrite a piece of AI text &rarr;</a>
+      </div>
+      </div>
+      <figure class="rhythm" id="rhythm" style="margin:0"></figure>
+    </div>
+    <div class="wrap">
+      <div class="statbar" id="topstats"></div>
+    </div>
+  </section>
+
+  <section id="separates">
+    <div class="wrap">
+      <div class="section-head read">
+        <p class="eyebrow">Measurement</p>
+        <h2>What actually separates them</h2>
+        <p class="lede">Each row compares the human corpus on this page against a set of contrast
+          specimens written in the register unedited model output tends to occupy. Both sets are
+          files in this repository; both columns are recomputed every time you load the page.</p>
+        <p class="small" id="verdict-note">The verdict column is calculated, not assigned — it is
+          the relative gap between the two figures.</p>
+      </div>
+      <div class="cmp" id="cmp"></div>
+      <div style="margin-top:2rem" class="callout plain read">
+        <h4>What the contrast set is, and is not</h4>
+        <p>The specimens were written for this project in the style of unedited model output. They
+          were not sampled from any model, and they are not evidence about any particular system.
+          They exist so the comparison is reproducible from files you can read and argue with.
+          Treat the gap as illustrative of a style, not as a measurement of a population.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="corpus">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">The corpus</p>
+        <h2>Twenty-eight passages, annotated</h2>
+        <p class="lede read">Each passage is followed by notes pointing at specific spans: the
+          self-correction, the unexplained reference, the detail that serves no argument. Select any
+          card to read it in full with the annotations live.</p>
+      </div>
+      <div class="filters">
+        <label class="sr" for="corpus-search">Search the corpus</label>
+        <input type="search" id="corpus-search" placeholder="Search passages and registers…" style="min-width:min(320px, 100%)">
+        <span class="small" id="corpus-count"></span>
+      </div>
+      <div class="grid c3" id="corpus-grid"></div>
+      <div id="corpus-detail" style="margin-top:1.5rem"></div>
+    </div>
+  </section>
+
+  <section id="patterns">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Pattern library</p>
+        <h2 id="patterns-heading">The habits that give it away</h2>
+        <p class="lede read">Each entry records one habit that appears far more often in unedited
+          machine prose than in human writing, why it reads as machine-written, and the plainer
+          things people write instead. The rewriter on the next page runs on exactly this table.</p>
+      </div>
+      <div class="filters">
+        <label class="sr" for="pattern-search">Search patterns</label>
+        <input type="search" id="pattern-search" placeholder="Search e.g. delve, hedge, conclusion…" style="min-width:min(300px, 100%)">
+        <span id="pattern-cats" class="filters" style="margin:0"></span>
+      </div>
+      <p class="small" id="pattern-count" style="margin-bottom:.8rem"></p>
+      <div class="ptable" id="pattern-table"></div>
+    </div>
+  </section>
+
+  <section id="method">
+    <div class="wrap">
+      <div class="section-head read">
+        <p class="eyebrow">Method</p>
+        <h2>How this was built, and where it is weak</h2>
+      </div>
+      <div class="grid c2">
+        <div>
+          <h4>The passages were written, not scraped</h4>
+          <p class="small">A scraped corpus would be larger and better evidence. It could not be
+            republished cleanly, and the annotations could not quote exact spans without reproducing
+            someone else's paragraph in full. What matters for the argument is the shape of the
+            writing — how the sentences vary, where the concrete nouns sit — and shape survives the
+            substitution. It is still a real limitation, and it is the first thing to fix if this
+            were to become evidence rather than illustration.</p>
+        </div>
+        <div>
+          <h4>The pattern library is curated</h4>
+          <p class="small">The 169 entries are collected from observation, not from a frequency
+            count over a matched pair of corpora. Severity is a judgement. Where an entry says a
+            habit is “more common in machine prose”, read that as a claim about register that you
+            can check against the passages here, not as a measured rate.</p>
+        </div>
+        <div>
+          <h4>Every statistic is recomputed live</h4>
+          <p class="small">Sentence splitting, syllable counting and the rest run in
+            <code>js/metrics.js</code> against the raw passage strings. The same code measures the
+            corpus, the contrast set, and anything you paste into the rewriter, so the three are
+            always comparable. Sentence splitting handles abbreviations, decimals and quotations,
+            and still gets some things wrong.</p>
+        </div>
+        <div>
+          <h4>None of this detects anything</h4>
+          <p class="small">These measurements describe a register. They do not identify an author,
+            and a low burstiness score is not evidence that a person did not write something —
+            plenty of careful human writing is even and plain. Anyone using numbers like these to
+            accuse a student or a colleague is misusing them.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>A corpus of human writing, a library of machine habits, and a rewriter that runs on both —
+      no accounts, no uploads, no network calls. <a href="humanize.html">Open the rewriter &rarr;</a></p>
+    <p class="small" id="footer-stats"></p>
+  </div>
+</footer>
+
+<script src="js/metrics.js"></script>
+<script src="data/patterns.js"></script>
+<script src="data/corpus.js"></script>
+<script src="data/specimens.js"></script>
+<script src="js/corpus-app.js"></script>
+</body>
+</html>

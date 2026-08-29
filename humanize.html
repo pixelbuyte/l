@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rewriter — strip the machine habits out of a draft</title>
+<meta name="description" content="Paste AI-generated text and see every machine-writing habit found, why it reads that way, and a rewrite that removes them. Runs entirely in your browser.">
+<link rel="stylesheet" href="css/main.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>&#9998;</text></svg>">
+</head>
+<body>
+<a class="skip sr" href="#main">Skip to content</a>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">How People Write<span> — a corpus</span></a>
+    <nav class="site" aria-label="Primary">
+      <a href="index.html">Corpus</a>
+      <a href="index.html#separates">What separates them</a>
+      <a href="index.html#patterns">Pattern library</a>
+      <a href="humanize.html" aria-current="page">Rewriter</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section style="padding-bottom:2rem">
+    <div class="wrap">
+      <p class="eyebrow">The rewriter</p>
+      <h1 style="max-width:22ch">Take the machine habits out of a draft.</h1>
+      <p class="lede read">Paste a piece of AI-generated text. Every habit from the
+        <a href="index.html#patterns">pattern library</a> gets found, explained and edited out, and
+        the result is measured against the human corpus. It runs entirely in this page — nothing you
+        paste leaves your browser.</p>
+
+      <div class="callout read" style="margin-top:1.6rem">
+        <h4>What this does and does not do</h4>
+        <p class="small">It only ever <strong>deletes</strong> text, <strong>substitutes</strong>
+          from a fixed list of alternatives, or <strong>splits</strong> a long sentence at a
+          coordinating joint. There is no model behind it, so it cannot introduce a claim you did
+          not write — the worst it can do is read flat.</p>
+        <p class="small">That constraint has a cost, and the tool will tell you about it. The
+          strongest signal separating machine prose from human prose is sentence rhythm, and rhythm
+          is the one thing rules mostly cannot repair — you can only split a sentence that already
+          contains two clauses. Where the rewrite comes out flat, the panel below says so and hands
+          you the specific sentences to fix by hand.</p>
+        <p class="small">It also makes no claim about detection software, and the measurements on
+          this page identify a register, not an author. If you are somewhere that requires you to
+          disclose AI assistance, editing the prose does not change what you owe them. This is a
+          tool for making a draft read like you, which still means reading it afterwards.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:1rem">
+    <div class="wrap">
+      <div class="tool">
+        <div>
+          <div class="filters">
+            <span class="small" style="margin-right:.2rem">Try a specimen:</span>
+            <span id="specimen-chips" class="filters" style="margin:0"></span>
+          </div>
+
+          <div class="panes">
+            <div class="pane">
+              <header>
+                <h3>Your draft</h3>
+                <span class="small" id="in-stats">empty</span>
+              </header>
+              <textarea id="input" spellcheck="false"
+                placeholder="Paste AI-generated text here, or pick a specimen above."
+                aria-label="Text to rewrite"></textarea>
+            </div>
+
+            <div class="pane">
+              <header>
+                <h3>Rewritten</h3>
+                <span style="display:flex;gap:.4rem">
+                  <button class="btn ghost" id="reroll" style="padding:.25rem .6rem;font-size:.76rem" disabled>Another pass</button>
+                  <button class="btn ghost" id="copy" style="padding:.25rem .6rem;font-size:.76rem" disabled>Copy</button>
+                </span>
+              </header>
+              <div class="body">
+                <div class="out" id="output"><span class="placeholder">The rewrite appears here as you type. Changed spans are highlighted.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div id="results" style="margin-top:1.6rem"></div>
+        </div>
+
+        <aside class="controls" aria-label="Rewriter settings">
+          <div class="group">
+            <h4>Strength</h4>
+            <label><input type="radio" name="strength" value="1"> Light <span class="count">giveaways only</span></label>
+            <label><input type="radio" name="strength" value="2" checked> Standard</label>
+            <label><input type="radio" name="strength" value="3"> Heavy <span class="count">every rule</span></label>
+          </div>
+
+          <div class="group">
+            <h4>Habits to edit</h4>
+            <div id="cat-toggles"></div>
+          </div>
+
+          <div class="group">
+            <h4>Rewriting passes</h4>
+            <label><input type="checkbox" id="opt-contractions" checked> Contractions</label>
+            <label><input type="checkbox" id="opt-punctuation" checked> Punctuation habits</label>
+            <label><input type="checkbox" id="opt-cadence" checked> Sentence cadence</label>
+          </div>
+
+          <div class="group">
+            <button class="btn ghost" id="clear" style="width:100%">Clear</button>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>Runs offline. No accounts, no uploads, no network calls — open the developer tools and watch.
+      <a href="index.html">Back to the corpus &rarr;</a></p>
+    <p class="small" id="footer-stats"></p>
+  </div>
+</footer>
+
+<script src="js/metrics.js"></script>
+<script src="data/patterns.js"></script>
+<script src="data/corpus.js"></script>
+<script src="data/specimens.js"></script>
+<script src="js/humanize.js"></script>
+<script src="js/humanize-app.js"></script>
+</body>
+</html>
