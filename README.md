@@ -1,4 +1,16 @@
-# How People Write
+# l
+
+Two projects, unrelated to each other, sharing a repository.
+
+- **How People Write** (`index.html`, `humanize.html`) — a corpus of human
+  prose and a rewriter that runs on it. Described below.
+- **[Daily Route](day/)** (`day/`) — a scheduler for one daily routine that
+  works backwards from its deadlines to say how much slack is left.
+  See [`day/README.md`](day/README.md).
+
+---
+
+## How People Write
 
 Two connected things:
 

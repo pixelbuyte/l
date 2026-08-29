@@ -23,11 +23,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run tests
-        run: node test/run.js
+        run: |
+          node test/run.js
+          node day/test/run.js
       - name: Prepare site
         run: |
           mkdir -p _site
           cp -r index.html humanize.html css js data _site/
+          cp -r day _site/
+          rm -rf _site/day/test
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

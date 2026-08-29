@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Route — the day, laid out against its deadlines</title>
+<meta name="description" content="A daily routine scheduler. Set the time you woke up; it lays the day out, works backwards from every deadline, and tells you how much slack is left before something breaks.">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="css/day.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230b0b0c'/><rect x='5' y='14' width='22' height='4' fill='%23f4f3ef'/><rect x='5' y='21' width='13' height='4' fill='%23f4f3ef'/><rect x='5' y='7' width='9' height='4' fill='%23f4f3ef'/></svg>">
+</head>
+<body class="sheet">
+<a class="skip" href="#plan">Skip to the plan</a>
+
+<header class="masthead">
+  <div class="topbar">
+    <div class="wrap">
+      <span class="tag">Daily Route</span>
+      <span class="tag" id="today">—</span>
+      <span class="spacer"></span>
+      <span class="tag" id="where">—</span>
+      <span class="clock num" id="clock">--:--<span class="sec">:--</span></span>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="head-grid">
+      <div>
+        <span class="tag" id="kicker">The routine, held to its own deadlines</span>
+        <h1 class="title">The day,<br><em>laid out.</em></h1>
+        <p class="shape num" id="shape">—</p>
+      </div>
+      <div>
+        <p class="standfirst">Say when you got up. Everything else is fixed by what has to be
+          finished by two, what has to be done before the light goes, and what has to be over
+          by 22:24.</p>
+        <div class="verdict" id="verdict">
+          <span class="mark">—</span>
+          <p>Working it out.</p>
+        </div>
+      </div>
+    </div>
+    <div class="facts" id="facts"></div>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="section" aria-labelledby="set-h">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="n">01</span>
+        <h2 id="set-h">Set the day</h2>
+        <p class="said">Four switches. Everything on the page below is recomputed from them the
+          moment one moves.</p>
+      </div>
+
+      <div class="deck">
+        <div class="cell">
+          <span class="tag">Woke up</span>
+          <div class="stepper">
+            <button class="btn" type="button" id="wake-down" aria-label="Fifteen minutes earlier">−</button>
+            <label class="sr" for="wake">Time you woke up</label>
+            <input class="num" type="time" id="wake" value="07:00" step="300">
+            <button class="btn" type="button" id="wake-up" aria-label="Fifteen minutes later">+</button>
+          </div>
+          <p class="hint" id="wake-hint">Getting ready starts within 30 minutes of this.</p>
+        </div>
+
+        <div class="cell">
+          <span class="tag">Midday</span>
+          <div class="seg" id="midday" role="group" aria-label="What happens after getting ready">
+            <button type="button" data-v="pray" aria-pressed="false">Pray</button>
+            <button type="button" data-v="walk" aria-pressed="false">Walk</button>
+            <button type="button" data-v="both" aria-pressed="true">Both</button>
+          </div>
+          <p class="hint">Pray finishes by 14:00. The walk finishes before sunset, and earlier
+            counts for more.</p>
+        </div>
+
+        <div class="cell">
+          <span class="tag">After eating</span>
+          <div class="seg" id="going" role="group" aria-label="Whether you are going out after eating">
+            <button type="button" data-v="0" aria-pressed="true">Stay in</button>
+            <button type="button" data-v="1" aria-pressed="false">Going out</button>
+          </div>
+          <p class="hint" id="going-hint">Working straight through to 18:30.</p>
+        </div>
+
+        <div class="cell">
+          <span class="tag">Workout</span>
+          <div class="stepper">
+            <button class="btn" type="button" id="wo-down" aria-label="Five minutes shorter">−</button>
+            <span class="val num" id="wo-val">30<small style="font-size:.5em"> min</small></span>
+            <button class="btn" type="button" id="wo-up" aria-label="Five minutes longer">+</button>
+          </div>
+          <p class="hint">Sit-ups, push-ups, dumbbells, weight. Over by 22:24.</p>
+        </div>
+
+        <div class="cell">
+          <span class="tag">Where you are</span>
+          <label class="sr" for="place">Place name</label>
+          <input class="field" id="place" value="New York" autocomplete="off">
+          <p class="hint">
+            <button class="link" type="button" id="locate">use my location</button>
+            <span id="place-src"></span>
+          </p>
+          <p class="hint sunset-row">
+            <label for="sunset-set">Sunset</label>
+            <input class="field tiny num" type="time" id="sunset-set" step="60">
+            <button class="link" type="button" id="sunset-auto" hidden>back to computed</button>
+          </p>
+        </div>
+
+        <div class="cell">
+          <span class="tag">Clock</span>
+          <div class="seg" id="fmt" role="group" aria-label="Clock format">
+            <button type="button" data-v="24" aria-pressed="true">24 h</button>
+            <button type="button" data-v="12" aria-pressed="false">12 h</button>
+          </div>
+          <p class="hint no-print">
+            <button class="link" type="button" id="reset">reset the day</button> ·
+            <button class="link" type="button" id="print">print the sheet</button>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="band-h">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="n">02</span>
+        <h2 id="band-h">Midnight to midnight</h2>
+        <p class="said">Hatched at both ends is the dark. The flags are the three hard deadlines.
+          The line that moves is now.</p>
+      </div>
+      <div class="band">
+        <div class="band-flags" id="band-flags" aria-hidden="true"></div>
+        <div class="band-scale" id="band-scale" aria-hidden="true"></div>
+        <div class="band-track" id="band-track"></div>
+        <div class="band-now" id="band-now" hidden></div>
+        <div class="band-legend tag" aria-hidden="true">
+          <span><i></i> committed</span>
+          <span><i class="body"></i> body</span>
+          <span><i class="quiet"></i> quiet</span>
+          <span><i class="free"></i> free</span>
+          <span><i class="night"></i> after dark</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="plan" aria-labelledby="plan-h">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="n">03</span>
+        <h2 id="plan-h">The route</h2>
+        <p class="said">Laid out as early as each block will go. The right-hand column is how
+          long that block could slip before a deadline breaks — not how long it lasts.</p>
+      </div>
+      <div class="plan" id="rows"></div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="rules-h">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="n">04</span>
+        <h2 id="rules-h">The ones that are not negotiable</h2>
+        <p class="said">Everything else in the day bends. These are the ones the plan is built
+          backwards from.</p>
+      </div>
+      <div class="rules" id="rules"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <hr class="rule">
+    <div class="cols" style="margin-top:1.4rem">
+      <div>
+        <h4>How the times are worked out</h4>
+        <p>Blocks are placed as early as their order allows, then the planner runs the chain
+          backwards from every hard deadline to find the latest each one could start. The
+          difference is the slack shown against each row.</p>
+      </div>
+      <div>
+        <h4>Where sunset comes from</h4>
+        <p>Computed here, from your latitude and the date, using the NOAA solar equations —
+          accurate to about a minute. Nothing is looked up and nothing is sent anywhere.
+          Your location is asked for only if you press the button, and is kept in this browser.</p>
+      </div>
+      <div>
+        <h4>What it does not do</h4>
+        <p>It will not tell you that you are behind on a day you have not started, and it does
+          not know about the things that actually take the afternoon. A missed deadline here is
+          arithmetic, not a judgement.</p>
+      </div>
+      <div>
+        <h4>Editing the routine</h4>
+        <p>The day is one file — <code>day/data/routine.js</code>. Durations, order and
+          deadlines all live there, and nothing else needs touching to change them.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/sun.js"></script>
+<script src="data/places.js"></script>
+<script src="js/motion.js"></script>
+<script src="data/routine.js"></script>
+<script src="js/schedule.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
