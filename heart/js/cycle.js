@@ -21,7 +21,7 @@
  * The one structural claim worth stating: only one of a ventricle's two valves
  * is ever open, and for two intervals per beat neither is. That is what makes a
  * ventricle a pump rather than a tube, and the test suite checks it against the
- * pressures at every millisecond of every rate.
+ * pressures across every rate and setting the page allows.
  */
 (function (root) {
   'use strict';
@@ -136,14 +136,18 @@
    * Volumes and pressures that hold for a whole beat, given the three things
    * the page lets you change: rate, contractility and filling.
    *
-   * End-systolic volume is set by contractility — a stronger ventricle empties
-   * further. End-diastolic volume is end-systolic volume plus whatever got in,
-   * and what gets in depends on how long the valve was open, approaching a
-   * ceiling on an exponential with a ~200 ms time constant, scaled by how well
- * the ventricle empties — a pump that ejects poorly draws through less. That
- * exponential is what makes the interesting thing happen: past about 150 bpm
- * the beat is refilling so briefly that stroke volume falls faster than rate
- * rises.
+   * What gets in over one diastole depends on how long the inlet valve was
+   * open, approaching a ceiling on an exponential — and that exponential is
+   * what makes the interesting thing happen. Past about 150 bpm the beat is
+   * refilling so briefly that stroke volume falls faster than the rate rises,
+   * and output starts going down again.
+   *
+   * What comes out is a fraction of what is there above the ventricle's
+   * unstressed volume, and contractility sets the fraction. Writing it that way
+   * round rather than fixing an end-systolic volume matters: a ventricle that
+   * has hardly filled cannot then be left holding more than it started with,
+   * which is exactly what a fixed end-systolic volume implies at the bottom of
+   * the range.
    */
   var TAU_FILL = 130;    /* ms; the bulk of filling happens in the first third of it */
   var SV_CAP = 73.5;     /* mL a well-filled diastole delivers with time to spare */
