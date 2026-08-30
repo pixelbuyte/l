@@ -1,12 +1,16 @@
 # l
 
-Two projects, unrelated to each other, sharing a repository.
+Three projects, unrelated to each other, sharing a repository.
 
 - **How People Write** (`index.html`, `humanize.html`) — a corpus of human
   prose and a rewriter that runs on it. Described below.
 - **[Daily Route](day/)** (`day/`) — a scheduler for one daily routine that
   works backwards from its deadlines to say how much slack is left.
   See [`day/README.md`](day/README.md).
+- **[A Working Heart](heart/)** (`heart/`) — a four-chambered heart drawn in
+  SVG and driven by a model of the cardiac cycle, with the ECG, the pressure
+  traces and the blood all taken from the same numbers.
+  See [`heart/README.md`](heart/README.md).
 
 ---
 
