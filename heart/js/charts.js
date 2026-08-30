@@ -197,8 +197,10 @@
 
     ctx.textAlign = 'left'; ctx.textBaseline = 'top';
     ctx.font = '11px "IBM Plex Mono", monospace';
-    var keys = [['Aortic mmHg', p.ao], ['Left ventricular mmHg', p.lv],
-                ['Left atrial mmHg', p.la], ['Ventricular volume mL', p.vol]];
+    /* The axis and the caption both say mmHg, so the keys do not have to; four
+       of them repeating it ran the legend off the edge of a narrow panel. */
+    var keys = [['Aortic', p.ao], ['Left ventricular', p.lv],
+                ['Left atrial', p.la], ['Volume mL', p.vol]];
     var lx = padL;
     for (var q = 0; q < keys.length; q++) {
       ctx.fillStyle = keys[q][1];
