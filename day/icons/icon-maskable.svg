@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#16120d"/>
+  <clipPath id="pill"><rect x="106" y="181" width="300" height="150" rx="75"/></clipPath>
+  <g clip-path="url(#pill)"><rect x="106" y="181" width="36" height="150" fill="#e0691a"/><rect x="142" y="181" width="24" height="150" fill="#caa023"/><rect x="166" y="181" width="45" height="150" fill="#1f9464"/><rect x="211" y="181" width="135" height="150" fill="#3868e0"/><rect x="346" y="181" width="60" height="150" fill="#7a56c4"/></g>
+  <rect x="286" y="167" width="6" height="164" rx="3" fill="#faf5ea"/>
+  <rect x="281.5" y="159.5" width="15" height="15" fill="#faf5ea" transform="rotate(45 289 167)"/>
+</svg>

@@ -187,10 +187,16 @@ a { color: inherit; text-underline-offset: .2em; text-decoration-thickness: 1px;
 .topbar {
   background: var(--invert-b);
   color: var(--invert-f);
+  /* As a standalone app there is no browser chrome to hold the notch clear —
+     the ink bar has to run into it itself, so pad the safe area rather than
+     let the clock sit under it. Falls back to 0 on any device without one. */
+  padding-top: env(safe-area-inset-top, 0px);
 }
 .topbar .wrap {
   display: flex; align-items: center; gap: 1.2rem;
   min-height: 34px; flex-wrap: wrap;
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
 }
 .topbar .tag { color: inherit; opacity: .9; }
 .topbar .spacer { flex: 1 1 auto; }
@@ -685,7 +691,12 @@ input[type="time"]:hover::-webkit-calendar-picker-indicator { opacity: .8; }
 
 /* -------------------------------------------------------------- footer -- */
 
-.foot { padding: 2.5rem 0 3.5rem; font-size: 13px; color: var(--grey); }
+.foot {
+  padding: 2.5rem 0 3.5rem; font-size: 13px; color: var(--grey);
+  /* The home-indicator strip on iOS sits over whatever the page puts last;
+     give it the same clearance as the notch gets up top. */
+  padding-bottom: calc(3.5rem + env(safe-area-inset-bottom, 0px));
+}
 .foot .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.6rem; }
 .foot h4 { font-family: var(--sans); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; margin: 0 0 .5rem; color: var(--ink); }
 .foot p { margin: 0 0 .7rem; max-width: 46ch; }
