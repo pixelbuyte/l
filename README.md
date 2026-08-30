@@ -1,6 +1,6 @@
 # l
 
-Three projects, unrelated to each other, sharing a repository.
+Four projects, unrelated to each other, sharing a repository.
 
 - **How People Write** (`index.html`, `humanize.html`) — a corpus of human
   prose and a rewriter that runs on it. Described below.
@@ -11,6 +11,10 @@ Three projects, unrelated to each other, sharing a repository.
   SVG and driven by a model of the cardiac cycle, with the ECG, the pressure
   traces and the blood all taken from the same numbers.
   See [`heart/README.md`](heart/README.md).
+- **[Bodyworks](body/)** (`body/`) — a configurator for a humanoid platform:
+  four body variants as engineering elevations, swappable effectors, and a
+  live bill of materials priced to the individual motor.
+  See [`body/README.md`](body/README.md).
 
 ---
 
