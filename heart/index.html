@@ -1,0 +1,1007 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Working Heart — an anatomical heart you can drive</title>
+<meta name="description" content="A four-chambered human heart drawn in SVG and driven by a model of the cardiac cycle. Change the rate, the contractility and the filling; watch the valves, the pressures, the ECG and the blood.">
+<meta name="color-scheme" content="dark light">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="css/heart.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M16 28C6 20 2 15 2 10.5 2 6.9 4.9 4 8.5 4c2.9 0 4.9 1.6 6 3.2C15.6 5.6 17.6 4 20.5 4 24.1 4 27 6.9 27 10.5 27 15 23 20 16 28z' fill='%23c0182c'/></svg>">
+</head>
+<body>
+<a class="skip" href="#stage">Skip to the heart</a>
+
+<header class="masthead">
+  <div class="topbar">
+    <div class="wrap">
+      <span class="tag">A Working Heart</span>
+      <span class="tag dim" id="phase-tag">—</span>
+      <span class="spacer"></span>
+      <span class="tag dim" id="beat-count">0 beats</span>
+      <span class="pulse-dot" id="pulse-dot" aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <div class="wrap head-grid">
+    <div>
+      <span class="tag">Anterior view, front wall removed</span>
+      <h1 class="title">It is a pump,<br><em>and you can drive it.</em></h1>
+      <p class="standfirst">Four chambers, four valves and a fistful of muscle wound
+        in opposing helices. Everything below moves because a model of the cardiac
+        cycle says it should — the valves open when the pressures cross, the walls
+        thicken as the cavity empties, and the blood only goes through a valve
+        while that valve is open.</p>
+    </div>
+    <div class="vitals" id="vitals"></div>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="stage-section" id="stage">
+  <div class="wrap stage-grid">
+
+    <!-- ============================ THE HEART ============================ -->
+    <figure class="stage" id="stage-fig">
+      <div class="stage-frame">
+        <svg id="heart" viewBox="0 6 640 722" role="img"
+             aria-labelledby="heart-title heart-desc" tabindex="0">
+          <title id="heart-title">A beating human heart, cut away from the front</title>
+          <desc id="heart-desc">A four-chambered heart. Dark red blood arrives from the
+            body in the venae cavae, crosses the right atrium and right ventricle and
+            leaves in the pulmonary arteries. Bright red blood returns in the pulmonary
+            veins, crosses the left atrium and left ventricle and leaves in the aorta.</desc>
+
+          <defs>
+            <!-- Muscle. Two gradients: the intact outer surface, darker and glossy,
+                 and the cut face of a wall, which is paler and matt. -->
+            <linearGradient id="g-epi" x1="0.12" y1="0" x2="0.92" y2="1">
+              <stop offset="0"    stop-color="#a8443a"/>
+              <stop offset="0.30" stop-color="#8d2b27"/>
+              <stop offset="0.68" stop-color="#6a1a1d"/>
+              <stop offset="1"    stop-color="#460f15"/>
+            </linearGradient>
+            <linearGradient id="g-myo" x1="0" y1="0" x2="0.5" y2="1">
+              <stop offset="0"    stop-color="#cd6255"/>
+              <stop offset="0.42" stop-color="#ac443a"/>
+              <stop offset="1"    stop-color="#7d2725"/>
+            </linearGradient>
+            <linearGradient id="g-myo-thin" x1="0" y1="0" x2="0.6" y2="1">
+              <stop offset="0" stop-color="#c05146"/>
+              <stop offset="1" stop-color="#872c2b"/>
+            </linearGradient>
+
+            <!-- Blood. Venous is a dark plum; arterial is the scarlet you only get
+                 downstream of a lung. -->
+            <radialGradient id="g-venous" cx="0.36" cy="0.26" r="0.88">
+              <stop offset="0"    stop-color="#94375c"/>
+              <stop offset="0.52" stop-color="#6d2242"/>
+              <stop offset="1"    stop-color="#43112a"/>
+            </radialGradient>
+            <radialGradient id="g-arterial" cx="0.36" cy="0.26" r="0.88">
+              <stop offset="0"    stop-color="#ec4750"/>
+              <stop offset="0.52" stop-color="#c41c2e"/>
+              <stop offset="1"    stop-color="#870d1f"/>
+            </radialGradient>
+
+            <linearGradient id="g-aorta" x1="0" y1="0" x2="1" y2="0.5">
+              <stop offset="0"    stop-color="#d9515a"/>
+              <stop offset="0.48" stop-color="#bb2233"/>
+              <stop offset="1"    stop-color="#8a1122"/>
+            </linearGradient>
+            <linearGradient id="g-vein" x1="0" y1="0" x2="1" y2="0.6">
+              <stop offset="0"    stop-color="#803159"/>
+              <stop offset="0.52" stop-color="#5e1e3c"/>
+              <stop offset="1"    stop-color="#3e1328"/>
+            </linearGradient>
+            <linearGradient id="g-pv" x1="1" y1="0" x2="0" y2="0.4">
+              <stop offset="0" stop-color="#dd4a54"/>
+              <stop offset="1" stop-color="#a51527"/>
+            </linearGradient>
+
+            <!-- Epicardial fat sits in the grooves and is the only yellow in a heart. -->
+            <linearGradient id="g-fat" x1="0" y1="0" x2="0.4" y2="1">
+              <stop offset="0" stop-color="#e9d29a"/>
+              <stop offset="1" stop-color="#bd9c56"/>
+            </linearGradient>
+
+            <!-- Valve tissue is nearly white and thin enough to be translucent. -->
+            <linearGradient id="g-leaflet" x1="0" y1="0" x2="0.3" y2="1">
+              <stop offset="0"   stop-color="#f7ece6"/>
+              <stop offset="0.6" stop-color="#e4cdc4"/>
+              <stop offset="1"   stop-color="#bf9d94"/>
+            </linearGradient>
+
+            <radialGradient id="g-sheen" cx="0.3" cy="0.2" r="0.6">
+              <stop offset="0"   stop-color="#ffffff" stop-opacity="0.30"/>
+              <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.06"/>
+              <stop offset="1"   stop-color="#ffffff" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="g-depth" cx="0.5" cy="0.44" r="0.72">
+              <stop offset="0.5" stop-color="#000000" stop-opacity="0"/>
+              <stop offset="1"   stop-color="#000000" stop-opacity="0.42"/>
+            </radialGradient>
+
+            <!-- Muscle is not smooth. A very faint fractal noise does more for the
+                 look of tissue than any amount of gradient. -->
+            <filter id="f-tissue" x="-6%" y="-6%" width="112%" height="112%" color-interpolation-filters="sRGB">
+              <feTurbulence type="fractalNoise" baseFrequency="0.62" numOctaves="3" seed="7" result="n"/>
+              <feColorMatrix in="n" type="saturate" values="0" result="ng"/>
+              <feComponentTransfer in="ng" result="nc">
+                <feFuncA type="table" tableValues="0 0.07"/>
+              </feComponentTransfer>
+              <feComposite in="nc" in2="SourceGraphic" operator="in" result="grain"/>
+              <feBlend in="SourceGraphic" in2="grain" mode="overlay"/>
+            </filter>
+
+
+            <!-- Tissue, for the whole-heart view. A real myocardium is not one
+                 colour: it is a warm lit face, a cool shadowed one, and a great
+                 deal of wet specular on top of both. -->
+            <radialGradient id="g-flesh" cx="0.34" cy="0.24" r="0.92">
+              <stop offset="0"    stop-color="#b5503f"/>
+              <stop offset="0.34" stop-color="#8a2e26"/>
+              <stop offset="0.68" stop-color="#5f1a17"/>
+              <stop offset="1"    stop-color="#320b0b"/>
+            </radialGradient>
+            <radialGradient id="g-atrial" cx="0.4" cy="0.3" r="0.85">
+              <stop offset="0"   stop-color="#7e4048"/>
+              <stop offset="0.5" stop-color="#582730"/>
+              <stop offset="1"   stop-color="#31131a"/>
+            </radialGradient>
+            <linearGradient id="g-fat-pad" x1="0.1" y1="0" x2="0.7" y2="1">
+              <stop offset="0"    stop-color="#e6d6b4"/>
+              <stop offset="0.42" stop-color="#cbb591"/>
+              <stop offset="1"    stop-color="#8f7754"/>
+            </linearGradient>
+            <linearGradient id="g-artery" x1="0.2" y1="0" x2="0.8" y2="1">
+              <stop offset="0"    stop-color="#e8564a"/>
+              <stop offset="0.45" stop-color="#c72a26"/>
+              <stop offset="1"    stop-color="#8c1616"/>
+            </linearGradient>
+            <linearGradient id="g-cvein" x1="0.2" y1="0" x2="0.8" y2="1">
+              <stop offset="0"    stop-color="#6e74a8"/>
+              <stop offset="0.5"  stop-color="#474c7e"/>
+              <stop offset="1"    stop-color="#2b2d52"/>
+            </linearGradient>
+            <radialGradient id="g-spec" cx="0.5" cy="0.5" r="0.5">
+              <stop offset="0"    stop-color="#ffe9df" stop-opacity="0.5"/>
+              <stop offset="0.45" stop-color="#ffd9c9" stop-opacity="0.17"/>
+              <stop offset="1"    stop-color="#ffffff" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="g-valley" cx="0.5" cy="0.5" r="0.5">
+              <stop offset="0"   stop-color="#2b0709" stop-opacity="0.62"/>
+              <stop offset="1"   stop-color="#2b0709" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="g-lumen" cx="0.42" cy="0.34" r="0.75">
+              <stop offset="0"   stop-color="#4a1c22"/>
+              <stop offset="0.6" stop-color="#26090e"/>
+              <stop offset="1"   stop-color="#160407"/>
+            </radialGradient>
+
+            <!-- Cardiac muscle is wound in sheets, and the sheets catch the
+                 light as fine oblique striations. Stretched noise, rotated to
+                 follow the fibres, does it more cheaply than drawing them. -->
+            <filter id="f-fibre" x="-20%" y="-20%" width="140%" height="140%"
+                    color-interpolation-filters="sRGB">
+              <feTurbulence type="fractalNoise" baseFrequency="0.014 0.36"
+                            numOctaves="2" seed="11" result="n"/>
+              <feColorMatrix in="n" type="saturate" values="0" result="g"/>
+              <feComponentTransfer in="g">
+                <feFuncA type="table" tableValues="0 0.62"/>
+              </feComponentTransfer>
+            </filter>
+            <filter id="f-lobe" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="5"/>
+            </filter>
+            <filter id="f-wide" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="17"/>
+            </filter>
+            <!-- A flat fill reads as ink no matter how good the path is. What
+                 makes a vessel look like a tube is a contact shadow under it and
+                 a specular ridge along its lit side, and a filter can do both to
+                 a whole tree in one pass rather than tripling the markup. -->
+            <filter id="f-tube" x="-12%" y="-12%" width="126%" height="126%"
+                    color-interpolation-filters="sRGB">
+              <feDropShadow dx="1.6" dy="2.6" stdDeviation="2.2"
+                            flood-color="#1a0406" flood-opacity="0.6" result="cast"/>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="1.3" result="bump"/>
+              <feSpecularLighting in="bump" surfaceScale="3.4" specularConstant="0.85"
+                                  specularExponent="19" lighting-color="#fff5ee" result="spec">
+                <feDistantLight azimuth="228" elevation="58"/>
+              </feSpecularLighting>
+              <feComposite in="spec" in2="SourceAlpha" operator="in" result="ridge"/>
+              <feMerge>
+                <feMergeNode in="cast"/>
+                <feMergeNode in="ridge"/>
+              </feMerge>
+            </filter>
+            <!-- the same trick, softer, for fat: lobules want to look rounded -->
+            <filter id="f-lobe3d" x="-25%" y="-25%" width="150%" height="150%"
+                    color-interpolation-filters="sRGB">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="2.6" result="soft"/>
+              <feGaussianBlur in="SourceAlpha" stdDeviation="3.2" result="bump"/>
+              <feSpecularLighting in="bump" surfaceScale="2.6" specularConstant="0.5"
+                                  specularExponent="12" lighting-color="#fff8e6" result="spec">
+                <feDistantLight azimuth="228" elevation="56"/>
+              </feSpecularLighting>
+              <feComposite in="spec" in2="SourceAlpha" operator="in" result="ridge"/>
+              <feMerge>
+                <feMergeNode in="soft"/>
+                <feMergeNode in="ridge"/>
+              </feMerge>
+            </filter>
+            <clipPath id="clip-body">
+              <path d="M214 226 C168 238 148 286 152 344 C156 404 170 462 194 516
+                       C222 578 286 654 344 692 C362 704 382 702 394 688
+                       C436 636 472 566 490 502 C506 444 508 384 498 328
+                       C486 268 460 232 422 222 C358 206 268 210 214 226 Z"/>
+            </clipPath>
+
+            <!-- Routes the blood takes. Never painted; the flow layer walks them. -->
+            <g id="routes">
+              <path id="flow-svc"       d="M168 24 C166 88 172 142 186 188 C198 222 214 250 236 302"/>
+              <path id="flow-ivc"       d="M144 464 C176 442 202 410 218 384 C228 366 234 340 238 306"/>
+              <path id="flow-tricuspid" d="M238 306 C244 340 246 366 250 392 C258 424 256 470 252 512"/>
+              <path id="flow-rvot"      d="M252 512 C260 470 264 434 270 406 C282 380 294 358 301 330"/>
+              <path id="flow-rpa"       d="M301 330 C299 298 293 266 283 242 C275 220 265 204 255 192 C214 180 166 178 118 184"/>
+              <path id="flow-lpa"       d="M301 330 C299 298 293 266 283 242 C276 222 268 206 259 194 C324 184 396 184 452 196"/>
+              <path id="flow-pv1"       d="M636 250 C580 244 528 250 496 262 C472 272 452 282 436 296"/>
+              <path id="flow-pv2"       d="M636 342 C584 340 532 330 498 318 C470 308 450 302 436 296"/>
+              <path id="flow-mitral"    d="M436 296 C434 324 432 348 430 372 C426 406 420 450 416 498"/>
+              <path id="flow-aortic"    d="M416 498 C404 460 388 416 376 380 C370 356 368 336 368 318"/>
+              <path id="flow-arch"      d="M368 318 C370 286 374 254 386 226 C400 196 428 176 458 174 C492 172 514 192 518 224 C522 254 520 284 518 312"/>
+            </g>
+          </defs>
+
+          <!-- ============ vessels that pass behind the heart ============ -->
+          <g id="vessels-back" class="layer">
+            <g class="part" data-part="p-pv" tabindex="0" role="button" aria-label="Pulmonary veins">
+              <path class="vessel" d="M636 250 C580 244 528 250 496 262 C474 271 456 280 442 292"
+                    stroke="url(#g-pv)" stroke-width="19"/>
+              <path class="vessel" d="M636 342 C584 340 532 330 498 318 C472 309 452 302 440 298"
+                    stroke="url(#g-pv)" stroke-width="17"/>
+            </g>
+
+            <!-- both pulmonary branches pass behind the aorta and the vena cava -->
+            <g class="part" data-part="p-pa" tabindex="0" role="button" aria-label="Pulmonary arteries">
+              <path class="vessel" d="M258 194 C214 180 166 176 112 182"
+                    stroke="url(#g-vein)" stroke-width="27"/>
+              <path class="vessel-hi" d="M248 186 C210 174 168 170 122 175"
+                    stroke="#ffffff" stroke-width="4" opacity="0.12"/>
+              <path class="vessel" d="M262 196 C328 184 398 184 456 198"
+                    stroke="url(#g-vein)" stroke-width="25"/>
+            </g>
+
+            <g class="part" data-part="p-aorta" tabindex="0" role="button" aria-label="Aorta">
+              <path class="vessel" d="M372 262 C374 240 380 220 388 204 C402 176 428 158 458 156
+                                       C494 154 516 176 520 210 C524 242 522 278 520 312"
+                    stroke="url(#g-aorta)" stroke-width="46"/>
+              <path class="vessel" d="M406 176 C402 140 400 96 400 34" stroke="url(#g-aorta)" stroke-width="16"/>
+              <path class="vessel" d="M444 160 C444 122 444 78 444 30"  stroke="url(#g-aorta)" stroke-width="14"/>
+              <path class="vessel" d="M486 168 C492 130 496 90 498 32" stroke="url(#g-aorta)" stroke-width="13"/>
+              <path class="vessel-hi" d="M378 250 C382 214 396 186 420 170"
+                    stroke="#ffffff" stroke-width="6" opacity="0.14"/>
+            </g>
+
+            <g class="part" data-part="p-svc" tabindex="0" role="button" aria-label="Superior vena cava">
+              <path class="vessel" d="M168 14 C166 88 172 142 186 188 C198 222 212 246 228 268"
+                    stroke="url(#g-vein)" stroke-width="41"/>
+              <path class="vessel-hi" d="M160 30 C158 96 164 146 176 188"
+                    stroke="#ffffff" stroke-width="6" opacity="0.13"/>
+            </g>
+            <g class="part" data-part="p-ivc" tabindex="0" role="button" aria-label="Inferior vena cava">
+              <path class="vessel" d="M170 476 C185 450 202 424 216 396"
+                    stroke="url(#g-vein)" stroke-width="43"/>
+            </g>
+
+            <!-- Every vessel here is cut off, and a cut tube shows its lumen:
+                 a dark ellipse across the bore with a lit rim. It is a small
+                 thing that does more for the look of a specimen than anything
+                 else on the page. -->
+            <g class="lumens" aria-hidden="true">
+              <ellipse class="lumen" cx="400" cy="34"  rx="8"    ry="3.4"/>
+              <ellipse class="lumen" cx="444" cy="30"  rx="7"    ry="3"/>
+              <ellipse class="lumen" cx="498" cy="32"  rx="6.5"  ry="2.8"/>
+              <ellipse class="lumen" cx="168" cy="15"  rx="20.5" ry="8.6"/>
+              <ellipse class="lumen" cx="113" cy="182" rx="13.5" ry="5.7" transform="rotate(94 113 182)"/>
+              <ellipse class="lumen" cx="455" cy="198" rx="12.5" ry="5.3" transform="rotate(97 455 198)"/>
+              <ellipse class="lumen" cx="171" cy="475" rx="21.5" ry="9"   transform="rotate(30 171 475)"/>
+              <ellipse class="lumen" cx="520" cy="311" rx="23"   ry="9.7"/>
+            </g>
+          </g>
+
+          <!-- ==================== the muscle mass ==================== -->
+          <g id="m-body" class="layer">
+            <path id="body-shape" class="body"
+                  d="M214 226 C168 238 148 286 152 344 C156 404 170 462 194 516
+                     C222 578 286 654 344 692 C362 704 382 702 394 688
+                     C436 636 472 566 490 502 C506 444 508 384 498 328
+                     C486 268 460 232 422 222 C358 206 268 210 214 226 Z"
+                  fill="url(#g-epi)" filter="url(#f-tissue)"/>
+            <path class="body-sheen"
+                  d="M214 226 C168 238 148 286 152 344 C156 404 170 462 194 516
+                     C222 578 286 654 344 692 C362 704 382 702 394 688
+                     C436 636 472 566 490 502 C506 444 508 384 498 328
+                     C486 268 460 232 422 222 C358 206 268 210 214 226 Z"
+                  fill="url(#g-sheen)"/>
+
+            <!-- ---------------- whole-heart view ---------------- -->
+            <!-- Painted the way a lit object is: a body colour, then the form
+                 shading that says which way it bulges, then the things lying on
+                 top of it, then the wet highlight over everything. Flat fills in
+                 anatomical order look like a diagram; this order looks like meat. -->
+            <g id="layer-surface" clip-path="url(#clip-body)">
+              <rect class="flesh" x="120" y="180" width="420" height="560" fill="url(#g-flesh)"/>
+
+              <!-- fibre grain, raked to follow the muscle sheets -->
+              <rect class="fibre" x="60" y="120" width="560" height="700"
+                    filter="url(#f-fibre)" transform="rotate(-24 330 450)"/>
+
+              <!-- form shading: the two grooves are valleys, the free walls bulge -->
+              <ellipse class="valley" cx="330" cy="390" rx="205" ry="34" transform="rotate(6 330 390)"/>
+              <ellipse class="valley" cx="380" cy="556" rx="20" ry="166" transform="rotate(3 380 556)"/>
+              <ellipse class="valley deep" cx="196" cy="470" rx="40" ry="150" transform="rotate(-8 196 470)"/>
+              <ellipse class="valley deep" cx="500" cy="452" rx="34" ry="140" transform="rotate(8 500 452)"/>
+              <ellipse class="bulge"  cx="268" cy="486" rx="76" ry="140" transform="rotate(-10 268 486)"/>
+              <ellipse class="bulge"  cx="444" cy="490" rx="66" ry="152" transform="rotate(9 444 490)"/>
+
+              <!-- The atria are a separate, duskier mass above the groove, and
+                   each carries an auricle: a wrinkled flap that is mostly a
+                   reservoir and entirely a nuisance. -->
+              <path class="atrial-mass" filter="url(#f-lobe)" d="M186 296 C192 246 240 212 320 208
+                       C406 204 462 230 486 288 C492 314 490 340 480 362
+                       C416 392 292 392 204 356 C192 338 184 318 186 296 Z"/>
+              <path class="auricle" filter="url(#f-lobe3d)" d="M232 232 C206 226 184 240 186 260
+                       C188 280 204 292 226 296 C239 298 248 291 246 280
+                       C245 271 239 266 235 259 C241 251 243 240 232 232 Z"/>
+              <path class="auricle" filter="url(#f-lobe3d)" d="M450 236 C478 230 500 244 498 264
+                       C496 284 480 296 458 300 C445 302 436 295 438 284
+                       C439 275 445 270 449 263 C443 255 441 244 450 236 Z"/>
+              <!-- Form on the atria, done the way the ventricles are done: a
+                   shadow where the surface turns away, a highlight where it
+                   turns towards the light. Translucent lobes laid over the top
+                   read as glass, which is exactly what they looked like. -->
+              <ellipse class="valley soft" cx="332" cy="356" rx="152" ry="30" transform="rotate(2 332 356)"/>
+              <ellipse class="valley soft" cx="336" cy="220" rx="122" ry="26"/>
+              <ellipse class="bulge atrial" cx="286" cy="272" rx="76" ry="46" transform="rotate(-12 286 272)"/>
+              <ellipse class="bulge atrial" cx="424" cy="286" rx="62" ry="40" transform="rotate(12 424 286)"/>
+              <g class="wrinkle" filter="url(#f-lobe)">
+                <ellipse cx="208" cy="252" rx="15" ry="11" transform="rotate(-24 208 252)"/>
+                <ellipse cx="216" cy="274" rx="17" ry="12" transform="rotate(-16 216 274)"/>
+                <ellipse cx="222" cy="290" rx="14" ry="10" transform="rotate(-8 222 290)"/>
+                <ellipse cx="478" cy="256" rx="15" ry="11" transform="rotate(24 478 256)"/>
+                <ellipse cx="470" cy="278" rx="17" ry="12" transform="rotate(16 470 278)"/>
+                <ellipse cx="462" cy="294" rx="14" ry="10" transform="rotate(8 462 294)"/>
+              </g>
+
+              <!-- a broad soft base under the lobules, so the groove reads as a
+                   filled valley rather than as scattered blobs -->
+              <path class="fat-bed" d="M150 308 C186 358 238 388 300 398
+                       C364 410 430 402 480 376 C500 364 512 350 520 334
+                       L524 372 C508 394 482 410 450 421 C398 439 336 443 282 433
+                       C220 421 172 394 146 354 Z"/>
+              <path class="fat-bed" d="M350 398 C370 450 382 516 386 580
+                       C388 628 387 666 385 700 L410 700 C412 662 411 618 406 566
+                       C399 498 386 444 370 394 Z"/>
+
+              <g class="part" data-part="p-coronary" tabindex="0" role="button" aria-label="Coronary arteries">
+                <!-- Grown by tools/coronaries.js, seed 20260830. Do not hand-edit:
+                     re-run the generator instead. -->
+                <g class="fat" filter="url(#f-lobe3d)">
+                  <!-- av groove: 34 lobules -->
+                  <path class="fat-lobe" opacity="0.27" d="M195 325C193 328 187 335 184 339C180 343 176 349 171 351C166 353 161 351 155 351C150 351 140 352 138 349C135 345 140 336 138 331C136 325 127 321 127 316C126 311 131 303 135 300C140 297 148 299 154 300C160 301 165 303 170 305C175 307 182 307 186 311C190 314 195 321 195 325C194 330 185 337 184 339Z"/>
+                  <path class="fat-lobe" opacity="0.28" d="M189 334C188 335 188 338 186 341C185 343 182 347 180 348C177 349 174 346 171 346C168 345 166 345 164 344C162 342 159 340 158 337C157 335 157 332 158 330C159 328 162 328 164 325C166 323 168 316 170 316C172 315 176 321 178 323C180 325 183 325 184 327C186 329 188 331 189 334C189 336 187 339 186 341Z"/>
+                  <path class="fat-lobe" opacity="0.34" d="M212 341C209 343 200 349 196 352C192 355 190 357 187 358C183 360 178 361 174 361C170 361 165 359 162 357C159 355 157 351 155 347C153 344 152 340 153 336C154 331 158 327 161 323C165 319 169 313 173 313C178 312 182 318 187 320C192 323 198 323 202 326C206 330 213 337 212 341C211 345 198 350 196 352Z"/>
+                  <path class="fat-lobe" opacity="0.33" d="M203 366C203 368 207 374 205 376C202 378 195 379 191 380C187 381 185 385 181 385C178 384 174 381 171 379C168 377 165 375 164 371C162 368 160 364 162 361C163 358 169 354 173 353C176 352 178 354 182 354C185 354 189 353 192 353C195 354 198 356 200 358C201 360 202 363 203 366C204 369 204 375 205 376Z"/>
+                  <path class="fat-lobe" opacity="0.18" d="M212 366C212 367 211 370 210 372C208 374 207 375 205 376C203 378 199 382 197 381C194 381 192 378 190 376C188 374 187 371 187 369C186 367 187 365 187 363C188 360 187 357 189 356C190 354 194 354 197 354C200 353 204 352 206 353C208 354 210 358 211 360C212 363 212 364 212 366C212 368 210 371 210 372Z"/>
+                  <path class="fat-lobe" opacity="0.20" d="M239 351C238 352 233 357 231 360C229 363 230 366 227 368C224 371 217 375 212 375C208 375 201 372 198 369C196 366 200 360 199 356C198 351 190 347 191 344C191 341 198 340 202 337C205 334 208 326 212 326C216 325 221 331 225 333C230 335 235 336 237 339C240 342 240 348 239 351C238 354 233 358 231 360Z"/>
+                  <path class="fat-lobe" opacity="0.34" d="M229 378C229 379 231 383 231 385C230 386 227 387 224 388C222 388 219 388 217 387C215 386 213 385 212 384C211 383 211 381 210 380C209 379 207 377 207 375C207 374 209 372 210 371C212 370 215 369 217 369C220 369 222 369 224 369C226 370 228 371 229 372C230 374 229 376 229 378C229 380 230 383 231 385Z"/>
+                  <path class="fat-lobe" opacity="0.25" d="M260 362C259 363 256 367 255 369C253 371 253 374 250 375C248 377 244 378 241 377C238 376 235 373 232 371C230 370 228 369 227 366C226 364 225 360 226 358C228 356 232 355 234 353C236 352 238 350 241 348C244 347 249 345 251 346C254 347 256 352 258 355C259 358 260 360 260 362C260 365 256 368 255 369Z"/>
+                  <path class="fat-lobe" opacity="0.32" d="M285 371C282 373 275 381 271 384C267 387 265 389 260 391C256 393 249 399 244 398C239 398 236 389 231 386C226 383 218 384 215 380C212 376 208 366 211 361C213 356 224 354 230 350C235 346 238 338 243 337C249 337 255 342 261 345C267 347 277 349 281 353C285 357 286 366 285 371C283 376 273 382 271 384Z"/>
+                  <path class="fat-lobe" opacity="0.40" d="M285 388C285 390 287 398 284 402C281 405 274 407 269 408C265 410 259 412 255 411C251 410 250 404 245 401C240 399 230 399 227 396C224 393 226 385 228 381C231 377 237 373 242 370C246 367 250 364 255 363C259 363 267 364 271 366C275 368 279 371 281 374C283 378 285 383 285 388C286 392 284 399 284 402Z"/>
+                  <path class="fat-lobe" opacity="0.41" d="M293 395C292 396 294 402 292 404C290 405 285 403 282 403C279 404 279 406 276 406C274 406 269 405 267 404C266 403 268 400 267 397C267 395 265 394 265 392C265 389 265 385 267 383C269 381 272 380 275 380C278 379 282 381 284 382C287 384 288 386 289 388C290 390 292 392 293 395C293 397 292 402 292 404Z"/>
+                  <path class="fat-lobe" opacity="0.28" d="M320 377C318 379 311 384 308 388C305 391 306 399 302 400C298 401 291 394 286 394C280 394 272 400 269 399C265 397 267 389 265 384C263 379 258 374 259 370C261 367 269 365 274 363C278 361 282 356 286 356C290 355 294 358 298 360C302 362 306 364 310 367C313 370 320 374 320 377C320 381 310 386 308 388Z"/>
+                  <path class="fat-lobe" opacity="0.20" d="M330 400C331 402 334 410 333 414C331 418 325 423 320 424C316 425 310 421 304 421C298 420 288 426 284 423C280 421 281 412 281 406C280 401 280 398 281 393C282 388 282 378 286 377C290 375 299 381 304 382C309 383 313 380 317 381C321 382 326 384 329 387C331 391 330 396 330 400C331 405 332 412 333 414Z"/>
+                  <path class="fat-lobe" opacity="0.35" d="M332 408C332 409 333 412 332 414C331 416 329 419 327 419C325 420 322 417 320 416C318 415 315 417 313 416C312 415 312 413 311 411C311 409 310 407 310 406C311 404 312 402 314 401C316 400 318 400 320 400C322 399 325 396 327 397C329 398 329 401 330 403C331 405 332 407 332 408C332 410 332 413 332 414Z"/>
+                  <path class="fat-lobe" opacity="0.32" d="M348 399C347 400 344 404 342 406C339 408 337 409 334 410C332 410 329 409 326 409C324 409 322 409 319 409C317 408 313 406 311 404C309 402 308 397 310 395C311 392 317 391 319 389C322 388 323 386 326 385C329 384 334 381 337 383C339 384 340 390 342 392C344 395 349 397 348 399C348 401 343 405 342 406Z"/>
+                  <path class="fat-lobe" opacity="0.17" d="M368 414C367 417 365 424 362 428C360 431 356 432 351 436C347 439 340 447 336 447C331 446 328 438 323 434C319 430 311 426 309 422C308 418 313 414 314 408C315 402 314 391 318 388C322 385 330 389 337 389C343 390 350 391 354 393C359 394 362 397 364 400C366 404 368 410 368 414C368 419 363 426 362 428Z"/>
+                  <path class="fat-lobe" opacity="0.21" d="M378 383C378 384 376 387 374 388C373 390 372 390 370 391C368 392 365 393 363 393C361 393 360 390 358 389C357 388 354 388 352 386C351 385 351 381 352 379C353 378 356 377 358 376C360 375 361 372 363 372C365 372 367 375 369 376C371 376 375 374 377 375C378 377 379 381 378 383C378 385 375 387 374 388Z"/>
+                  <path class="fat-lobe" opacity="0.38" d="M394 401C393 402 387 406 385 409C383 411 383 415 380 417C378 419 371 420 368 419C364 418 363 413 361 411C358 409 355 409 353 406C351 403 348 398 349 395C349 392 353 390 356 388C359 385 364 382 368 382C371 382 374 386 377 388C380 390 380 393 383 395C386 397 394 399 394 401C395 403 387 407 385 409Z"/>
+                  <path class="fat-lobe" opacity="0.39" d="M408 411C408 412 411 418 410 420C408 422 402 421 399 423C395 425 392 434 388 434C385 434 381 427 377 424C374 421 370 419 369 417C369 414 375 410 376 407C378 404 377 400 379 398C381 395 385 393 388 393C392 393 396 395 400 396C403 397 408 397 409 400C411 402 408 407 408 411C408 414 409 419 410 420Z"/>
+                  <path class="fat-lobe" opacity="0.19" d="M416 386C415 387 412 390 410 393C408 395 407 398 404 399C402 401 397 402 394 402C390 402 385 402 383 400C382 398 385 392 384 389C383 386 379 384 380 381C380 379 383 374 385 373C388 372 392 375 395 376C398 376 400 374 403 374C406 374 412 375 414 377C416 379 417 383 416 386C415 388 411 391 410 393Z"/>
+                  <path class="fat-lobe" opacity="0.22" d="M431 388C430 390 426 393 423 395C421 398 419 401 416 403C413 405 410 407 406 407C402 407 396 405 392 403C388 401 384 399 383 396C381 393 381 385 383 382C385 379 392 378 396 376C400 374 401 369 405 368C409 367 415 369 419 370C423 371 427 373 429 376C431 379 432 385 431 388C430 392 424 394 423 395Z"/>
+                  <path class="fat-lobe" opacity="0.27" d="M447 402C447 404 449 412 447 415C445 417 438 418 434 419C430 420 427 418 423 419C418 419 412 423 408 422C404 420 399 413 399 408C398 404 400 400 402 397C405 394 408 391 411 388C414 386 418 382 422 382C426 382 432 384 435 386C438 388 440 391 442 394C444 397 446 399 447 402C448 406 447 413 447 415Z"/>
+                  <path class="fat-lobe" opacity="0.21" d="M455 374C455 375 456 380 455 383C453 385 449 387 446 387C443 388 440 386 437 385C435 385 432 384 430 383C427 381 423 380 422 378C421 376 423 372 424 370C424 367 424 363 427 362C429 360 434 359 437 359C440 360 442 363 445 364C447 366 452 365 454 367C456 369 455 371 455 374C456 377 455 381 455 383Z"/>
+                  <path class="fat-lobe" opacity="0.18" d="M479 399C477 401 472 406 470 409C467 411 466 409 463 412C459 415 453 426 450 425C446 425 444 414 441 410C438 407 435 407 434 404C433 401 433 397 435 394C436 391 439 390 441 386C444 383 446 373 450 372C454 371 461 376 465 379C469 381 473 383 476 387C478 390 480 395 479 399C478 403 471 407 470 409Z"/>
+                  <path class="fat-lobe" opacity="0.34" d="M483 378C483 380 483 386 481 390C480 393 478 397 474 399C470 402 464 403 459 402C453 402 446 400 444 397C441 394 444 387 444 383C443 379 442 377 443 374C443 370 445 364 448 362C451 360 455 361 459 360C464 359 469 354 473 355C478 356 484 360 486 364C487 368 484 374 483 378C482 382 481 388 481 390Z"/>
+                  <path class="fat-lobe" opacity="0.40" d="M478 360C477 361 474 363 472 365C471 366 470 367 468 368C467 369 464 370 462 370C460 370 457 368 455 367C454 366 452 365 452 364C451 362 449 359 450 357C451 355 454 354 456 352C458 351 460 351 462 350C464 350 468 348 470 349C472 350 472 353 473 355C475 357 479 359 478 360C478 362 473 364 472 365Z"/>
+                  <path class="fat-lobe" opacity="0.33" d="M505 368C504 370 502 377 500 380C497 384 496 390 491 392C487 393 480 390 474 389C468 388 460 389 455 387C451 385 448 379 446 375C445 371 444 366 446 361C448 356 454 350 458 347C462 344 467 343 473 341C478 339 488 333 493 335C497 337 500 347 502 353C504 358 505 364 505 368C504 373 500 378 500 380Z"/>
+                  <path class="fat-lobe" opacity="0.40" d="M521 371C519 373 509 378 505 381C501 385 502 390 498 393C494 395 487 397 482 396C476 396 469 395 465 392C461 388 458 382 457 377C457 373 459 370 461 366C462 362 464 357 468 354C471 350 476 345 481 344C486 343 495 345 500 348C505 350 507 353 510 357C514 361 522 367 521 371C520 375 508 379 505 381Z"/>
+                  <path class="fat-lobe" opacity="0.23" d="M498 362C498 363 498 367 496 368C495 369 493 370 491 370C489 371 488 371 485 371C483 371 479 372 478 371C477 370 478 366 478 364C477 362 475 361 475 359C475 358 476 355 478 354C480 353 483 352 485 352C487 352 489 353 491 354C492 355 495 355 497 356C498 358 498 360 498 362C498 364 497 367 496 368Z"/>
+                  <path class="fat-lobe" opacity="0.41" d="M524 369C523 371 524 379 521 381C518 384 510 380 505 382C501 384 499 393 495 393C491 393 486 385 484 382C482 378 484 376 483 373C482 370 477 366 477 363C477 360 479 357 482 354C485 352 491 349 495 348C500 347 505 345 509 347C513 349 518 354 520 358C523 361 524 365 524 369C524 373 521 379 521 381Z"/>
+                  <path class="fat-lobe" opacity="0.34" d="M521 356C521 359 522 367 519 371C516 376 510 380 504 382C499 384 493 384 487 384C480 384 469 385 465 382C460 379 460 369 458 363C457 357 452 350 454 346C456 341 464 339 470 337C475 334 481 333 487 331C493 329 499 323 506 325C512 326 523 334 526 340C528 345 522 351 521 356C520 361 520 369 519 371Z"/>
+                  <path class="fat-lobe" opacity="0.20" d="M515 346C513 348 510 352 507 356C505 360 503 367 499 368C496 369 490 363 486 361C482 360 479 360 476 358C473 356 470 353 468 350C466 348 464 344 465 341C466 337 473 334 476 332C480 329 482 326 486 326C489 326 494 329 497 331C499 333 500 335 503 338C506 340 514 343 515 346C515 349 508 354 507 356Z"/>
+                  <path class="fat-lobe" opacity="0.16" d="M512 344C512 346 511 350 509 351C508 353 506 354 504 356C501 357 497 360 495 360C492 359 490 354 488 352C487 350 487 349 486 347C485 345 482 343 483 341C483 339 487 338 490 336C492 334 493 331 495 331C497 331 499 335 502 336C504 337 509 336 511 337C512 338 513 342 512 344C512 347 510 350 509 351Z"/>
+                  <path class="fat-lobe" opacity="0.22" d="M535 336C533 339 528 349 523 352C517 356 510 356 505 357C500 359 496 362 490 363C484 364 471 366 467 363C463 360 464 350 464 344C464 339 465 333 467 329C469 324 471 320 475 316C479 312 484 305 489 305C494 305 500 314 506 316C511 319 517 318 522 321C527 325 535 331 535 336C536 341 525 350 523 352Z"/>
+                  <!-- iv groove: 25 lobules -->
+                  <path class="fat-lobe" opacity="0.42" d="M354 407C353 408 354 410 353 411C353 412 351 412 350 412C348 412 347 413 346 412C345 412 344 412 343 411C342 411 339 410 339 409C339 408 341 407 342 406C343 405 343 405 343 404C344 403 345 401 346 400C347 400 348 402 349 403C350 404 351 404 351 405C352 406 353 406 354 407C354 408 353 410 353 411Z"/>
+                  <path class="fat-lobe" opacity="0.17" d="M372 418C371 420 371 424 369 426C367 428 364 428 362 429C359 429 357 430 354 430C351 430 346 431 344 430C342 428 341 424 341 422C341 419 342 417 343 415C344 412 345 410 347 409C349 407 351 406 353 405C356 405 360 406 363 407C365 407 368 408 369 410C371 412 372 416 372 418C372 421 369 425 369 426Z"/>
+                  <path class="fat-lobe" opacity="0.34" d="M391 422C390 424 388 429 386 433C384 436 383 441 379 443C376 444 370 444 366 443C362 441 356 438 354 435C353 432 354 429 354 426C354 423 352 421 353 418C354 416 357 415 359 413C362 411 363 407 366 405C369 403 375 401 379 402C383 403 386 408 388 412C391 415 392 419 391 422C391 426 387 431 386 433Z"/>
+                  <path class="fat-lobe" opacity="0.27" d="M367 448C367 449 370 453 369 454C368 456 365 456 363 457C361 457 358 457 356 457C354 457 351 457 350 456C349 455 349 452 348 450C348 448 347 447 348 446C348 444 350 443 351 442C353 441 355 439 356 439C358 439 360 439 362 440C364 441 367 442 368 443C369 445 366 446 367 448C367 450 369 453 369 454Z"/>
+                  <path class="fat-lobe" opacity="0.40" d="M391 451C391 452 390 456 389 459C387 461 385 463 382 465C379 466 376 470 373 470C370 469 367 465 364 463C361 461 356 459 355 456C354 453 354 448 356 445C358 443 363 443 366 442C369 441 371 439 373 439C376 438 380 437 383 438C386 439 390 441 391 443C393 445 392 448 391 451C391 453 389 457 389 459Z"/>
+                  <path class="fat-lobe" opacity="0.39" d="M382 475C381 476 377 478 375 480C373 481 374 484 372 486C370 487 365 490 363 490C361 489 358 484 357 482C355 481 353 480 353 478C352 477 355 475 355 473C356 471 356 469 357 468C359 467 361 466 363 464C366 463 370 460 372 461C374 462 374 467 376 469C377 471 382 473 382 475C382 477 376 479 375 480Z"/>
+                  <path class="fat-lobe" opacity="0.32" d="M383 486C384 487 386 490 385 492C384 493 381 496 379 496C377 497 374 497 372 496C370 496 368 494 367 493C366 491 366 490 365 488C364 487 362 485 362 484C363 483 367 482 368 481C370 481 371 481 373 480C375 479 378 474 380 475C381 475 380 481 381 483C381 485 383 485 383 486C384 488 385 491 385 492Z"/>
+                  <path class="fat-lobe" opacity="0.37" d="M388 498C387 499 386 505 384 506C382 508 378 508 376 509C373 510 371 511 368 510C366 510 362 509 361 507C359 506 358 503 358 501C357 499 357 498 357 495C357 492 357 487 359 485C361 484 365 486 368 485C371 485 375 482 378 482C381 483 383 487 385 489C386 492 388 495 388 498C388 501 385 505 384 506Z"/>
+                  <path class="fat-lobe" opacity="0.33" d="M382 516C382 517 380 517 380 518C379 519 379 520 378 520C378 521 376 522 375 521C374 521 374 520 373 520C372 519 372 518 371 518C371 517 370 515 370 515C370 514 372 514 373 513C373 513 374 511 375 510C376 510 378 510 379 510C380 511 379 513 380 514C381 515 382 516 382 516C382 517 380 518 380 518Z"/>
+                  <path class="fat-lobe" opacity="0.30" d="M395 526C393 527 387 530 384 532C381 535 381 538 379 540C376 542 372 546 369 545C365 545 360 541 358 538C356 536 357 533 356 530C355 527 350 524 351 521C352 519 359 517 362 516C365 515 367 514 370 513C373 513 378 511 381 512C384 512 385 514 387 517C390 519 395 524 395 526C394 529 386 531 384 532Z"/>
+                  <path class="fat-lobe" opacity="0.19" d="M401 538C401 539 403 543 402 544C401 544 397 542 395 543C393 543 392 546 390 546C389 546 388 544 387 543C385 542 382 542 381 541C381 539 382 537 383 535C383 534 384 534 386 532C387 531 389 529 390 528C392 528 395 530 396 531C397 532 398 532 399 534C400 535 400 536 401 538C401 539 402 543 402 544Z"/>
+                  <path class="fat-lobe" opacity="0.40" d="M398 555C398 557 400 566 397 568C395 570 390 568 386 569C382 570 377 575 373 575C370 575 366 571 363 568C359 566 354 565 353 562C352 559 353 553 355 550C357 547 361 544 364 543C367 542 371 544 375 543C378 543 383 540 386 540C390 540 393 542 395 545C397 547 398 551 398 555C399 559 398 566 397 568Z"/>
+                  <path class="fat-lobe" opacity="0.25" d="M394 570C395 571 398 575 397 576C396 578 392 578 390 578C388 578 386 578 384 578C382 577 379 578 377 577C375 576 373 574 373 573C373 571 376 569 377 567C378 565 376 561 377 560C378 560 382 561 384 561C386 562 387 562 389 563C391 563 394 563 395 564C396 565 394 568 394 570C394 572 396 575 397 576Z"/>
+                  <path class="fat-lobe" opacity="0.35" d="M396 587C395 588 394 593 392 595C390 596 385 595 382 595C380 595 378 596 376 596C374 596 370 596 368 594C367 593 366 591 365 589C364 587 362 585 362 583C363 581 364 577 366 576C368 575 373 578 376 578C379 578 381 576 383 577C385 577 386 580 389 581C391 583 395 584 396 587C396 589 393 593 392 595Z"/>
+                  <path class="fat-lobe" opacity="0.36" d="M392 591C392 592 395 597 393 598C392 600 387 599 385 599C383 599 382 598 380 598C378 598 376 599 374 598C372 598 371 596 370 594C369 592 368 590 368 588C369 587 371 584 373 584C375 583 377 583 380 583C382 582 384 582 386 582C388 582 391 583 392 584C393 586 392 589 392 591C392 594 393 597 393 598Z"/>
+                  <path class="fat-lobe" opacity="0.21" d="M396 607C395 608 396 613 394 614C393 616 389 615 387 615C385 615 384 615 382 616C380 616 377 617 376 616C374 615 373 612 372 610C371 608 370 606 370 604C371 602 374 600 375 599C377 598 380 597 381 597C383 597 385 598 387 599C389 600 392 599 394 601C395 602 396 605 396 607C396 610 394 613 394 614Z"/>
+                  <path class="fat-lobe" opacity="0.23" d="M385 615C385 615 383 617 383 617C382 618 381 619 380 620C379 620 378 622 376 622C375 622 374 619 373 618C372 617 372 617 371 616C370 615 367 613 368 612C368 611 372 612 373 611C375 610 375 608 376 607C378 606 380 606 381 607C383 607 385 609 386 610C387 611 386 614 385 615C385 616 383 617 383 617Z"/>
+                  <path class="fat-lobe" opacity="0.22" d="M408 624C407 625 404 630 402 631C399 633 395 632 392 633C389 634 387 637 384 638C381 639 377 638 374 636C371 635 368 631 367 628C366 626 367 622 369 620C370 617 375 615 377 613C380 611 381 608 384 607C387 607 391 609 394 610C398 611 402 612 404 615C406 617 408 621 408 624C407 627 403 630 402 631Z"/>
+                  <path class="fat-lobe" opacity="0.40" d="M403 638C403 638 403 641 403 641C402 642 400 641 399 641C398 641 397 642 396 642C395 642 393 643 392 643C392 642 392 640 392 639C391 638 389 637 389 636C389 635 392 636 393 635C394 634 394 631 395 631C396 630 398 633 399 633C400 634 402 633 403 634C403 635 403 636 403 638C403 639 403 641 403 641Z"/>
+                  <path class="fat-lobe" opacity="0.33" d="M400 645C400 645 402 647 401 648C401 649 398 650 397 651C396 651 394 652 393 652C392 652 391 651 389 650C388 649 386 648 386 647C385 646 384 644 385 642C385 641 387 640 388 640C390 640 392 641 393 640C395 640 397 636 398 636C400 637 402 639 402 640C402 642 400 644 400 645C400 646 401 648 401 648Z"/>
+                  <path class="fat-lobe" opacity="0.41" d="M399 650C399 651 399 657 396 659C394 661 388 659 385 661C381 663 379 671 376 671C373 671 370 665 368 662C365 659 361 658 360 655C358 652 358 647 359 644C360 641 361 638 364 636C367 634 372 635 376 635C381 634 385 630 389 631C392 632 397 636 398 639C400 642 400 646 399 650C399 653 397 657 396 659Z"/>
+                  <path class="fat-lobe" opacity="0.36" d="M404 663C404 664 407 669 406 671C405 673 401 677 398 677C395 677 391 675 388 674C385 673 382 673 380 672C377 671 374 670 373 667C371 665 368 659 370 657C371 655 377 656 380 655C383 653 384 648 387 647C389 646 395 647 398 648C401 650 403 652 404 655C405 657 403 660 404 663C404 665 406 670 406 671Z"/>
+                  <path class="fat-lobe" opacity="0.39" d="M401 668C400 669 400 672 398 674C396 675 393 675 391 676C389 677 387 679 385 679C383 679 380 677 378 676C376 674 374 672 374 671C374 669 377 667 378 665C378 663 377 659 378 658C380 657 383 657 385 657C388 657 391 657 393 658C395 658 396 660 397 661C399 663 401 666 401 668C401 670 399 673 398 674Z"/>
+                  <path class="fat-lobe" opacity="0.36" d="M411 680C411 682 412 688 411 690C409 692 405 694 402 694C399 695 396 695 393 695C390 694 388 691 386 689C383 688 377 687 376 685C376 682 379 678 381 676C382 674 385 673 387 671C389 669 390 665 393 665C395 665 399 669 401 671C403 672 405 672 406 674C408 675 410 677 411 680C412 683 411 688 411 690Z"/>
+                  <path class="fat-lobe" opacity="0.42" d="M390 683C390 684 391 689 390 690C389 692 386 692 384 693C382 693 379 696 377 696C375 695 374 691 373 689C371 688 367 688 367 686C366 685 369 683 370 681C370 680 371 679 372 677C373 676 375 673 377 673C379 673 380 676 382 677C384 678 386 678 387 679C389 680 390 681 390 683C391 685 390 689 390 690Z"/>
+                </g>
+                <g class="vein-tree" filter="url(#f-tube)">
+                  <!-- gcv: 21 vessels -->
+                  <path class="vessel-vein trunk" d="M381 682C381 678 380 665 380 656C379 648 379 639 378 631C377 622 376 614 375 605C375 597 374 588 373 580C372 571 371 563 370 554C370 546 369 538 368 529C368 521 367 512 367 504C366 497 366 490 365 483C365 477 364 471 364 466C363 460 362 455 361 450C360 445 359 441 358 436C357 432 355 428 354 424C352 421 350 418 348 415C346 412 344 409 342 407C339 404 336 402 332 401C328 399 321 397 316 396C311 394 305 392 300 391C294 389 288 387 283 386C277 384 271 383 265 381C259 379 254 378 248 376C242 375 236 373 230 372C224 370 215 368 212 367C209 367 209 368 212 369C215 370 223 372 229 374C235 376 241 377 247 379C253 380 259 382 265 383C270 385 276 387 282 388C288 390 293 392 299 394C304 395 310 397 315 399C320 400 326 402 331 404C335 405 337 407 339 409C342 411 343 414 345 417C347 419 348 423 350 426C352 429 353 433 354 437C355 442 356 446 357 451C358 456 359 461 359 466C360 472 360 477 361 484C361 490 361 497 362 505C362 512 363 521 363 530C364 538 364 546 365 555C366 563 367 572 367 580C368 589 369 597 370 606C371 614 371 623 372 631C373 640 373 648 374 657C374 665 375 678 375 682Z"/>
+                  <path class="vessel-vein twig" opacity="0.78" d="M372 564C370 564 367 565 365 566C363 566 361 567 359 567C357 567 355 568 352 568C350 568 348 568 346 568C344 568 341 567 339 567C337 567 335 566 333 566C331 565 329 565 326 564C324 563 322 563 320 562C318 561 316 559 315 558C313 558 313 559 314 559C315 560 318 562 320 563C322 564 324 565 326 565C328 566 330 567 332 568C335 568 337 569 339 569C341 569 343 570 346 570C348 570 350 570 352 570C355 570 357 570 359 570C361 569 364 569 366 568C368 568 371 567 372 566Z"/>
+                  <path class="vessel-vein twig" opacity="0.87" d="M326 564L323 566L319 568L316 569L312 570L308 571L304 572L301 572L297 573L297 573L301 573L305 573L308 572L312 571L316 570L320 569L323 567L327 565Z"/>
+                  <path class="vessel-vein twig" opacity="0.93" d="M309 571L305 569L301 567L297 565L293 564L289 564L284 564L284 564L289 564L293 565L297 566L301 567L305 570L308 572Z"/>
+                  <path class="vessel-vein twig" opacity="0.65" d="M353 569L351 563L349 556L348 550L348 544L347 537L348 531L348 524L350 518L349 518L348 524L347 531L346 537L347 544L347 550L348 557L350 563L352 569Z"/>
+                  <path class="vessel-vein twig" opacity="0.79" d="M367 506C366 506 362 507 359 508C357 508 354 509 352 509C349 510 347 510 344 511C342 511 339 512 336 512C334 513 331 513 329 513C326 514 324 514 321 514C319 515 316 515 313 515C311 515 308 516 306 516C303 516 299 516 298 517C297 517 297 517 298 517C299 518 303 517 306 517C308 517 311 517 314 517C316 516 319 516 321 516C324 516 326 515 329 515C332 515 334 514 337 514C339 514 342 513 344 513C347 512 350 512 352 512C355 511 357 511 360 510C362 510 366 509 367 508Z"/>
+                  <path class="vessel-vein twig" opacity="0.91" d="M336 513L334 519L333 524L332 530L332 536L332 542L333 548L335 554L337 560L337 560L335 554L334 548L333 542L333 536L333 530L334 525L335 519L337 513Z"/>
+                  <path class="vessel-vein twig" opacity="0.87" d="M332 537L336 540L341 544L345 547L350 550L356 552L361 554L361 554L356 552L351 549L346 547L341 543L337 540L333 536Z"/>
+                  <path class="vessel-vein twig" opacity="0.73" d="M322 515L319 510L316 506L313 501L310 497L307 493L304 488L300 484L297 480L297 481L300 485L303 489L306 493L310 497L313 502L315 506L318 511L321 515Z"/>
+                  <path class="vessel-vein twig" opacity="0.87" d="M356 443C355 444 351 446 348 447C345 448 342 448 339 449C336 450 333 451 330 452C327 452 324 453 321 454C318 454 315 455 312 456C309 456 306 456 303 457C300 457 297 458 294 458C291 458 288 458 284 459C281 459 277 459 275 459C274 459 274 460 275 460C277 460 281 460 284 460C288 459 291 459 294 459C297 459 300 459 303 458C306 458 309 457 312 457C315 457 318 456 321 455C324 455 327 454 330 453C333 453 337 452 339 451C342 450 345 450 348 449C351 448 356 446 357 446Z"/>
+                  <path class="vessel-vein twig" opacity="0.65" d="M302 457L302 461L301 465L301 469L301 473L301 477L301 481L301 485L302 489L302 489L302 485L302 481L302 477L302 473L302 469L302 465L303 461L304 458Z"/>
+                  <path class="vessel-vein twig" opacity="0.67" d="M347 420C347 420 344 423 342 425C340 427 339 429 337 431C336 433 334 435 333 437C332 439 330 441 329 443C328 446 327 448 326 450C326 453 325 455 324 457C324 460 323 462 323 465C323 467 322 470 322 472C322 475 322 478 322 480C323 481 323 481 323 480C323 478 323 475 323 472C323 470 324 467 324 465C324 462 325 460 326 458C326 455 327 453 328 451C329 448 330 446 331 444C332 442 333 440 334 438C336 436 337 434 339 432C340 430 342 428 343 426C345 424 348 422 349 421Z"/>
+                  <path class="vessel-vein twig" opacity="0.79" d="M329 444L331 450L333 456L333 462L334 468L333 474L332 480L331 486L329 491L329 491L331 486L333 480L334 474L334 468L334 461L334 455L332 449L331 443Z"/>
+                  <path class="vessel-vein twig" opacity="0.78" d="M327 401C326 401 324 404 322 406C321 407 320 409 318 411C317 412 316 414 315 416C313 418 312 420 311 421C310 423 309 425 308 427C306 429 305 431 304 433C303 435 302 436 301 438C300 440 300 442 299 444C298 446 296 449 296 450C296 451 296 451 297 451C297 450 298 447 299 445C300 443 301 441 302 439C303 437 304 435 305 433C306 431 307 429 309 428C310 426 311 424 312 422C313 420 314 419 316 417C317 415 318 413 320 412C321 410 322 408 324 407C325 405 327 403 328 402Z"/>
+                  <path class="vessel-vein twig" opacity="0.81" d="M301 439L306 445L310 452L315 458L320 465L324 471L329 477L333 484L338 490L338 490L334 483L329 477L325 471L320 464L316 458L311 451L307 445L302 438Z"/>
+                  <path class="vessel-vein twig" opacity="0.91" d="M320 465L323 465L325 464L328 464L331 463L333 462L336 461L336 461L333 462L331 463L328 463L325 464L323 464L320 464Z"/>
+                  <path class="vessel-vein twig" opacity="0.63" d="M315 416L307 417L300 417L292 418L284 419L277 420L269 421L261 422L254 423L254 423L261 422L269 421L277 420L284 420L292 419L300 418L307 417L315 417Z"/>
+                  <path class="vessel-vein twig" opacity="0.87" d="M269 421L265 417L261 414L257 410L253 405L250 401L247 396L247 396L250 401L253 406L257 410L260 414L265 418L269 421Z"/>
+                  <path class="vessel-vein twig" opacity="0.65" d="M279 388C279 389 279 393 279 395C279 397 278 400 278 402C278 405 278 407 278 410C278 412 277 414 277 417C277 419 277 422 277 424C277 427 277 429 277 431C277 434 277 436 276 439C276 441 276 444 276 446C276 449 276 452 276 453C276 455 277 455 277 453C277 452 277 449 277 446C277 444 277 441 277 439C277 436 277 434 278 432C278 429 278 427 278 424C278 422 278 419 278 417C278 415 279 412 279 410C279 407 279 405 279 402C280 400 280 398 280 395C280 393 281 389 281 388Z"/>
+                  <path class="vessel-vein twig" opacity="0.74" d="M278 417L284 421L291 422L298 423L305 422L311 419L317 416L322 411L326 405L326 405L322 411L317 415L311 419L304 421L298 422L291 422L284 420L278 417Z"/>
+                  <path class="vessel-vein twig" opacity="0.87" d="M311 419L312 415L312 411L311 408L310 404L308 400L305 397L305 397L307 401L309 404L311 408L311 411L311 415L311 419Z"/>
+                  <!-- acv: 13 vessels -->
+                  <path class="vessel-vein trunk" d="M270 556C270 554 269 550 268 548C268 545 267 543 267 540C266 538 266 535 265 533C265 530 264 528 264 525C263 523 262 520 262 518C261 515 261 513 260 510C260 508 260 506 259 503C259 501 259 498 259 496C259 493 259 491 258 489C258 486 258 484 258 481C258 479 258 476 258 474C257 472 257 469 257 467C256 465 256 462 255 460C254 458 254 456 253 454C252 451 251 449 251 447C250 445 249 443 249 441C248 439 248 436 248 434C247 432 247 430 247 428C247 426 248 424 248 422C248 420 248 418 249 416C249 414 250 412 250 410C250 408 251 405 251 404C251 403 250 403 249 404C249 405 249 408 248 410C248 412 247 414 247 416C247 418 246 420 246 422C246 424 245 426 245 428C245 430 245 432 246 435C246 437 246 439 247 441C247 443 248 446 248 448C249 450 250 452 250 454C251 457 252 459 252 461C253 463 254 465 254 468C254 470 255 472 255 474C255 477 255 479 255 481C255 484 255 486 255 489C255 491 255 494 255 496C255 498 256 501 256 503C256 506 256 509 257 511C257 514 258 516 258 519C259 521 259 523 260 526C260 528 261 531 261 533C262 536 262 539 263 541C263 544 264 546 264 549C265 551 266 555 266 556Z"/>
+                  <path class="vessel-vein twig" opacity="0.91" d="M258 509C259 508 263 506 265 505C267 503 269 502 271 500C274 498 276 496 278 495C280 493 281 491 283 489C285 487 287 485 288 483C290 480 291 478 293 476C294 474 296 471 297 469C298 466 299 464 300 461C301 459 302 455 303 454C303 452 302 452 302 454C301 455 300 459 299 461C298 464 297 466 296 468C295 471 293 473 292 475C290 477 289 480 287 482C286 484 284 486 282 488C280 490 279 492 277 493C275 495 273 497 270 499C268 500 266 502 264 503C262 504 258 506 257 507Z"/>
+                  <path class="vessel-vein twig" opacity="0.81" d="M288 482L286 476L283 470L282 465L280 458L279 452L278 446L277 440L277 434L277 434L277 440L277 446L278 452L279 459L281 465L283 471L285 477L287 482Z"/>
+                  <path class="vessel-vein twig" opacity="0.84" d="M296 469L300 467L304 466L307 464L311 463L314 461L318 460L321 458L325 457L325 456L321 458L318 459L314 461L310 462L307 464L303 465L300 467L296 468Z"/>
+                  <path class="vessel-vein twig" opacity="0.80" d="M307 464L312 467L316 470L321 473L325 477L329 480L333 484L333 484L329 480L325 476L321 473L316 470L312 467L307 464Z"/>
+                  <path class="vessel-vein twig" opacity="0.77" d="M253 479C254 479 257 478 259 478C261 478 264 478 266 478C268 477 270 477 272 477C274 477 276 477 279 478C281 478 283 478 285 478C287 478 289 479 291 479C294 480 296 480 298 481C300 481 302 482 304 482C306 483 309 484 310 485C311 485 311 485 310 484C309 484 306 482 304 482C302 481 300 480 298 480C296 479 294 479 292 478C290 478 287 477 285 477C283 477 281 477 279 476C277 476 274 476 272 476C270 476 268 476 266 476C263 476 261 476 259 477C257 477 254 477 253 478Z"/>
+                  <path class="vessel-vein twig" opacity="0.78" d="M286 478L290 472L293 465L295 457L295 449L294 442L291 435L287 428L282 422L282 423L287 428L291 435L293 442L294 449L294 457L292 464L289 471L285 477Z"/>
+                  <path class="vessel-vein twig" opacity="0.93" d="M250 457C252 457 258 456 262 456C266 455 270 454 274 452C277 451 281 449 284 447C288 445 291 443 294 441C297 438 300 436 303 433C306 430 308 427 310 424C313 420 315 417 316 413C318 410 319 406 321 402C322 399 323 393 323 391C323 389 323 389 323 391C322 393 321 399 320 402C319 406 317 410 316 413C314 417 312 420 310 423C307 426 305 429 302 432C300 435 297 438 294 440C290 442 287 445 284 446C280 448 277 450 273 451C269 453 266 454 262 454C258 455 252 455 250 456Z"/>
+                  <path class="vessel-vein twig" opacity="0.74" d="M310 423L308 420L305 416L303 412L300 409L297 405L295 401L292 398L289 394L289 394L292 398L294 402L297 405L299 409L302 413L305 416L307 420L310 424Z"/>
+                  <path class="vessel-vein twig" opacity="0.90" d="M297 405L294 403L290 401L288 398L285 395L283 392L282 388L282 388L283 392L285 395L287 399L290 401L293 404L297 405Z"/>
+                  <path class="vessel-vein twig" opacity="0.94" d="M249 433C251 433 256 434 260 434C264 435 267 435 271 435C275 436 278 436 282 436C286 436 289 436 293 436C297 436 301 436 304 436C308 436 312 436 315 436C319 436 323 436 326 435C330 435 334 435 337 434C341 434 347 433 348 433C350 432 350 432 348 432C347 433 341 433 337 434C334 434 330 434 326 435C323 435 319 435 315 435C312 435 308 436 304 436C301 436 297 436 293 436C289 435 286 435 282 435C278 435 275 435 271 434C267 434 264 434 260 433C256 433 251 432 249 432Z"/>
+                  <path class="vessel-vein twig" opacity="0.85" d="M316 436L319 433L323 430L327 428L331 426L335 424L340 423L344 422L349 422L349 422L344 422L340 423L335 424L331 425L326 427L322 430L319 432L315 435Z"/>
+                  <path class="vessel-vein twig" opacity="0.77" d="M326 435L328 439L330 442L332 445L334 448L337 451L340 454L343 457L346 459L346 459L343 456L340 454L337 451L335 448L332 445L330 442L328 438L327 435Z"/>
+                  <!-- pcv: 15 vessels -->
+                  <path class="vessel-vein trunk" d="M456 404C456 405 455 408 455 410C455 413 455 415 455 417C455 419 455 422 455 424C455 426 455 428 454 430C454 433 454 435 454 437C454 439 454 441 453 443C453 445 452 447 451 449C451 452 450 454 449 456C448 458 447 460 446 461C445 463 443 465 442 467C441 469 440 471 439 473C439 475 438 478 437 480C436 482 436 484 435 486C435 488 435 490 435 492C434 494 434 497 434 499C434 501 433 503 433 505C433 507 432 509 432 511C431 513 431 515 430 517C430 519 429 521 428 523C427 525 427 527 426 529C425 530 424 532 424 534C423 536 422 539 421 540C421 541 422 541 423 540C423 539 424 537 425 535C426 533 427 531 427 529C428 527 429 525 430 524C431 522 431 520 432 518C433 516 433 514 434 512C434 510 435 507 435 505C436 503 436 501 436 499C436 497 437 495 437 493C437 491 438 488 438 486C438 484 439 482 440 480C440 478 441 477 442 475C443 473 444 471 445 469C446 467 447 465 448 463C449 461 451 459 452 457C453 455 454 453 454 451C455 448 456 446 456 444C457 442 457 440 458 437C458 435 458 433 458 431C458 428 458 426 458 424C459 422 459 419 459 417C459 415 459 413 459 411C460 409 460 405 460 404Z"/>
+                  <path class="vessel-vein twig" opacity="0.76" d="M452 437C451 438 448 439 446 440C444 440 442 441 439 442C437 444 435 445 433 446C431 447 430 449 428 450C426 451 424 453 422 455C421 456 419 458 418 460C416 461 415 463 413 465C412 467 411 469 410 471C408 473 407 476 406 477C406 478 406 478 407 477C408 476 409 473 410 471C411 469 413 467 414 466C415 464 417 462 418 460C420 459 422 457 423 455C425 454 427 452 429 451C430 450 432 448 434 447C436 446 438 445 440 444C442 443 444 442 446 441C449 440 452 439 453 439Z"/>
+                  <path class="vessel-vein twig" opacity="0.84" d="M413 466L416 472L420 478L425 483L431 487L438 490L444 492L451 493L458 493L458 492L451 493L444 492L438 489L432 486L426 482L421 477L417 471L414 465Z"/>
+                  <path class="vessel-vein twig" opacity="0.68" d="M434 446L429 442L425 436L422 430L421 424L421 417L422 410L424 404L428 398L428 398L424 404L421 410L420 417L420 424L422 430L424 437L428 442L433 447Z"/>
+                  <path class="vessel-vein twig" opacity="0.74" d="M422 410L425 409L429 408L432 406L436 405L440 403L443 402L443 401L439 403L436 404L432 406L429 407L425 409L421 410Z"/>
+                  <path class="vessel-vein twig" opacity="0.77" d="M449 459C448 458 445 456 443 454C441 452 439 451 437 449C435 448 433 446 431 444C429 443 427 441 425 439C423 438 421 436 419 434C417 433 415 431 413 430C411 428 409 426 407 425C405 423 403 421 401 419C399 418 396 415 395 414C394 414 394 414 394 415C395 416 398 418 400 420C402 422 404 423 406 425C408 427 410 429 412 430C414 432 416 434 418 435C420 437 422 439 424 440C426 442 428 444 430 445C432 447 434 449 436 450C438 452 440 454 442 455C444 457 447 459 448 460Z"/>
+                  <path class="vessel-vein twig" opacity="0.71" d="M430 444L426 445L421 447L417 448L412 450L408 453L404 455L401 458L397 461L397 461L401 458L405 455L409 453L413 451L417 449L421 447L426 446L430 445Z"/>
+                  <path class="vessel-vein twig" opacity="0.88" d="M431 445L431 441L431 437L431 432L431 428L432 424L432 420L433 416L433 412L433 412L432 416L432 420L431 424L431 428L430 432L430 437L430 441L430 445Z"/>
+                  <path class="vessel-vein twig" opacity="0.68" d="M431 428L429 425L428 422L428 418L428 415L428 411L429 408L429 408L428 411L427 415L427 418L428 422L429 425L431 428Z"/>
+                  <path class="vessel-vein twig" opacity="0.71" d="M440 491C438 491 432 489 428 488C424 487 420 485 416 484C412 483 409 481 405 480C401 479 397 477 393 476C389 475 385 473 382 472C378 470 374 469 370 467C366 466 362 464 359 462C355 461 351 459 347 458C344 456 338 453 336 453C334 452 334 452 336 453C338 454 343 456 347 458C351 460 355 461 358 463C362 465 366 466 370 468C374 469 377 471 381 472C385 474 389 475 393 477C397 478 400 480 404 481C408 482 412 484 416 485C420 486 424 488 428 489C432 490 438 492 440 493Z"/>
+                  <path class="vessel-vein twig" opacity="0.64" d="M393 476L388 480L384 485L381 490L379 496L378 502L377 508L377 514L379 520L379 520L378 514L377 508L378 502L380 496L382 491L385 485L389 481L393 477Z"/>
+                  <path class="vessel-vein twig" opacity="0.82" d="M379 496L375 499L371 502L368 505L364 509L361 512L358 516L358 517L361 513L364 509L368 505L371 502L375 499L379 496Z"/>
+                  <path class="vessel-vein twig" opacity="0.94" d="M431 520C429 518 426 515 423 513C421 511 419 508 417 505C415 503 413 500 412 497C410 494 409 491 408 488C407 485 406 482 406 478C405 475 405 472 405 469C404 465 405 462 405 459C405 455 406 452 407 449C408 446 410 441 410 440C411 438 410 438 410 440C409 441 407 446 406 449C406 452 405 455 404 459C404 462 404 465 404 469C404 472 404 475 405 478C405 482 406 485 407 488C408 491 410 494 411 497C413 500 414 503 416 506C418 509 420 511 423 514C425 516 429 519 430 520Z"/>
+                  <path class="vessel-vein twig" opacity="0.66" d="M408 488L403 488L399 489L395 490L391 492L387 494L383 497L380 499L377 503L377 503L380 500L383 497L387 494L391 492L395 490L399 489L403 489L408 488Z"/>
+                  <path class="vessel-vein twig" opacity="0.85" d="M404 469L410 463L415 457L419 450L422 443L425 435L426 428L427 420L427 412L427 412L427 420L426 428L425 435L422 443L419 450L415 457L410 463L404 468Z"/>
+                </g>
+                <g class="artery-tree" filter="url(#f-tube)">
+                  <!-- lad: 23 vessels -->
+                  <path class="vessel-art trunk" d="M365 401C365 403 367 410 367 414C368 419 369 423 370 428C371 433 372 438 373 443C374 447 375 452 376 457C376 463 377 468 378 473C379 478 380 483 380 489C381 494 381 499 382 504C382 510 382 515 382 521C382 526 382 532 382 537C382 543 381 548 381 554C381 559 380 565 380 570C380 575 379 578 379 582C379 586 379 591 379 595C379 599 379 603 380 606C380 610 381 614 381 618C381 622 382 625 382 629C383 633 383 636 384 640C384 643 384 647 384 650C384 653 384 657 384 660C384 663 384 667 384 670C384 673 384 676 383 679C383 682 383 686 383 688C383 689 385 690 385 688C386 687 386 682 386 679C386 676 386 673 387 670C387 667 387 663 387 660C387 657 387 653 387 650C387 647 387 643 387 639C387 636 386 632 386 629C386 625 385 621 385 617C384 614 384 610 384 606C383 602 383 598 383 594C383 591 383 587 384 583C384 579 384 575 385 570C385 565 385 559 386 554C386 548 387 543 387 537C387 532 387 526 387 521C387 515 387 510 387 504C387 499 386 493 386 488C385 483 385 477 384 472C383 467 382 462 382 456C381 451 380 446 379 441C378 436 377 432 377 427C376 422 375 417 374 413C373 408 372 402 371 399Z"/>
+                  <path class="vessel-art twig" opacity="0.75" d="M378 472C380 472 385 474 388 475C391 476 394 477 397 478C400 480 403 481 406 483C409 484 412 486 415 487C418 489 420 491 423 493C426 494 429 496 431 498C434 500 436 502 439 505C441 507 444 509 446 511C449 514 452 518 453 519C454 520 455 519 454 518C453 516 449 513 447 510C445 508 442 506 440 503C438 501 435 499 432 497C430 495 427 493 424 491C422 489 419 487 416 485C413 484 410 482 407 480C404 479 401 477 398 476C395 474 392 473 389 472C386 471 381 469 379 469Z"/>
+                  <path class="vessel-art twig" opacity="0.91" d="M407 482L412 480L416 477L421 475L426 473L431 472L436 470L441 469L447 469L447 468L441 469L436 470L431 471L426 472L421 474L416 476L411 478L406 481Z"/>
+                  <path class="vessel-art twig" opacity="0.83" d="M431 471L433 475L435 478L437 481L439 485L440 489L441 493L441 493L440 489L439 485L438 481L436 478L434 474L431 471Z"/>
+                  <path class="vessel-art twig" opacity="0.64" d="M406 481L405 487L404 492L403 497L401 502L399 507L397 512L394 516L391 521L391 521L394 517L397 512L400 508L402 503L404 497L406 492L407 487L408 482Z"/>
+                  <path class="vessel-art twig" opacity="0.77" d="M384 517C385 516 390 514 393 512C396 511 398 509 401 507C404 505 406 503 409 500C411 498 413 495 415 493C417 490 419 487 421 484C422 481 424 478 425 475C426 472 427 469 428 466C429 463 430 459 430 456C431 453 431 448 431 446C431 445 430 445 430 446C429 448 429 453 429 456C428 459 428 462 427 466C426 469 425 472 424 475C422 478 421 481 419 483C417 486 416 489 414 491C412 494 409 496 407 499C405 501 402 503 400 505C397 507 394 508 391 510C388 512 384 513 382 514Z"/>
+                  <path class="vessel-art twig" opacity="0.67" d="M409 499L408 496L408 492L408 488L408 485L409 481L410 478L412 474L414 471L414 471L411 474L410 477L408 481L407 484L407 488L406 492L406 496L407 500Z"/>
+                  <path class="vessel-art twig" opacity="0.65" d="M386 556C387 556 392 555 395 554C398 553 401 553 404 552C407 552 410 552 413 552C416 552 419 552 422 552C425 552 428 552 432 553C435 553 438 554 441 555C444 555 447 556 449 557C452 558 457 560 458 561C460 561 460 561 459 560C457 559 453 557 450 556C447 555 444 554 441 553C438 553 435 552 432 551C429 551 426 550 422 550C419 550 416 550 413 550C410 550 407 550 404 550C400 551 397 551 394 552C391 552 387 553 385 554Z"/>
+                  <path class="vessel-art twig" opacity="0.81" d="M441 555L446 552L450 549L455 546L460 543L464 541L469 538L469 538L464 540L459 543L454 545L450 548L445 551L440 553Z"/>
+                  <path class="vessel-art twig" opacity="0.72" d="M455 546L456 543L457 540L459 537L461 535L463 533L465 530L465 530L462 532L460 535L458 537L457 540L455 543L454 545Z"/>
+                  <path class="vessel-art twig" opacity="0.64" d="M440 554L441 562L439 570L437 577L432 584L426 589L419 593L411 595L403 596L404 596L412 596L419 594L427 590L433 584L437 578L441 570L442 562L441 554Z"/>
+                  <path class="vessel-art twig" opacity="0.68" d="M437 577L434 577L431 577L428 577L425 578L422 578L419 579L419 579L422 579L425 578L428 578L431 578L434 578L437 578Z"/>
+                  <path class="vessel-art twig" opacity="0.88" d="M386 583C388 583 392 582 394 582C397 581 400 581 402 580C405 580 407 579 410 579C413 579 415 578 418 578C421 578 423 578 426 577C429 577 431 577 434 577C437 577 439 576 442 576C445 576 449 576 450 576C451 576 451 575 450 575C449 575 445 575 442 575C439 575 437 575 434 575C431 576 428 576 426 576C423 576 420 576 418 576C415 577 412 577 410 577C407 578 405 578 402 578C399 579 397 579 394 579C391 580 387 580 386 581Z"/>
+                  <path class="vessel-art twig" opacity="0.63" d="M418 578L424 572L431 568L438 566L446 566L454 567L454 567L446 565L438 565L430 567L423 571L417 577Z"/>
+                  <path class="vessel-art twig" opacity="0.71" d="M386 618C387 619 393 623 396 625C399 628 402 631 405 634C407 637 410 643 411 644C413 646 413 646 412 644C411 642 408 636 406 633C403 630 400 627 397 624C394 621 389 618 387 617Z"/>
+                  <path class="vessel-art twig" opacity="0.69" d="M397 625L402 623L408 622L413 621L419 621L425 621L431 622L431 621L425 621L419 620L413 621L408 621L402 622L396 624Z"/>
+                  <path class="vessel-art twig" opacity="0.93" d="M425 621L428 619L431 618L434 617L437 616L437 615L434 616L431 617L428 619L425 621Z"/>
+                  <path class="vessel-art twig" opacity="0.66" d="M396 625L396 631L396 637L396 643L397 649L398 655L399 661L400 667L400 667L399 661L398 655L397 649L397 643L397 637L397 631L397 625Z"/>
+                  <path class="vessel-art twig" opacity="0.66" d="M397 649L395 651L394 654L393 657L393 660L393 663L393 666L394 666L393 663L393 660L394 657L395 654L396 652L397 649Z"/>
+                  <path class="vessel-art twig" opacity="0.68" d="M386 652C387 651 392 649 394 648C397 647 400 645 402 644C405 642 408 640 410 639C413 637 415 635 417 633C420 631 422 629 424 627C426 625 428 622 430 620C432 618 435 614 436 613C437 612 437 611 435 613C434 614 432 617 430 620C428 622 426 624 423 626C421 628 419 630 417 632C414 634 412 636 409 638C407 639 404 641 402 642C399 644 396 645 394 647C391 648 387 650 385 650Z"/>
+                  <path class="vessel-art twig" opacity="0.91" d="M410 638L411 631L411 624L410 617L408 611L406 604L402 598L398 593L393 588L393 588L397 593L402 598L405 604L408 611L409 617L410 624L410 631L409 638Z"/>
+                  <path class="vessel-art twig" opacity="0.66" d="M402 598L402 593L401 588L399 583L397 578L394 574L390 570L390 571L393 574L397 578L399 583L401 588L402 593L402 598Z"/>
+                  <path class="vessel-art twig" opacity="0.83" d="M410 639L415 639L420 640L420 640L415 639L410 638Z"/>
+                  <!-- rca: 28 vessels -->
+                  <path class="vessel-art trunk" d="M356 400C353 400 343 399 336 398C329 397 322 395 316 394C309 392 302 390 296 388C290 386 283 383 277 381C271 378 265 375 259 372C254 370 248 367 243 364C238 361 233 358 228 356C223 353 218 351 213 349C208 347 204 346 200 344C195 343 191 342 187 342C183 342 178 341 176 344C173 347 173 354 172 360C171 365 171 371 171 377C171 383 172 390 172 397C173 404 174 411 175 418C176 426 178 433 180 441C181 448 183 456 185 463C187 470 190 477 192 484C194 491 197 498 199 504C202 511 204 517 207 523C209 529 212 535 215 541C218 547 221 556 223 558C225 561 226 561 225 558C224 555 220 546 217 540C214 535 212 528 209 522C207 516 204 510 202 503C199 497 197 490 195 483C192 476 190 470 189 462C187 455 185 448 183 440C181 433 180 425 179 418C177 410 177 403 176 396C176 390 175 383 175 377C176 371 176 365 177 360C177 355 178 349 179 347C181 345 184 347 187 347C190 347 194 348 198 349C202 351 207 352 211 354C216 356 220 359 225 361C230 364 235 366 240 369C245 372 251 375 257 378C262 381 268 384 275 386C281 389 287 392 294 394C300 396 307 399 314 400C321 402 328 404 335 405C342 406 352 407 356 408Z"/>
+                  <path class="vessel-art twig" opacity="0.86" d="M274 385C274 386 274 390 273 392C272 395 272 397 271 399C270 402 269 404 268 406C267 409 266 411 265 413C264 415 263 418 261 420C260 422 259 424 257 426C256 428 254 430 252 432C250 433 249 435 247 437C245 439 242 441 241 442C240 443 241 443 242 443C243 442 246 440 248 438C250 436 252 435 253 433C255 431 257 429 259 427C260 425 262 423 263 421C265 419 266 417 267 414C269 412 270 410 271 408C272 405 273 403 274 400C275 398 276 396 276 393C277 391 278 387 278 386Z"/>
+                  <path class="vessel-art twig" opacity="0.90" d="M266 414L270 421L275 427L281 433L287 439L293 444L299 449L306 453L313 457L314 456L307 452L300 448L293 443L287 438L282 432L276 426L272 420L267 413Z"/>
+                  <path class="vessel-art twig" opacity="0.68" d="M293 444L296 444L300 444L303 443L306 443L310 443L313 443L313 443L310 443L306 443L303 443L300 443L296 443L293 443Z"/>
+                  <path class="vessel-art twig" opacity="0.68" d="M270 406L262 406L255 405L248 404L241 402L233 400L227 397L220 394L214 390L213 390L220 394L226 398L233 401L240 403L247 405L255 407L262 408L270 408Z"/>
+                  <path class="vessel-art twig" opacity="0.82" d="M228 363C227 364 224 367 221 369C219 371 217 373 215 375C213 377 211 379 209 381C207 383 205 385 203 387C201 388 198 390 196 392C194 394 192 396 190 398C188 400 186 401 183 403C181 405 179 407 177 409C175 410 171 413 170 414C169 415 170 416 171 415C172 414 176 411 178 410C180 408 182 406 184 404C187 403 189 401 191 399C193 397 195 396 198 394C200 392 202 390 204 388C206 386 209 385 211 383C213 381 215 379 217 377C219 375 221 373 223 371C226 370 229 367 230 366Z"/>
+                  <path class="vessel-art twig" opacity="0.95" d="M190 399L192 406L195 414L200 420L206 426L212 430L219 433L227 435L235 436L235 435L227 435L220 433L213 429L206 425L201 419L196 413L193 406L191 398Z"/>
+                  <path class="vessel-art twig" opacity="0.65" d="M212 430L214 433L215 435L217 438L220 440L222 442L225 444L225 444L222 442L220 440L218 438L216 435L214 432L213 430Z"/>
+                  <path class="vessel-art twig" opacity="0.85" d="M201 351C200 352 197 355 195 357C194 359 191 360 189 362C187 363 185 365 182 366C180 367 177 368 175 369C172 370 168 370 167 371C166 371 166 372 167 372C169 372 173 371 175 370C178 370 181 369 183 368C186 367 188 365 190 364C193 362 195 361 197 359C199 357 202 354 203 353Z"/>
+                  <path class="vessel-art twig" opacity="0.83" d="M182 367L179 373L176 379L172 385L168 391L164 396L164 396L169 391L173 386L177 380L180 374L183 367Z"/>
+                  <path class="vessel-art twig" opacity="0.89" d="M177 351C178 351 183 351 187 351C190 351 193 351 197 352C200 352 203 352 206 353C210 354 213 354 216 355C219 356 223 357 226 358C229 359 232 360 235 361C238 362 241 364 244 365C247 367 250 368 253 370C256 371 260 374 262 375C263 376 264 375 262 374C261 373 257 370 254 369C251 367 248 365 245 364C242 362 239 361 236 360C233 359 229 357 226 356C223 355 220 354 217 353C213 352 210 352 207 351C203 350 200 350 197 349C193 349 190 349 187 348C183 348 178 348 177 348Z"/>
+                  <path class="vessel-art twig" opacity="0.86" d="M236 361L243 358L250 355L257 352L264 350L272 348L279 347L287 346L295 346L295 345L287 345L279 346L272 347L264 349L257 351L249 354L242 357L235 360Z"/>
+                  <path class="vessel-art twig" opacity="0.70" d="M257 352L260 353L264 354L269 355L273 355L277 354L281 352L280 352L277 353L273 354L269 354L265 354L261 353L257 351Z"/>
+                  <path class="vessel-art twig" opacity="0.89" d="M206 352L207 358L207 363L206 369L205 375L202 380L199 385L196 389L191 393L192 393L196 389L200 385L203 380L206 375L207 369L208 363L208 358L207 352Z"/>
+                  <path class="vessel-art twig" opacity="0.79" d="M175 410C176 410 179 410 181 410C183 410 185 411 188 411C190 411 192 411 194 411C196 412 199 412 201 412C203 412 205 412 207 413C209 413 212 413 214 413C216 414 218 414 220 414C223 415 225 415 227 415C229 416 232 416 233 416C235 416 235 416 234 415C232 415 229 415 227 414C225 414 223 414 221 413C218 413 216 413 214 412C212 412 210 412 207 411C205 411 203 411 201 410C199 410 197 410 194 410C192 409 190 409 188 409C186 409 183 409 181 408C179 408 176 408 175 408Z"/>
+                  <path class="vessel-art twig" opacity="0.93" d="M201 412L205 409L208 405L211 402L213 398L215 394L217 390L218 385L219 381L219 381L218 385L216 389L214 393L212 397L210 401L207 405L204 408L200 411Z"/>
+                  <path class="vessel-art twig" opacity="0.92" d="M217 389L214 386L211 384L208 382L204 381L200 381L196 381L196 382L200 381L204 382L207 383L211 385L214 387L216 390Z"/>
+                  <path class="vessel-art twig" opacity="0.88" d="M207 412L209 419L211 427L213 434L214 441L215 449L216 457L216 464L215 472L216 472L216 464L216 457L216 449L215 441L214 434L212 426L210 419L208 412Z"/>
+                  <path class="vessel-art twig" opacity="0.69" d="M216 457L219 459L223 462L227 464L231 465L235 466L240 467L240 466L235 466L231 465L227 463L223 461L219 459L216 456Z"/>
+                  <path class="vessel-art twig" opacity="0.80" d="M183 447C184 446 190 445 194 444C198 443 202 442 205 441C209 440 213 439 217 438C221 438 225 437 229 436C233 436 237 435 240 434C244 434 248 433 252 433C256 433 260 432 264 432C268 432 272 431 276 431C280 431 286 431 288 431C290 431 290 430 288 430C286 430 280 430 276 430C272 431 268 431 264 431C260 431 256 432 252 432C248 432 244 433 240 433C236 434 232 434 228 435C225 435 221 436 217 437C213 438 209 438 205 439C201 440 197 441 194 442C190 443 184 444 182 445Z"/>
+                  <path class="vessel-art twig" opacity="0.71" d="M264 432L265 427L266 422L265 417L265 412L264 407L263 402L261 397L259 393L259 393L261 398L262 402L263 407L264 412L265 417L265 422L264 427L263 431Z"/>
+                  <path class="vessel-art twig" opacity="0.89" d="M240 434L243 437L246 440L249 442L252 444L255 446L258 448L262 450L265 452L266 452L262 450L259 448L255 446L252 444L249 441L246 439L243 436L241 433Z"/>
+                  <path class="vessel-art twig" opacity="0.94" d="M259 448L261 447L263 446L265 444L267 442L269 440L270 437L270 437L269 439L267 441L265 443L263 445L261 447L258 448Z"/>
+                  <path class="vessel-art twig" opacity="0.92" d="M196 491C196 490 199 488 201 486C203 485 205 484 207 482C209 481 210 480 212 479C214 477 216 476 218 475C220 474 222 473 224 471C226 470 228 469 231 468C233 467 235 466 237 465C239 464 241 463 243 463C245 462 249 461 250 460C251 460 251 459 249 460C248 460 245 461 243 462C241 463 239 464 236 465C234 466 232 466 230 467C228 468 226 469 224 471C222 472 220 473 218 474C216 475 214 476 212 477C210 479 208 480 206 481C204 483 202 484 200 485C198 487 196 489 195 489Z"/>
+                  <path class="vessel-art twig" opacity="0.83" d="M213 478L214 471L216 463L218 456L220 448L221 441L223 433L224 426L226 418L225 418L224 426L222 433L221 441L219 448L217 456L216 463L214 471L212 478Z"/>
+                  <path class="vessel-art twig" opacity="0.66" d="M224 426L222 423L220 421L219 418L217 415L216 412L214 409L214 409L215 412L217 415L218 418L220 421L222 423L224 426Z"/>
+                  <path class="vessel-art twig" opacity="0.87" d="M230 468L236 472L241 476L246 481L250 486L254 492L256 498L259 505L260 511L260 511L259 504L257 498L254 492L251 486L246 480L242 476L236 471L231 468Z"/>
+                  <path class="vessel-art twig" opacity="0.81" d="M250 486L248 491L246 495L243 500L239 504L235 507L231 510L231 511L235 507L239 504L243 500L246 496L248 491L250 486Z"/>
+                  <!-- lcx: 20 vessels -->
+                  <path class="vessel-art trunk" d="M382 405C385 405 391 404 396 403C400 402 404 401 409 400C413 399 417 397 421 396C426 395 430 393 434 392C438 390 442 389 446 387C450 385 454 384 458 382C462 380 466 377 469 376C472 374 475 372 477 371C480 370 481 369 483 369C485 369 487 368 489 369C491 369 492 370 494 371C496 372 497 373 498 375C500 377 501 380 501 382C502 385 503 387 503 391C503 395 503 399 502 404C501 409 500 415 499 421C498 426 497 432 495 437C494 443 493 449 492 454C490 460 489 465 488 470C486 476 485 481 483 487C482 492 480 497 479 502C477 508 474 515 473 518C472 520 474 521 475 518C476 516 479 508 481 503C482 498 484 493 485 487C487 482 488 476 490 471C491 466 493 460 494 455C496 449 497 444 498 438C500 433 501 427 502 421C503 416 505 409 505 404C506 399 506 395 506 391C506 387 506 384 505 381C504 378 503 376 502 373C500 371 498 369 496 367C494 366 492 365 490 365C487 364 485 364 483 365C480 365 478 366 475 367C473 368 470 370 467 371C464 373 460 375 456 377C452 379 448 381 444 382C440 384 436 385 432 387C428 388 424 389 420 391C416 392 411 393 407 394C403 395 399 396 394 397C390 398 384 399 382 399Z"/>
+                  <path class="vessel-art twig" opacity="0.90" d="M421 394C421 395 422 399 422 401C422 404 422 406 421 409C421 411 421 414 420 416C420 419 419 421 418 424C417 426 416 428 415 431C414 433 413 435 411 437C410 439 409 441 407 443C405 445 404 447 402 449C400 451 397 453 396 454C395 455 395 455 397 455C398 454 401 452 403 450C405 448 406 446 408 444C410 442 411 440 413 438C414 436 416 434 417 431C418 429 419 427 420 424C421 422 422 419 422 417C423 414 424 412 424 409C424 407 424 404 424 401C424 399 424 395 424 393Z"/>
+                  <path class="vessel-art twig" opacity="0.86" d="M415 432L420 438L425 445L430 451L435 458L440 464L445 471L450 477L454 484L455 484L450 477L445 470L440 464L436 457L431 451L426 444L421 437L417 431Z"/>
+                  <path class="vessel-art twig" opacity="0.69" d="M435 458L440 459L445 460L449 463L453 466L456 469L459 473L460 473L457 469L453 465L449 462L445 460L440 458L435 457Z"/>
+                  <path class="vessel-art twig" opacity="0.90" d="M475 370C475 372 475 378 475 382C474 387 474 391 473 395C473 399 472 403 471 407C471 411 470 415 468 419C467 423 466 427 465 431C463 435 462 439 460 443C459 446 457 450 455 454C453 458 451 461 449 465C447 468 443 474 442 475C441 477 442 478 443 476C444 474 448 469 450 465C452 462 454 458 456 455C458 451 460 447 462 443C463 439 465 436 466 432C468 428 469 424 470 420C471 416 472 412 473 407C474 403 475 399 476 395C476 391 477 387 477 383C477 378 477 372 478 370Z"/>
+                  <path class="vessel-art twig" opacity="0.90" d="M469 420L472 423L476 426L480 428L485 429L490 430L494 430L494 430L490 429L485 429L481 427L477 425L473 422L470 419Z"/>
+                  <path class="vessel-art twig" opacity="0.75" d="M490 430L492 428L494 426L497 423L499 421L499 421L496 423L494 425L492 427L489 429Z"/>
+                  <path class="vessel-art twig" opacity="0.92" d="M491 370C490 371 487 374 485 376C483 378 481 380 479 381C477 383 474 385 472 386C470 388 467 389 464 390C462 391 459 392 457 393C454 394 451 395 448 395C446 396 443 396 440 397C437 397 434 397 432 397C429 397 425 396 423 396C422 396 422 397 423 397C424 398 429 398 432 398C434 398 437 398 440 398C443 398 446 397 449 397C452 396 454 395 457 395C460 394 463 393 465 392C468 390 470 389 473 388C475 386 478 385 480 383C482 381 485 380 487 378C489 376 492 372 493 371Z"/>
+                  <path class="vessel-art twig" opacity="0.88" d="M456 394L453 400L449 406L446 412L443 418L439 424L436 430L432 436L429 442L429 442L433 436L436 430L440 424L443 418L447 412L450 406L454 400L457 394Z"/>
+                  <path class="vessel-art twig" opacity="0.63" d="M465 390L458 387L451 386L443 385L436 386L428 388L421 391L415 395L409 400L410 401L415 396L422 392L428 389L436 387L443 386L450 387L458 389L465 391Z"/>
+                  <path class="vessel-art twig" opacity="0.78" d="M429 388L426 386L423 385L421 383L419 380L417 378L415 376L415 376L417 378L419 381L421 383L423 385L426 387L428 389Z"/>
+                  <path class="vessel-art twig" opacity="0.69" d="M501 389C499 390 493 390 489 391C486 392 482 393 478 395C474 396 471 398 467 400C464 402 461 404 457 406C454 408 451 411 448 414C446 416 443 419 441 422C438 426 436 429 434 432C432 436 430 439 429 443C427 446 426 452 425 454C425 456 425 456 426 454C427 452 428 447 430 443C431 440 433 436 435 433C437 429 439 426 441 423C444 420 447 417 449 415C452 412 455 409 458 407C461 405 465 403 468 401C471 399 475 398 479 396C482 395 486 394 490 393C493 392 499 391 501 391Z"/>
+                  <path class="vessel-art twig" opacity="0.88" d="M467 400L466 406L463 412L460 417L456 422L451 425L446 428L440 430L434 431L434 432L440 431L446 429L451 426L456 422L461 417L464 412L467 406L468 400Z"/>
+                  <path class="vessel-art twig" opacity="0.72" d="M502 402C500 402 496 402 494 403C491 403 489 404 486 404C484 405 481 405 478 406C476 407 473 407 471 408C468 409 466 410 464 411C461 412 459 413 456 414C454 415 452 416 449 418C447 419 445 420 443 421C440 423 437 425 436 426C435 426 435 427 436 426C437 426 441 423 443 422C445 421 447 420 450 418C452 417 454 416 457 415C459 414 462 413 464 412C466 411 469 410 471 410C474 409 476 408 479 407C481 407 484 406 486 406C489 405 492 405 494 404C497 404 501 404 502 404Z"/>
+                  <path class="vessel-art twig" opacity="0.67" d="M456 414L453 421L450 428L446 435L442 442L437 448L432 454L427 460L422 465L422 465L427 460L433 454L438 448L442 442L446 435L450 429L454 422L457 415Z"/>
+                  <path class="vessel-art twig" opacity="0.63" d="M442 442L444 447L446 451L449 456L452 460L456 464L460 467L460 467L456 463L452 460L449 456L446 451L444 446L442 442Z"/>
+                  <path class="vessel-art twig" opacity="0.77" d="M492 466C490 466 486 466 484 467C481 467 479 467 476 467C473 466 471 466 468 466C465 465 463 465 460 464C458 464 455 463 453 462C450 461 448 460 446 459C443 458 441 456 439 455C436 454 434 452 432 451C430 449 427 446 426 445C425 445 425 445 426 446C427 447 430 449 432 451C434 453 436 454 438 456C440 457 443 458 445 460C448 461 450 462 452 463C455 464 458 465 460 465C463 466 465 467 468 467C471 467 473 468 476 468C479 468 481 468 484 468C487 468 490 467 492 467Z"/>
+                  <path class="vessel-art twig" opacity="0.88" d="M438 455L434 456L430 458L425 460L421 462L417 464L413 466L410 469L406 472L406 472L410 469L414 466L418 464L422 462L426 460L430 458L434 457L438 456Z"/>
+                  <path class="vessel-art twig" opacity="0.78" d="M413 466L411 472L408 476L404 481L399 484L394 487L388 488L388 488L394 487L399 484L404 481L408 477L411 472L414 466Z"/>
+                  <path class="vessel-art twig" opacity="0.82" d="M468 466L466 462L464 458L462 454L460 450L458 446L456 442L453 438L451 434L451 434L453 438L455 442L457 446L460 450L462 454L464 458L466 462L468 467Z"/>
+                </g>
+              </g>
+
+              <!-- the wet look: broad soft highlights where the surface turns -->
+              <ellipse class="sheen" cx="248" cy="300" rx="70" ry="46" transform="rotate(-18 248 300)"/>
+              <ellipse class="sheen" cx="246" cy="470" rx="44" ry="104" transform="rotate(-13 246 470)"/>
+              <ellipse class="sheen" cx="448" cy="474" rx="38" ry="118" transform="rotate(10 448 474)"/>
+              <ellipse class="sheen small" cx="332" cy="632" rx="44" ry="40"/>
+              <path class="rim" d="M214 226 C168 238 148 286 152 344 C156 404 170 462 194 516"/>
+            </g>
+
+            <!-- ---------------- cut-away view ---------------- -->
+            <g id="layer-cutaway">
+
+
+              <!-- right atrium -->
+              <g id="m-ra">
+                <path id="w-ra" class="chamber part" data-part="p-ra" tabindex="0" role="button"
+                      aria-label="Right atrium"
+                      d="M194 258 C210 240 246 232 272 238 C290 242 300 260 300 284
+                         C300 314 296 344 284 362 C272 380 248 384 228 374
+                         C208 364 194 336 188 308 C183 284 186 268 194 258 Z"
+                      fill="url(#g-venous)" stroke="url(#g-myo-thin)" stroke-width="8"/>
+                <path class="trabecula" d="M196 278 C206 285 215 289 222 291"/>
+                <path class="trabecula" d="M191 304 C201 311 211 315 218 317"/>
+                <path class="trabecula" d="M195 330 C205 337 214 341 221 343"/>
+              </g>
+
+              <!-- left atrium -->
+              <g id="m-la">
+                <path id="w-la" class="chamber part" data-part="p-la" tabindex="0" role="button"
+                      aria-label="Left atrium"
+                      d="M404 246 C428 232 458 234 472 252 C482 268 484 298 480 324
+                         C476 350 462 370 444 376 C426 382 408 372 400 352
+                         C390 328 388 292 392 266 C394 256 398 249 404 246 Z"
+                      fill="url(#g-arterial)" stroke="url(#g-myo-thin)" stroke-width="8"/>
+                <path class="trabecula" d="M478 274 C468 281 460 285 453 287"/>
+                <path class="trabecula" d="M482 300 C472 307 463 311 456 313"/>
+                <path class="trabecula" d="M478 326 C468 333 459 337 452 339"/>
+              </g>
+
+              <!-- right ventricle: thin walled, with the outflow chimney on its
+                   septal side rising to the pulmonary valve -->
+              <g id="m-rv">
+                <path id="w-rv" class="chamber part" data-part="p-rv" tabindex="0" role="button"
+                      aria-label="Right ventricle"
+                      d="M206 390 C232 380 258 378 280 384
+                         C280 358 282 338 285 326 C287 319 292 316 300 316
+                         C308 316 316 319 318 326 C317 346 313 370 310 392
+                         C312 430 310 470 302 508 C292 552 274 588 256 608
+                         C244 622 230 616 224 598 C210 564 198 518 194 470
+                         C192 434 196 406 204 388 Z"
+                      fill="url(#g-venous)" stroke="url(#g-myo-thin)" stroke-width="13"/>
+                <path class="trabecula" d="M204 424 C214 436 224 444 231 448"/>
+                <path class="trabecula" d="M300 430 C294 442 288 450 284 454"/>
+                <path class="trabecula" d="M202 470 C212 484 222 494 229 498"/>
+                <path class="trabecula" d="M298 478 C292 492 286 502 282 506"/>
+                <path class="trabecula" d="M214 522 C224 538 234 550 240 556"/>
+                <!-- the moderator band, a real named strand of muscle -->
+                <path class="trabecula strong" d="M204 496 C230 486 260 482 290 486"/>
+                <g class="chordae">
+                  <path d="M270 506 L246 428"/><path d="M276 506 L250 432"/>
+                </g>
+                <path class="papillary" d="M254 578 C261 552 266 528 266 508
+                         C266 497 279 497 281 508 C284 533 277 558 268 582 Z"/>
+              </g>
+
+              <!-- left ventricle, drawn last so its wall reads as the septum -->
+              <g id="m-lv">
+                <path id="w-lv" class="chamber part" data-part="p-lv" tabindex="0" role="button"
+                      aria-label="Left ventricle"
+                      d="M350 320 C356 312 380 312 386 320
+                         C389 342 391 358 393 374
+                         C416 366 444 366 462 376
+                         C474 400 476 448 468 502 C460 560 442 618 420 666
+                         C410 684 392 682 384 664 C364 618 350 554 344 494
+                         C338 436 338 388 344 358 C346 342 348 328 350 318 Z"
+                      fill="url(#g-arterial)" stroke="url(#g-myo)" stroke-width="30"/>
+                <path class="trabecula" d="M348 420 C358 432 368 440 376 444"/>
+                <path class="trabecula" d="M464 428 C455 442 446 452 438 456"/>
+                <path class="trabecula" d="M346 480 C356 494 366 504 374 508"/>
+                <path class="trabecula" d="M464 490 C455 504 445 514 437 518"/>
+                <path class="trabecula" d="M354 544 C363 558 372 568 379 573"/>
+                <path class="trabecula" d="M452 550 C444 563 436 572 430 576"/>
+                <g class="chordae">
+                  <path d="M374 526 L420 424"/><path d="M380 528 L428 428"/>
+                  <path d="M424 516 L434 424"/><path d="M420 518 L430 430"/>
+                </g>
+                <path class="papillary" d="M362 608 C369 578 373 552 371 528
+                         C370 517 382 514 386 526 C392 553 387 585 378 610 Z"/>
+                <path class="papillary" d="M430 592 C432 563 430 538 424 517
+                         C421 507 409 511 409 521 C411 548 415 571 421 594 Z"/>
+              </g>
+
+              <!-- The two great arteries, cut open where they cross the plane.
+                   Each flares into its sinuses just above the valve and narrows
+                   again at the sinotubular junction, which is the shape that makes
+                   a root read as a root rather than a pipe. -->
+              <path class="root" fill="url(#g-arterial)"
+                    d="M350 318 C338 306 334 288 338 272 C342 256 350 244 354 228
+                       L384 228 C388 244 396 256 400 272 C404 288 400 306 388 318 Z"/>
+              <path class="root" fill="url(#g-venous)"
+                    d="M286 322 C278 310 275 294 279 278 C283 262 289 250 292 236
+                       L314 236 C317 250 323 262 327 278 C331 294 328 310 320 322 Z"/>
+
+              <!-- ============ valves ============ -->
+              <!-- Each leaflet is drawn shut and opened by rotating it about the
+                   point it hangs from. That is close enough to what a leaflet does
+                   that it holds up at 40 bpm and at 200. -->
+              <g id="valve-tricuspid" class="valve part" data-part="p-tricuspid" tabindex="0"
+                 role="button" aria-label="Tricuspid valve">
+                <g class="leaflet" data-hinge="206,390" data-open="32">
+                  <path d="M206 390 C216 408 230 420 244 424 L242 436
+                           C220 430 204 414 196 392 Z"/>
+                </g>
+                <g class="leaflet" data-hinge="280,384" data-open="-32">
+                  <path d="M280 384 C270 404 258 418 244 424 L246 436
+                           C264 430 282 412 290 388 Z"/>
+                </g>
+                <circle class="annulus" cx="206" cy="390" r="3.4"/>
+                <circle class="annulus" cx="280" cy="384" r="3.4"/>
+              </g>
+
+              <g id="valve-mitral" class="valve part" data-part="p-mitral" tabindex="0"
+                 role="button" aria-label="Mitral valve">
+                <!-- the long anterior leaflet is also one wall of the outflow -->
+                <g class="leaflet" data-hinge="394,374" data-open="40">
+                  <path d="M394 374 C404 398 416 414 430 420 L428 432
+                           C406 426 392 406 384 376 Z"/>
+                </g>
+                <g class="leaflet" data-hinge="462,376" data-open="-36">
+                  <path d="M462 376 C452 398 442 412 430 420 L432 432
+                           C450 426 464 406 472 380 Z"/>
+                </g>
+                <circle class="annulus" cx="394" cy="374" r="3.4"/>
+                <circle class="annulus" cx="462" cy="376" r="3.4"/>
+              </g>
+
+              <g id="valve-aortic" class="valve part" data-part="p-aortic" tabindex="0"
+                 role="button" aria-label="Aortic valve">
+                <g class="leaflet cusp" data-hinge="350,318" data-open="-50">
+                  <path d="M350 318 C356 306 364 300 369 298 L369 286
+                           C354 290 344 300 340 316 Z"/>
+                </g>
+                <g class="leaflet cusp" data-hinge="386,318" data-open="50">
+                  <path d="M386 318 C380 306 372 300 367 298 L367 286
+                           C382 290 392 300 396 316 Z"/>
+                </g>
+                <circle class="annulus" cx="350" cy="318" r="3.4"/>
+                <circle class="annulus" cx="386" cy="318" r="3.4"/>
+              </g>
+
+              <g id="valve-pulmonary" class="valve part" data-part="p-pulmonary" tabindex="0"
+                 role="button" aria-label="Pulmonary valve">
+                <g class="leaflet cusp" data-hinge="286,322" data-open="-50">
+                  <path d="M286 322 C292 310 299 304 304 302 L304 290
+                           C290 294 280 304 276 320 Z"/>
+                </g>
+                <g class="leaflet cusp" data-hinge="320,322" data-open="50">
+                  <path d="M320 322 C314 310 307 304 302 302 L302 290
+                           C316 294 326 304 330 320 Z"/>
+                </g>
+                <circle class="annulus" cx="286" cy="322" r="3.4"/>
+                <circle class="annulus" cx="320" cy="322" r="3.4"/>
+              </g>
+
+              <path id="p-septum-hit" class="part hit-only" data-part="p-septum" tabindex="0"
+                    role="button" aria-label="Interventricular septum"
+                    d="M308 402 C318 462 324 530 324 598 L348 598
+                       C344 528 336 458 328 402 Z"/>
+              <path id="p-apex-hit" class="part hit-only" data-part="p-apex" tabindex="0"
+                    role="button" aria-label="Apex"
+                    d="M356 646 C368 698 396 712 410 688 C420 668 408 646 390 642 Z"/>
+            </g>
+
+            <!-- depth, painted over everything inside the muscle -->
+            <path class="body-depth"
+                  d="M214 226 C168 238 148 286 152 344 C156 404 170 462 194 516
+                     C222 578 286 654 344 692 C362 704 382 702 394 688
+                     C436 636 472 566 490 502 C506 444 508 384 498 328
+                     C486 268 460 232 422 222 C358 206 268 210 214 226 Z"
+                  fill="url(#g-depth)"/>
+          </g>
+
+          <!-- the pulmonary trunk is the most anterior thing in the chest and
+               crosses in front of the aortic root -->
+          <g id="vessels-front" class="layer">
+            <g class="part" data-part="p-pa" tabindex="0" role="button" aria-label="Pulmonary trunk">
+              <path class="vessel" d="M301 250 C297 226 286 206 264 196"
+                    stroke="url(#g-vein)" stroke-width="40"/>
+            </g>
+          </g>
+
+          <!-- blood -->
+          <g id="flow-layer" class="layer" aria-hidden="true"></g>
+          <!-- labels, drawn last so nothing covers them -->
+          <g id="label-layer" class="layer" aria-hidden="true"></g>
+          <g id="focus-ring" class="layer" aria-hidden="true"></g>
+        </svg>
+
+        <div class="stage-hint" id="stage-hint">
+          <span>Point at a part to name it. Drag across the heart to scrub one beat by hand.</span>
+        </div>
+      </div>
+
+      <figcaption class="stage-cap">
+        <span class="cap-phase" id="cap-phase">—</span>
+        <span class="cap-note" id="cap-note">—</span>
+      </figcaption>
+    </figure>
+
+    <!-- ============================ CONTROLS ============================ -->
+    <div class="panel">
+      <div class="panel-block">
+        <h2 class="panel-h">Drive it</h2>
+        <div class="presets" id="presets"></div>
+      </div>
+
+      <div class="panel-block">
+        <label class="ctl" for="hr">
+          <span class="ctl-name">Rate</span>
+          <span class="ctl-val num" id="hr-val">72 bpm</span>
+        </label>
+        <input type="range" id="hr" min="40" max="200" step="1" value="72">
+        <p class="ctl-note" id="hr-note">—</p>
+
+        <label class="ctl" for="contract">
+          <span class="ctl-name">Contractility</span>
+          <span class="ctl-val num" id="contract-val">1.00</span>
+        </label>
+        <input type="range" id="contract" min="0.5" max="1.8" step="0.01" value="1">
+        <p class="ctl-note">How hard the muscle squeezes. Sets how empty the ventricle
+          gets, and so the ejection fraction.</p>
+
+        <label class="ctl" for="filling">
+          <span class="ctl-name">Filling</span>
+          <span class="ctl-val num" id="filling-val">1.00</span>
+        </label>
+        <input type="range" id="filling" min="0.5" max="1.4" step="0.01" value="1">
+        <p class="ctl-note">How much blood is coming back. More stretch before a beat
+          means a bigger beat — the oldest law in the subject.</p>
+      </div>
+
+      <div class="panel-block">
+        <h2 class="panel-h">Show</h2>
+        <div class="toggles" id="toggles"></div>
+      </div>
+
+      <div class="panel-block">
+        <h2 class="panel-h">Time</h2>
+        <div class="transport">
+          <button type="button" class="btn" id="play" aria-pressed="true">Pause</button>
+          <button type="button" class="btn ghost" id="slow" aria-pressed="false">¼ speed</button>
+          <button type="button" class="btn ghost" id="tap">Tap a rate</button>
+        </div>
+        <label class="ctl" for="scrub">
+          <span class="ctl-name">Position in the beat</span>
+          <span class="ctl-val num" id="scrub-val">—</span>
+        </label>
+        <input type="range" id="scrub" min="0" max="1000" step="1" value="0" disabled>
+        <p class="ctl-note">Pause, then drag — on the slider or straight across the
+          heart — to walk one beat a millisecond at a time.</p>
+      </div>
+
+      <div class="panel-block info" id="info">
+        <h2 class="panel-h">Point at something</h2>
+        <p class="info-blurb">Every labelled part has a note. Hover, tap, or tab to it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ INSTRUMENTS ============================ -->
+<section class="section" id="instruments" aria-labelledby="inst-h">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="n">01</span>
+      <h2 id="inst-h">What the beat looks like from outside</h2>
+      <p class="said">Three views of the same numbers. All of them are drawn from the
+        model driving the heart above, so if you move a slider you move these.</p>
+    </div>
+
+    <div class="inst-grid">
+      <figure class="inst">
+        <figcaption>
+          <strong>Electrocardiogram</strong>
+          <span>Lead II. P is the atria being told to squeeze, QRS the ventricles,
+            T the ventricles letting go.</span>
+        </figcaption>
+        <canvas id="ecg" width="1200" height="260"></canvas>
+      </figure>
+
+      <figure class="inst">
+        <figcaption>
+          <strong>Pressures and volume, one beat</strong>
+          <span>Aortic, left ventricular and left atrial pressure over the ventricular
+            volume beneath. Where two pressure lines cross, a valve moves.</span>
+        </figcaption>
+        <canvas id="wiggers" width="1200" height="420"></canvas>
+      </figure>
+
+      <figure class="inst">
+        <figcaption>
+          <strong>Pressure against volume</strong>
+          <span>The same beat plotted against itself. The area inside the loop is the
+            work one contraction does.</span>
+        </figcaption>
+        <canvas id="loop" width="620" height="420"></canvas>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ THE CYCLE ============================ -->
+<section class="section" id="phases" aria-labelledby="ph-h">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="n">02</span>
+      <h2 id="ph-h">Seven phases, and where the time goes</h2>
+      <p class="said">A beat is not systole and diastole in equal parts, and the parts do
+        not scale together. Move the rate and watch which bar disappears first.</p>
+    </div>
+    <div class="phase-bar" id="phase-bar"></div>
+    <div class="phase-notes" id="phase-notes"></div>
+  </div>
+</section>
+
+<!-- ============================ METHOD ============================ -->
+<section class="section" id="method" aria-labelledby="me-h">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="n">03</span>
+      <h2 id="me-h">What is modelled, and what is drawn</h2>
+    </div>
+    <div class="grid c2">
+      <div>
+        <h4>The timing is the load-bearing part</h4>
+        <p class="small">Systole is 420 ms at 60 bpm, shrinking as the 0.55 power of
+          the beat length; diastole is whatever is left. That single asymmetry produces
+          most of what you can see. At 60 bpm the ventricle spends nearly six tenths of
+          the beat filling; at 180 it spends a third. Filling time collapses far faster
+          than the beat does, and the part of it that goes first is diastasis — the
+          idle middle, which is pure slack.</p>
+      </div>
+      <div>
+        <h4>Only one valve at a time</h4>
+        <p class="small">A ventricle's inlet and outlet are never open together, and
+          twice a beat neither is — those two intervals are where pressure is built
+          and shed at constant volume. The drawing takes the valves from the phase,
+          the pressure curves are drawn to agree, and the test suite checks the
+          agreement in the other direction at every millisecond of every rate it
+          allows.</p>
+      </div>
+      <div>
+        <h4>Filling is where the rate bites</h4>
+        <p class="small">Volume arriving in the ventricle approaches a ceiling on an
+          exponential. Shorten the time the valve is open and you cut the top off that
+          curve — which is why, holding everything else still, output here climbs to
+          about 150 bpm and then falls again: stroke volume is giving way faster than
+          rate is gaining. It is also why the atrial kick, worth a fifth of filling at
+          rest, is worth far more when there was no time for the rest of it.</p>
+      </div>
+      <div>
+        <h4>The drawing is a diagram, not a scan</h4>
+        <p class="small">The shapes are hand-drawn Bézier curves in a single plane.
+          A real heart is not planar: the outflow tracts cross, the valve planes are
+          oblique, and the right ventricle wraps around the left rather than sitting
+          beside it. Everything here is arranged for a reader looking at one flat
+          picture. Treat the anatomy as a schematic that is honest about topology and
+          approximate about geometry.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <h4>Honest limits</h4>
+      <ul class="small">
+        <li><strong>The numbers are plausible, not clinical.</strong> Pressures,
+          volumes and the ejection fraction come from a small set of textbook
+          relations tuned so that a resting adult lands near 120/80, 70 mL, 60%.
+          They are not fitted to data and nothing here should be used to judge
+          anything about a person.</li>
+        <li><strong>Peak output is too low.</strong> Hold the sliders at hard
+          exercise and this heart moves about eight litres a minute; a real untrained
+          adult manages fifteen, and a trained one more than twenty. The shape of the
+          curve is right — a rise, a plateau, a fall — and the height is not.</li>
+        <li><strong>Arterial pressure is a rough derivation.</strong> Mean pressure
+          comes from output against a fixed resistance and the pulse from stroke
+          volume against a fixed compliance. Both change constantly in a real body,
+          so the numbers here drift from what a cuff would read, most visibly at
+          exercise, where the pulse pressure should widen and instead narrows.</li>
+        <li><strong>Nothing here responds to anything.</strong> A real heart is
+          governed second by second by the nervous system, and rate, contractility
+          and filling move together rather than one slider at a time. Here they are
+          three independent knobs, which is exactly what a body will not give you.</li>
+        <li><strong>Conduction is assumed perfect.</strong> Every beat is identical,
+          on time, and arrives everywhere at once. Most of what makes cardiology
+          difficult is the beat that does not.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>Drawn in SVG, driven by <code>js/cycle.js</code>. No build step, no
+      dependencies, no network calls beyond the two fonts. Runs offline in a
+      single tab.</p>
+    <p class="small num" id="footer-stats">—</p>
+  </div>
+</footer>
+
+<script src="js/cycle.js"></script>
+<script src="js/anatomy.js"></script>
+<script src="js/flow.js"></script>
+<script src="js/sound.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
