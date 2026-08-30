@@ -8,7 +8,7 @@ traces and the pressure-volume loop are all drawn from the same numbers.
 
 ```
 python3 -m http.server 8000     # then visit localhost:8000/heart/
-node heart/test/run.js          # 4,797 assertions
+node heart/test/run.js          # 4,817 assertions
 ```
 
 No build step, no dependencies, no backend. Open `heart/index.html`, or serve
@@ -23,7 +23,7 @@ fonts, and it works without them.
 | **Drag across the heart** | Pauses and scrubs one beat by hand, a millisecond at a time. The same thing the position slider does, without leaving the drawing. |
 | **Move the three sliders** | Rate, contractility, filling. Everything on the page recomputes, including all three instruments. |
 | **Six presets** | Asleep, at rest, running hard, endurance-trained, after blood loss, and a failing pump. |
-| **Two views** | Cut away from the front for the chambers and valves; whole, for the surface, the grooves and the coronary arteries. |
+| **Two views** | Cut away from the front for the chambers and valves; whole, for the lit surface, the fat-packed grooves and the coronary tree. |
 | **Tap a rate** | Tap the button in time with something and it takes the rate from your tapping. |
 | **Listen** | The two heart sounds, synthesised — the inlet valves shutting, then the outlet valves. The gap between them is systole, and it barely changes when you double the rate while the gap after them collapses. |
 | **Quarter speed** | For watching a valve actually move. |
@@ -76,6 +76,26 @@ ventricle that has hardly filled must not then be left holding more than it
 started with, which is what a fixed end-systolic volume implies at the bottom
 of the range. It was a bug, and the sweep found it.
 
+**The whole-heart view is painted, not diagrammed.** Flat fills in anatomical
+order look like a diagram. What makes tissue read as tissue is the order a lit
+object is painted in: a body colour, then the form shading that says which way
+it bulges, then the things lying on top of it, then the wet highlight over
+everything. The vessels get a contact shadow and a specular ridge from one
+filter over the whole tree, which is what stops them reading as ink; the cut
+ends of the great vessels show an open lumen, which is a small thing that does
+more for the look of a specimen than anything else on the page.
+
+**The coronary tree is grown, not drawn.** Forty tapering vessels placed by
+hand come out evenly spaced and all the same length, which is the one thing a
+real tree never is. So `tools/coronaries.js` places the three trunks — their
+course is anatomy, not taste — and grows everything finer off them from a seed,
+clipping each branch to stay on the muscle. Fat is grown the same way, as
+overlapping lobules along the grooves, because drawn as one soft band it reads
+as a painted stripe. Vessels are emitted as filled outlines rather than
+strokes: a stroke cannot taper, and an artery that does not taper reads as a
+wire. The output is committed as markup so the page stays a file you can open,
+and the suite re-runs the generator and checks the two still agree.
+
 **The drawing is redundant with the data on purpose.** Every hotspot, flow
 route, moving group and animated wall is named in `js/anatomy.js` and drawn in
 `index.html`. Rename a path in the SVG and the part stops being clickable and
@@ -103,7 +123,12 @@ with every `url(#…)` reference to a gradient or filter.
 - **Conduction is assumed perfect.** Every beat is identical, on time, and
   arrives everywhere at once. Most of what makes cardiology difficult is the
   beat that does not.
-- **The drawing is a diagram, not a scan.** Hand-drawn Bézier curves in a
+- **The whole-heart view is an illustration, not a photograph.** It is painted
+  with gradients, noise and two lighting filters. Against a rendered specimen
+  it gives itself away in the same places every time: the atria are smoother
+  than real auricles, the silhouette is cleaner than a real one, and there is
+  no subsurface scattering anywhere in it.
+- **The cut-away is a diagram, not a scan.** Hand-drawn Bézier curves in a
   single plane. A real heart is not planar: the outflow tracts cross, the valve
   planes are oblique, and the right ventricle wraps around the left rather than
   sitting beside it. Treat the anatomy as honest about topology and approximate
@@ -113,6 +138,7 @@ with every `url(#…)` reference to a gradient or filter.
 
 ```
 index.html          the page, and the SVG anatomy
+tools/coronaries.js grows the coronary tree and the fat; prints SVG
 css/heart.css       one stylesheet, dark and light
 js/cycle.js         the cardiac cycle — timing, volumes, pressures, valves, ECG
 js/anatomy.js       what each part is, where blood goes, what moves
@@ -128,7 +154,7 @@ draws what it says. That is what makes the whole model runnable in node.
 
 ## Tests
 
-`node heart/test/run.js` runs 4,797 assertions. The load-bearing one is the
+`node heart/test/run.js` runs 4,817 assertions. The load-bearing one is the
 sweep: 816 combinations of rate, contractility and filling, sampled at eighty
 instants each, asserting that
 

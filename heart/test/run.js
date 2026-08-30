@@ -407,6 +407,39 @@ Object.keys(refs).forEach(function (id) {
   ok('the paint or filter "' + id + '" that something asks for is defined', hasId(id));
 });
 
+/*
+ * The coronary tree is grown, not drawn, and the result is committed as markup.
+ * That is a good trade — the page stays a file you can open — but it means the
+ * art and the code that produced it can drift apart silently. So the suite
+ * regrows the tree and checks the committed block still matches it exactly.
+ */
+var grown = require('child_process')
+  .execFileSync(process.execPath, [path.join(base, 'tools', 'coronaries.js')],
+                { encoding: 'utf8' }).replace(/\n+$/, '');
+/* the block runs to the last of its three groups, not the first */
+var blockRe = /                <!-- Grown by tools\/coronaries\.js[\s\S]*?\n                <\/g>(?=\n              <\/g>)/;
+var committed = (html.match(blockRe) || [''])[0];
+ok('the drawing carries a grown coronary tree', committed.length > 4000,
+   'found ' + committed.length + ' characters');
+ok('the committed tree is exactly what the generator grows',
+   committed === grown.replace(/\n+$/, ''),
+   'committed ' + committed.length + ' chars, generated ' + grown.length +
+   ' — re-run: node heart/tools/coronaries.js');
+ok('the tree is deterministic across runs',
+   require('child_process').execFileSync(process.execPath,
+     [path.join(base, 'tools', 'coronaries.js')], { encoding: 'utf8' }) ===
+   grown + '\n');
+
+var vessels = (committed.match(/class="vessel-(art|vein)/g) || []).length;
+var lobules = (committed.match(/class="fat-lobe"/g) || []).length;
+ok('the tree has enough vessels to read as one', vessels > 90, 'got ' + vessels);
+ok('and not so many it becomes a net', vessels < 220, 'got ' + vessels);
+ok('the grooves are packed with fat lobules', lobules > 30 && lobules < 90, 'got ' + lobules);
+ok('every grown path closes', (committed.match(/ d="M/g) || []).length ===
+   (committed.match(/Z"\/>/g) || []).length);
+ok('vessels are filled outlines, not strokes',
+   committed.indexOf('stroke-width') === -1);
+
 /* the two views have to be switchable, and each has to hide the other */
 ok('the cut-away layer exists', hasId('layer-cutaway'));
 ok('the whole-heart layer exists', hasId('layer-surface'));
