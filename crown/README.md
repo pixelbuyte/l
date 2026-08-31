@@ -3,6 +3,11 @@
 A single-page site for the fried chicken counter at **443 Lincoln St, Worcester,
 MA** — the one with the red roofline and the crown badge over the left window.
 
+Dark ground, bone type, and the sign's red taken down to a brick that appears
+as a rule and a button rather than as the theme. The building outside is
+fire-engine red; a page at that volume reads as decoration instead of as the
+address, the hours and the price of two pieces of chicken.
+
 No build step, no dependencies, no framework. Open `index.html` in a browser, or
 serve the directory over HTTP.
 
@@ -93,6 +98,26 @@ A live copy built that way, with the assets served from this branch on
 but is not how this should be hosted long term — pointing the host at the
 repository directly serves the assets from the same origin and drops the
 rewrite entirely.
+
+## The promo film
+
+`promo/crown-fried-chicken.mp4` — sixteen seconds, 1920 x 1080, cut from the
+same Street View frames and the same menu prices as the page.
+
+`promo/index.html` is the source, and it is not a CSS animation: every opacity
+and transform is a pure function of a time in seconds, exposed as
+`window.RENDER(t)`. A screenshot at frame *n* is therefore reproducible and does
+not depend on when the capture happened to land. `promo/capture.js` steps that
+function frame by frame and writes PNGs; ffmpeg turns them into the file.
+
+```
+python3 -m http.server 8000                 # from the repository root
+node crown/promo/capture.js                 # writes crown/promo/frames/
+ffmpeg -framerate 30 -i crown/promo/frames/%04d.png \
+       -vf "scale=1920:1080:flags=lanczos,format=yuv420p" \
+       -c:v libx264 -preset slow -crf 21 -movflags +faststart \
+       crown/promo/crown-fried-chicken.mp4
+```
 
 ## Fonts
 
