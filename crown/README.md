@@ -72,6 +72,28 @@ placement and asserts there are none.
 The specials are not a second list to keep in step with the menu — they are
 computed as the cheapest plate in each section of the board.
 
+## Deploying
+
+GitHub Pages publishes this directory from the workflow at the repository root,
+with `img/` and `fonts/` served alongside the page — which is what the relative
+paths in the source assume.
+
+`tools/make-deploy.js` exists for hosts that accept only inlined file contents,
+where shipping a few hundred kilobytes of WebP and WOFF2 is impractical. It
+writes a copy of the six text files with the binary references rewritten to a
+CDN base URL, and never touches the source tree:
+
+```
+node crown/tools/make-deploy.js https://example.com/assets .deploy
+```
+
+A live copy built that way, with the assets served from this branch on
+`raw.githubusercontent.com`, is at
+<https://marvins-diner-v1.vercel.app/>. That arrangement is fine for a preview
+but is not how this should be hosted long term — pointing the host at the
+repository directly serves the assets from the same origin and drops the
+rewrite entirely.
+
 ## Fonts
 
 Alfa Slab One, Bungee and Karla, self-hosted from `fonts/` rather than fetched
