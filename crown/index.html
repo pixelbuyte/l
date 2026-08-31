@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crown Fried Chicken — 443 Lincoln St, Worcester</title>
+<meta name="description" content="Fried chicken, wings, seafood and subs at 443 Lincoln Street, Worcester. Open every day, 10am to midnight. (508) 595-0220.">
+<meta name="theme-color" content="#0c0a09">
+<link rel="icon" href="img/crown.svg" type="image/svg+xml">
+
+<meta property="og:type" content="restaurant">
+<meta property="og:title" content="Crown Fried Chicken — 443 Lincoln St, Worcester">
+<meta property="og:description" content="Open every day, 10am to midnight. Chicken, wings, seafood and subs.">
+<meta property="og:image" content="img/storefront.jpg">
+
+<link rel="preload" href="fonts/alfa-slab-one-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/karla-variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/crown.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "Crown Fried Chicken",
+  "servesCuisine": ["Fried Chicken", "Seafood", "Sandwiches"],
+  "telephone": "+1-508-595-0220",
+  "priceRange": "$",
+  "image": "img/storefront.jpg",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "443 Lincoln St",
+    "addressLocality": "Worcester",
+    "addressRegion": "MA",
+    "postalCode": "01605",
+    "addressCountry": "US"
+  },
+  "geo": { "@type": "GeoCoordinates", "latitude": 42.2918014, "longitude": -71.7803734 },
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "10:00", "closes": "23:59"
+  }],
+  "hasMap": "https://www.google.com/maps?cid=15066648775664512677"
+}
+</script>
+</head>
+
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<a class="skip" href="#menu">Skip to the menu</a>
+
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top">
+      <img class="brand-mark" src="img/crown-badge.jpg" alt="" width="700" height="700">
+      <span class="brand-txt">
+        <b>Crown</b>
+        <i>Fried Chicken</i>
+      </span>
+    </a>
+
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#menu">Menu</a>
+      <a href="#specials">Specials</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#visit">Visit</a>
+    </nav>
+
+    <div class="nav-right">
+      <span class="status" id="statusPill" data-state="unknown">
+        <i class="dot"></i><span id="statusText">Checking hours</span>
+      </span>
+      <a class="btn btn-red" href="tel:+15085950220">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .57 3.6 1 1 0 0 1-.25 1z"/></svg>
+        <span>(508) 595-0220</span>
+      </a>
+    </div>
+
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="nav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ————————————————————————— hero ————————————————————————— -->
+  <section class="hero">
+    <div class="hero-img">
+      <img src="img/storefront.jpg"
+           srcset="img/storefront-sm.jpg 900w, img/storefront.jpg 1800w"
+           sizes="100vw" alt="The Crown Fried Chicken storefront at 443 Lincoln Street, Worcester"
+           width="1800" height="1012" fetchpriority="high">
+    </div>
+
+    <div class="hero-body">
+      <p class="eyebrow rise" style="--d:0ms">Lincoln Street · Worcester</p>
+      <h1 class="rise" style="--d:80ms">
+        <span>Fried</span>
+        <span>Chicken</span>
+      </h1>
+      <p class="lede rise" style="--d:180ms">
+        A counter, a fryer and a parking lot at 443&nbsp;Lincoln&nbsp;Street. Chicken,
+        wings, shrimp and steak subs — nearly all of it under eight dollars, and
+        the door stays open until midnight.
+      </p>
+      <div class="hero-cta rise" style="--d:260ms">
+        <a class="btn btn-red big" href="tel:+15085950220">Call to order</a>
+        <a class="btn btn-ghost big" href="#menu">See the menu</a>
+      </div>
+    </div>
+
+    <aside class="hero-card rise" style="--d:340ms" id="heroCard">
+      <div class="hc-row hc-status">
+        <span class="status big" id="statusPill2" data-state="unknown">
+          <i class="dot"></i><span id="statusText2">Checking hours</span>
+        </span>
+      </div>
+      <div class="hc-row">
+        <span class="hc-k">Hours</span>
+        <span class="hc-v">Every day · 10am – midnight</span>
+      </div>
+      <div class="hc-row">
+        <span class="hc-k">Address</span>
+        <span class="hc-v">443 Lincoln St<br>Worcester, MA 01605</span>
+      </div>
+      <div class="hc-row">
+        <span class="hc-k">Phone</span>
+        <span class="hc-v"><a href="tel:+15085950220">(508) 595-0220</a></span>
+      </div>
+      <a class="hc-go" href="https://www.google.com/maps/dir/?api=1&amp;destination=443%20Lincoln%20St%2C%20Worcester%2C%20MA%2001605" target="_blank" rel="noopener">
+        Get directions <span aria-hidden="true">→</span>
+      </a>
+    </aside>
+  </section>
+
+  <!-- ————————————————————————— marquee ————————————————————————— -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track" id="marquee"></div>
+  </div>
+
+  <!-- ————————————————————————— menu ————————————————————————— -->
+  <section class="sec" id="menu">
+    <div class="sec-head reveal">
+      <p class="eyebrow">The board</p>
+      <h2>Menu</h2>
+      <p class="sec-note">
+        Every plate below comes as a combo — the piece count, a side and a drink,
+        one price. Tap a heading to jump down the board.
+      </p>
+    </div>
+
+    <div class="tabs reveal" id="tabs" role="tablist" aria-label="Menu sections"></div>
+
+    <div class="board reveal" id="board">
+      <noscript>
+        <p class="fallback">
+          Chicken, wings, seafood, subs and burgers, served as combos with fries or
+          rice and a soda — $4.50 to $7.50. Call (508) 595-0220 for the full board.
+        </p>
+      </noscript>
+    </div>
+
+    <p class="disclaimer reveal">
+      Prices are the published combo prices for this address and can change at the
+      counter. Buckets, salads, sides, shakes and ice cream are on the wall menu in
+      store — call ahead if you are ordering for a crowd.
+    </p>
+  </section>
+
+  <!-- ————————————————————————— specials ————————————————————————— -->
+  <section class="sec sec-red" id="specials">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Under six dollars</p>
+      <h2>The cheap seats</h2>
+      <p class="sec-note">
+        The least you can spend in each corner of the board — and the reason
+        there is a line at eleven at night.
+      </p>
+    </div>
+    <div class="tickets" id="tickets"></div>
+  </section>
+
+  <!-- ————————————————————————— gallery ————————————————————————— -->
+  <section class="sec" id="gallery">
+    <div class="sec-head reveal">
+      <p class="eyebrow">The corner</p>
+      <h2>What it looks like</h2>
+      <p class="sec-note">
+        Frames pulled from Google's Street View panorama of the block, so you know
+        the building before you are looking for it.
+      </p>
+    </div>
+    <div class="grid" id="grid"></div>
+    <p class="credit reveal">Imagery © Google, Street View.</p>
+  </section>
+
+  <!-- ————————————————————————— visit ————————————————————————— -->
+  <section class="sec sec-dark" id="visit">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Getting there</p>
+      <h2>Visit</h2>
+    </div>
+
+    <div class="visit">
+      <div class="visit-map reveal">
+        <iframe title="Map of 443 Lincoln St, Worcester MA" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                src="https://www.google.com/maps?q=443+Lincoln+St,+Worcester,+MA+01605&z=16&output=embed"></iframe>
+      </div>
+
+      <div class="visit-info reveal">
+        <dl class="facts">
+          <div><dt>Address</dt><dd>443 Lincoln St<br>Worcester, MA 01605</dd></div>
+          <div><dt>Phone</dt><dd><a href="tel:+15085950220">(508) 595-0220</a></dd></div>
+          <div><dt>Hours</dt><dd>Every day<br>10:00am – 12:00am</dd></div>
+          <div><dt>Parking</dt><dd>Own lot, off Lincoln St</dd></div>
+        </dl>
+        <ul class="traits" id="traits"></ul>
+        <div class="visit-cta">
+          <a class="btn btn-red big" href="https://www.google.com/maps/dir/?api=1&amp;destination=443%20Lincoln%20St%2C%20Worcester%2C%20MA%2001605" target="_blank" rel="noopener">Directions</a>
+          <a class="btn btn-ghost big" href="https://www.google.com/maps?cid=15066648775664512677" target="_blank" rel="noopener">On Google Maps</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="streetview reveal">
+      <iframe title="Street View of Crown Fried Chicken, 443 Lincoln St" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              src="https://maps.google.com/maps?q=&amp;layer=c&amp;cbll=42.29202242696477,-71.78057009970225&amp;cbp=12,150,0,0,0&amp;output=svembed"></iframe>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot-in">
+    <div class="foot-brand">
+      <span class="foot-word">Crown</span>
+      <span class="foot-word red">Fried Chicken</span>
+    </div>
+    <div class="foot-cols">
+      <div>
+        <h3>Find us</h3>
+        <p>443 Lincoln St<br>Worcester, MA 01605</p>
+        <p><a href="https://www.google.com/maps?cid=15066648775664512677" target="_blank" rel="noopener">Google Maps</a></p>
+      </div>
+      <div>
+        <h3>Order</h3>
+        <p><a href="tel:+15085950220">(508) 595-0220</a></p>
+        <p>Takeout &amp; delivery</p>
+      </div>
+      <div>
+        <h3>Open</h3>
+        <p>Every day<br>10:00am – 12:00am</p>
+        <p class="foot-status" id="statusText3">—</p>
+      </div>
+    </div>
+    <p class="foot-fine">
+      Storefront and street photography rendered from Google Street View imagery ·
+      © Google. Menu prices as published for this address; confirm at the counter.
+    </p>
+  </div>
+</footer>
+
+<script src="data/place.js"></script>
+<script src="js/hours.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

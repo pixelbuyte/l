@@ -1,6 +1,6 @@
 # l
 
-Three projects, unrelated to each other, sharing a repository.
+Four projects, unrelated to each other, sharing a repository.
 
 - **How People Write** (`index.html`, `humanize.html`) — a corpus of human
   prose and a rewriter that runs on it. Described below.
@@ -11,6 +11,10 @@ Three projects, unrelated to each other, sharing a repository.
   SVG and driven by a model of the cardiac cycle, with the ECG, the pressure
   traces and the blood all taken from the same numbers.
   See [`heart/README.md`](heart/README.md).
+- **[Crown Fried Chicken](crown/)** (`crown/`) — a site for the fried chicken
+  counter at 443 Lincoln St, Worcester, built on its Street View panorama and
+  its published menu, with an open/closed clock that reads Worcester time.
+  See [`crown/README.md`](crown/README.md).
 
 ---
 

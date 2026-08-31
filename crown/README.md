@@ -1,0 +1,79 @@
+# Crown Fried Chicken
+
+A single-page site for the fried chicken counter at **443 Lincoln St, Worcester,
+MA** — the one with the red roofline and the crown badge over the left window.
+
+No build step, no dependencies, no framework. Open `index.html` in a browser, or
+serve the directory over HTTP.
+
+```
+python3 -m http.server 8000     # then visit localhost:8000/crown/
+node crown/test/run.js          # 4,518 assertions
+```
+
+## What is on the page
+
+A sticky bar across the top (Menu · Specials · Gallery · Visit, plus the phone
+number), a hero on the storefront itself, the menu board, the four cheapest
+plates, a gallery of the building, and a map.
+
+## Where the facts came from
+
+This page makes claims about somebody's real business, so nothing on it is
+invented. Every fact is asserted in the test suite, and anything that could not
+be sourced was left off rather than guessed at.
+
+| Fact | Source |
+| --- | --- |
+| Address, listing id, coordinates | The Google Maps listing; the building footprint geocoded against OpenStreetMap |
+| Phone, `(508) 595-0220` | Published listings — and legible on the right-hand window in Street View |
+| Hours, 10:00am – 12:00am daily | Published listings for this address |
+| Menu and prices | Published combo prices for this address |
+| Photography | Google Street View, panorama `tUaswcEJKwm-FW6Cmm7tBg` |
+
+The menu is the combo board only. Buckets, salads, sides, shakes and ice cream
+are sold in store but were not published with prices anywhere we could check, so
+the page says they exist and tells you to call rather than quoting a number it
+would be making up.
+
+### The photographs
+
+There are no food photographs, because the ones on the Google Maps listing are
+served by an interface we could not read. Every image here is instead rendered
+out of Google's Street View panorama of the block: the equirectangular tiles are
+fetched at zoom 4 (8192 × 4096), stitched, and reprojected gnomonically to a
+rectilinear frame at a chosen heading and field of view — which is why the
+storefront looks photographed rather than cropped out of a panorama. Imagery is
+© Google and credited on the page.
+
+To swap in real photographs, drop them in `img/` and edit the `GALLERY` array in
+`data/place.js`. Keep the spans tiling the grid — the tests check that.
+
+## The one piece of real logic
+
+`js/hours.js` decides whether the shop is open. It reads the clock in
+`America/New_York` rather than the visitor's timezone, so somebody looking this
+up from another continent gets the truthful answer, and it reports the last hour
+before close as `closing` rather than a flat `open`.
+
+A shop that shuts at midnight is exactly where this sort of code goes wrong, so
+the tests sweep all 1,440 minutes of the day and assert the open window is
+exactly as long as the published hours, that midnight folds to 0 rather than
+1440, that the overnight wait crosses midnight correctly, and that the reading
+does not change when the process timezone does.
+
+## Layout notes
+
+The gallery is hand-tiled, not auto-flowed: the five spans add up to exactly
+three columns (1+2, 2+1, 3) and to exactly two at the tablet breakpoint. Get
+that sum wrong and CSS grid silently leaves a hole, so `test/run.js` walks the
+placement and asserts there are none.
+
+The specials are not a second list to keep in step with the menu — they are
+computed as the cheapest plate in each section of the board.
+
+## Fonts
+
+Alfa Slab One, Bungee and Karla, self-hosted from `fonts/` rather than fetched
+from Google. All three are SIL Open Font License. Latin subset only, and Karla
+ships as one variable file covering 400–700.

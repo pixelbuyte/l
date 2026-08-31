@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Crown Fried Chicken">
+  <rect width="64" height="64" rx="10" fill="#0c0a09"/>
+  <ellipse cx="32" cy="32" rx="25" ry="20" fill="#f7f1e6"/>
+  <ellipse cx="32" cy="32" rx="25" ry="20" fill="none" stroke="#e3231d" stroke-width="2.5"/>
+  <text x="32" y="26" text-anchor="middle" font-family="Georgia, serif" font-weight="700"
+        font-size="10" letter-spacing="1" fill="#e3231d">CROWN</text>
+  <path d="M18 46V35l5 5 4.5-8 4.5 8 4.5-8 4.5 8 5-5v11z" fill="#f6b21b"/>
+  <path d="M18 46V35l5 5 4.5-8 4.5 8 4.5-8 4.5 8 5-5v11z" fill="none" stroke="#e3231d" stroke-width="1.6" stroke-linejoin="round"/>
+  <rect x="18" y="44" width="28" height="4" fill="#e3231d"/>
+</svg>
