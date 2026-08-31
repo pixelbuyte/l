@@ -196,9 +196,9 @@ GALLERY.forEach(function (g) {
   ok(g.src + ' has a caption that could serve as alt text',
      typeof g.caption === 'string' && g.caption.length > 12);
 });
-ok('the hero image exists', fs.existsSync(path.join(base, 'img/storefront.jpg')));
+ok('the hero image exists', fs.existsSync(path.join(base, 'img/storefront.webp')));
 ok('the small hero exists for narrow screens',
-   fs.existsSync(path.join(base, 'img/storefront-sm.jpg')));
+   fs.existsSync(path.join(base, 'img/storefront-sm.webp')));
 
 /* --------------------------------------------------------------- page --- */
 
