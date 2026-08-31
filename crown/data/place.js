@@ -105,15 +105,15 @@
   // 1+2, then a full-width strip. Reordering these without redoing that sum
   // will punch a hole in the grid.
   var GALLERY = [
-    { src: 'img/front.webp', w: 1100, h: 825, span: 'tall',
+    { src: 'img/front.webp', w: 1000, h: 750, span: 'tall',
       caption: 'The counter, straight on. The address is on the glass: 443.' },
-    { src: 'img/sign.webp', w: 1300, h: 442, span: 'wide',
+    { src: 'img/sign.webp', w: 1200, h: 408, span: 'wide',
       caption: 'Red letters, red roofline. Visible the length of Lincoln Street.' },
-    { src: 'img/corner.webp', w: 1300, h: 442, span: 'wide',
+    { src: 'img/corner.webp', w: 1200, h: 408, span: 'wide',
       caption: 'The lot wraps the building — there is always somewhere to put a car.' },
-    { src: 'img/crown-badge.webp', w: 520, h: 520, span: 'square',
+    { src: 'img/crown-badge.webp', w: 480, h: 480, span: 'square',
       caption: 'The crown badge itself, over the left-hand window.' },
-    { src: 'img/street.webp', w: 1300, h: 541, span: 'full',
+    { src: 'img/street.webp', w: 1200, h: 499, span: 'full',
       caption: 'The block: the oil-change place, then the lot, then the shop.' }
   ];
 
