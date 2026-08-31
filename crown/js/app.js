@@ -147,6 +147,45 @@
     });
   }
 
+  /* ——— plates ————————————————————————————————————————————
+     One drawn plate per section of the board, captioned with a real item and
+     its real price. The pictures are illustrations and the page says so: the
+     food photographs on this shop's listing were not reachable, and a stock
+     photograph of someone else's chicken would be a claim about this
+     kitchen that nobody checked. */
+
+  function buildPlates() {
+    var wrap = document.getElementById('plates-grid');
+    if (!wrap) return;
+
+    MENU.forEach(function (sec, i) {
+      // The tagged item is the one worth naming; otherwise the first.
+      var pick = sec.items.filter(function (it) { return it.tag; })[0] || sec.items[0];
+
+      var card = el('article', 'plate reveal');
+      card.style.transitionDelay = (i * 70) + 'ms';
+
+      var art = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      art.setAttribute('class', 'plate-art');
+      art.setAttribute('viewBox', '0 0 64 64');
+      art.setAttribute('aria-hidden', 'true');
+      var use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+      use.setAttribute('href', '#p-' + sec.id);
+      art.appendChild(use);
+      card.appendChild(art);
+
+      card.appendChild(el('p', 'plate-kind', sec.label));
+      card.appendChild(el('h3', 'plate-name', pick.name));
+
+      var foot = el('div', 'plate-foot');
+      foot.appendChild(el('span', 'plate-note', sec.note));
+      foot.appendChild(el('span', 'plate-price', money(pick.price)));
+      card.appendChild(foot);
+
+      wrap.appendChild(card);
+    });
+  }
+
   /* ——— gallery ——————————————————————————————————————————————— */
 
   function buildGallery() {
@@ -237,6 +276,7 @@
   buildMarquee();
   buildBoard();
   buildTickets();
+  buildPlates();
   buildGallery();
   buildTraits();
   paintStatus();

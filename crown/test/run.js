@@ -264,6 +264,18 @@ ok('text stays visible while fonts load', /font-display:\s*swap/.test(fontCss));
   ok(fam + ' is declared in @font-face', fontCss.indexOf("'" + fam + "'") > -1);
 });
 
+/* The drawn plates. Each section of the board needs a matching symbol, or a
+ * card renders an empty <use>; and the page must keep saying the pictures are
+ * drawings rather than photographs of this kitchen's food. */
+MENU.forEach(function (sec) {
+  ok('a plate symbol exists for ' + sec.id, html.indexOf('id="p-' + sec.id + '"') > -1);
+});
+ok('every section names an item worth captioning',
+   MENU.every(function (s) { return s.items.some(function (i) { return i.tag; }); }));
+ok('the plates section is on the page', html.indexOf('id="plates"') > -1);
+ok('the page says the plates are drawings, not photographs',
+   /Drawings, not photographs/.test(html));
+
 var css = fs.readFileSync(path.join(base, 'css/crown.css'), 'utf8');
 ['Alfa Slab One', 'Bungee', 'Karla'].forEach(function (fam) {
   ok(fam + ' is used by the stylesheet', css.indexOf(fam) > -1);

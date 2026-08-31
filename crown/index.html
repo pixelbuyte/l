@@ -47,6 +47,35 @@
 </head>
 
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<!-- Bold silhouettes rather than thin line art: at 84px a hairline reads as a
+     squiggle, a filled shape reads as a drumstick. -->
+<symbol id="p-chicken" viewBox="0 0 64 64">
+  <circle cx="42" cy="21" r="15" fill="currentColor"/>
+  <path d="M34 31 20 45" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="16" cy="49" r="6.5" fill="currentColor"/>
+  <circle cx="11" cy="44" r="6.5" fill="currentColor"/>
+</symbol>
+<symbol id="p-wings" viewBox="0 0 64 64">
+  <path d="M25 14 19 40" stroke="currentColor" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="18" cy="46" r="5.5" fill="currentColor"/>
+  <path d="M39 14 45 40" stroke="currentColor" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="46" cy="46" r="5.5" fill="currentColor"/>
+</symbol>
+<symbol id="p-seafood" viewBox="0 0 64 64">
+  <path d="M45 18c-13 0-23 9-23 20 0 7 5 12 12 12 6 0 10-4 10-9 0-4-3-7-7-7" fill="none"
+        stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+  <path d="M45 18c4-4 9-5 14-4M45 18c0-5 3-9 8-11" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="45" cy="25" r="2.4" fill="#141110"/>
+</symbol>
+<symbol id="p-subs" viewBox="0 0 64 64">
+  <rect x="5" y="38" width="54" height="12" rx="6" fill="currentColor"/>
+  <path d="M10 36c5-5 8 0 13-5s8 0 13-5 8 0 13-4" fill="none"
+        stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M5 30c0-8 12-13 27-13s27 5 27 13c0 3-2 4-5 4H10c-3 0-5-1-5-4z" fill="currentColor"/>
+</symbol>
+</defs></svg>
+
 <div class="grain" aria-hidden="true"></div>
 
 <a class="skip" href="#menu">Skip to the menu</a>
@@ -62,6 +91,7 @@
     </a>
 
     <nav class="nav-links" aria-label="Sections">
+      <a href="#plates">Food</a>
       <a href="#menu">Menu</a>
       <a href="#specials">Specials</a>
       <a href="#gallery">Gallery</a>
@@ -140,6 +170,20 @@
   <div class="marquee" aria-hidden="true">
     <div class="marquee-track" id="marquee"></div>
   </div>
+
+
+  <!-- ————————————————————————— plates ————————————————————————— -->
+  <section class="sec sec-plates" id="plates">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Off the fryer</p>
+      <h2>What you get</h2>
+      <p class="sec-note">
+        Drawings, not photographs — we have no pictures of this kitchen's own
+        food, and would rather say so than pass off someone else's.
+      </p>
+    </div>
+    <div class="plates" id="plates-grid"></div>
+  </section>
 
   <!-- ————————————————————————— menu ————————————————————————— -->
   <section class="sec" id="menu">

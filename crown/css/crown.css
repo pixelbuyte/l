@@ -411,6 +411,48 @@ figure { margin: 0; }
   border-top: 1px dashed #c8bcae; padding-top: 11px;
 }
 
+/* ——————————————————————————— plates ——————————————————————————— */
+
+.sec-plates { background: var(--ink-2); max-width: none; border-block: 1px solid var(--line); }
+.sec-plates > * { max-width: 1400px; margin-inline: auto; }
+
+.plates {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px;
+}
+.plate {
+  display: flex; flex-direction: column;
+  background: var(--ink); border: 1px solid var(--line); border-radius: 3px;
+  padding: 26px 24px 22px;
+  transition: border-color .3s, transform .3s var(--ease);
+}
+.plate:hover { border-color: #4a3a33; transform: translateY(-3px); }
+
+/* The drawing is line art in the one accent colour — unmistakably a drawing,
+   which is the point: it cannot be mistaken for a photograph of the food. */
+.plate-art {
+  width: 84px; height: 84px; color: var(--red);
+  margin-bottom: 20px; flex: none;
+}
+.plate:hover .plate-art { color: var(--red-lit); }
+
+.plate-kind {
+  font-family: var(--sign); font-size: 9px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--grey); margin: 0 0 10px;
+}
+.plate-name {
+  font-family: var(--display); font-weight: 400; text-transform: uppercase;
+  font-size: 20px; line-height: 1.08; margin: 0 0 18px; color: var(--paper);
+}
+.plate-foot {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line);
+}
+.plate-note { font-size: 12.5px; color: var(--grey); }
+.plate-price {
+  font-family: var(--display); font-size: 22px; color: var(--paper);
+  font-variant-numeric: tabular-nums; flex: none;
+}
+
 /* ——————————————————————————— gallery ——————————————————————————— */
 
 /* Three columns, and the five spans below tile them exactly: 1+2, 2+1, 3.
