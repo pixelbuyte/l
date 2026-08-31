@@ -567,3 +567,11 @@ figure { margin: 0; }
   .hero-cta .btn { flex: 1 1 100%; justify-content: center; }
   .foot-brand { flex-direction: column; gap: 0; }
 }
+
+.streetview figcaption {
+  display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline;
+  padding: 12px 16px; font-size: 13px; color: var(--grey);
+  background: var(--ink); border-top: 1px solid var(--line);
+}
+.streetview figcaption a { color: var(--gold); text-decoration: none; border-bottom: 1px solid #f6b21b55; }
+.streetview figcaption a:hover { border-bottom-color: var(--gold); }
