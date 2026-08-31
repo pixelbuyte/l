@@ -1,21 +1,25 @@
 /* Crown Fried Chicken — 443 Lincoln St, Worcester MA.
-   A dark page built around the colours actually on the building: white block,
-   red roofline, a gold crown. Type is roadside: fat slab for the shouting,
-   signage caps for the labels, a warm grotesque for everything else. */
+   Dark ground, bone type, and one brick red used as an accent rather than a
+   theme — the sign outside is fire-engine, but a page that loud reads as
+   decoration instead of information. Type is roadside: fat slab for the
+   headings, signage caps for the labels, a warm grotesque for reading. */
 
 :root {
-  --ink:      #0c0a09;
-  --ink-2:    #161210;
-  --ink-3:    #221b18;
-  --line:     #372c27;
-  --paper:    #f7f1e6;
-  --paper-2:  #d8cdbd;
-  --grey:     #9d9186;
-  --red:      #e3231d;
-  --red-lit:  #ff3a2e;
-  --red-deep: #8e120e;
-  --gold:     #f6b21b;
-  --ember:    #ff6b2c;
+  --ink:      #0b0a09;
+  --ink-2:    #141110;
+  --ink-3:    #1e1a18;
+  --line:     #322a26;
+  --paper:    #f2ece1;
+  --paper-2:  #c4bbb0;
+  --grey:     #857c74;
+  /* One red, taken down from the sign's fire-engine to a brick that can sit
+     on a page without shouting. It is an accent, not a theme: rules, the
+     wordmark, one button. */
+  --red:      #9e332b;
+  --red-lit:  #b8453a;
+  --red-deep: #6b211b;
+  /* Brass rather than gold — warm, but it stops competing with the type. */
+  --brass:    #a8894e;
 
   --display: "Alfa Slab One", "Rockwell", Georgia, serif;
   --sign:    "Bungee", "Impact", sans-serif;
@@ -61,15 +65,15 @@ figure { margin: 0; }
 .skip:focus { left: 8px; top: 8px; }
 
 :where(a, button, [tabindex]):focus-visible {
-  outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 2px;
+  outline: 2px solid var(--paper); outline-offset: 3px; border-radius: 2px;
 }
 
 /* ——————————————————————————— shared bits ——————————————————————————— */
 
 .eyebrow {
   font-family: var(--sign);
-  font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
-  color: var(--gold); margin: 0 0 14px;
+  font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--grey); margin: 0 0 16px;
 }
 
 .btn {
@@ -101,18 +105,12 @@ figure { margin: 0; }
 .status .dot {
   width: 8px; height: 8px; border-radius: 50%; background: var(--grey); flex: none;
 }
-.status[data-state="open"] { color: #b7f2c0; border-color: #2f6b3c; background: #1c3a2426; }
-.status[data-state="open"] .dot { background: #46d16a; box-shadow: 0 0 0 0 #46d16a99; animation: ping 2.4s infinite; }
-.status[data-state="closing"] { color: var(--gold); border-color: #6d5215; background: #3a2c0d26; }
-.status[data-state="closing"] .dot { background: var(--gold); }
-.status[data-state="closed"] { color: #ffb0ab; border-color: #6b2b28; background: #3a1a1826; }
+.status[data-state="open"] { color: #9fc0a4; border-color: #354a38; }
+.status[data-state="open"] .dot { background: #6f9c76; }
+.status[data-state="closing"] { color: var(--brass); border-color: #4d3f26; }
+.status[data-state="closing"] .dot { background: var(--brass); }
+.status[data-state="closed"] { color: #bd8a84; border-color: #4d302c; }
 .status[data-state="closed"] .dot { background: var(--red); }
-
-@keyframes ping {
-  0%   { box-shadow: 0 0 0 0 #46d16a80; }
-  70%  { box-shadow: 0 0 0 7px #46d16a00; }
-  100% { box-shadow: 0 0 0 0 #46d16a00; }
-}
 
 /* ——————————————————————————— nav ——————————————————————————— */
 
@@ -146,7 +144,7 @@ figure { margin: 0; }
 .brand-txt i {
   font-family: var(--sign); font-style: normal;
   font-size: 8.5px; letter-spacing: .16em; text-transform: uppercase;
-  color: var(--red-lit); margin-top: 3px;
+  color: var(--grey); margin-top: 3px;
 }
 
 .nav-links { display: flex; gap: 4px; margin-left: auto; }
@@ -192,20 +190,16 @@ figure { margin: 0; }
 .hero-img { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
 .hero-img img {
   width: 100%; height: 100%; object-fit: cover; object-position: 62% 46%;
-  filter: saturate(.85) contrast(1.05) brightness(.9);
-  transform: scale(1.04);
-  animation: drift 26s ease-in-out infinite alternate;
+  filter: saturate(.58) contrast(1.06) brightness(1.0);
 }
-@keyframes drift { to { transform: scale(1.11) translate3d(-1.5%, -1%, 0); } }
 
-/* Layered scrim: dark from the bottom-left so the headline always holds,
-   plus a warm red bloom bleeding off the roofline. */
+/* Layered scrim, neutral: dark from the left so the headline always holds,
+   fading out over the building so it stays legible as a photograph. */
 .hero::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
   background:
-    radial-gradient(90% 70% at 74% 38%, #e3231d1f 0%, transparent 62%),
-    linear-gradient(to right, #0a0807f2 0%, #0a0807d6 24%, #0a080780 50%, #0a080724 76%, transparent 100%),
-    linear-gradient(to top, var(--ink) 2%, #0c0a09cc 20%, #0c0a0940 50%, transparent 78%);
+    linear-gradient(to right, #0b0a09f2 0%, #0b0a09d8 28%, #0b0a0980 54%, #0b0a0926 80%, transparent 100%),
+    linear-gradient(to top, var(--ink) 1%, #0b0a09a6 18%, #0b0a0933 46%, transparent 74%);
 }
 
 .hero-body { position: relative; max-width: 640px; }
@@ -217,10 +211,14 @@ figure { margin: 0; }
   margin: 0 0 22px; text-transform: uppercase;
   display: flex; flex-direction: column;
 }
-.hero h1 span:nth-child(1) { color: var(--paper); }
-.hero h1 span:nth-child(2) {
-  color: var(--red-lit); margin-left: .1em;
-  text-shadow: 0 0 46px #e3231d55;
+/* Both lines in bone. The red is a rule underneath it, not the letterforms —
+   a hundred-and-fifty-point word in saturated red is the thing that makes a
+   page look designed by nobody. */
+.hero h1 span { color: var(--paper); }
+.hero h1 span:nth-child(2) { margin-left: .09em; }
+.hero h1::after {
+  content: ""; display: block; width: 132px; height: 4px;
+  background: var(--red); margin: 26px 0 0;
 }
 
 .lede {
@@ -247,7 +245,7 @@ figure { margin: 0; }
   width: 78px; flex: none; padding-top: 3px;
 }
 .hc-v { font-size: 15px; line-height: 1.45; color: var(--paper); }
-.hc-v a { color: var(--gold); text-decoration: none; }
+.hc-v a { color: var(--paper); text-decoration: none; border-bottom: 1px solid var(--line); }
 .hc-v a:hover { text-decoration: underline; }
 .hc-go {
   display: flex; align-items: center; justify-content: space-between;
@@ -262,9 +260,9 @@ figure { margin: 0; }
 /* ——————————————————————————— marquee ——————————————————————————— */
 
 .marquee {
-  overflow: hidden; background: var(--red);
-  border-top: 2px solid #0c0a09; border-bottom: 2px solid #0c0a09;
-  padding: 11px 0;
+  overflow: hidden; background: var(--ink-2);
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  padding: 13px 0;
 }
 .marquee-track {
   display: flex; width: max-content;
@@ -272,17 +270,19 @@ figure { margin: 0; }
 }
 .marquee span {
   font-family: var(--sign); font-size: 13px; letter-spacing: .1em;
-  text-transform: uppercase; color: #fff; padding: 0 26px;
+  text-transform: uppercase; color: var(--paper-2); padding: 0 26px;
   display: inline-flex; align-items: center; gap: 26px;
 }
-.marquee span::after { content: "★"; color: #ffffff8c; font-size: 10px; }
+.marquee span::after {
+  content: ""; width: 4px; height: 4px; background: var(--red); flex: none;
+}
 @keyframes slide { to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } }
 
 /* ——————————————————————————— sections ——————————————————————————— */
 
 .sec { padding: clamp(64px, 11vh, 128px) var(--pad); max-width: 1400px; margin: 0 auto; }
-.sec-red { background: linear-gradient(175deg, #1a0c0b, #0c0a09 70%); max-width: none; }
+.sec-red { background: var(--ink-2); max-width: none; border-block: 1px solid var(--line); }
 .sec-red > * { max-width: 1400px; margin-inline: auto; }
 .sec-dark { background: var(--ink-2); max-width: none; border-block: 1px solid var(--line); }
 .sec-dark > * { max-width: 1400px; margin-inline: auto; }
@@ -336,7 +336,7 @@ figure { margin: 0; }
 }
 .panel-note {
   font-family: var(--sign); font-size: 9px; letter-spacing: .13em;
-  text-transform: uppercase; color: var(--gold); margin: 0 0 10px;
+  text-transform: uppercase; color: var(--grey); margin: 0 0 10px;
 }
 .panel-blurb { font-size: 14.5px; color: var(--grey); margin: 0; font-style: italic; }
 
@@ -350,8 +350,8 @@ figure { margin: 0; }
 .item-tag {
   display: inline-block; margin-left: 8px; vertical-align: 2px;
   font-family: var(--sign); font-size: 8px; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--ink);
-  background: var(--gold); padding: 3px 7px; border-radius: 2px;
+  text-transform: uppercase; color: var(--grey);
+  border: 1px solid var(--line); padding: 3px 7px; border-radius: 2px;
 }
 /* Dotted leader between name and price, like a real board. */
 .item-dots {
@@ -361,7 +361,7 @@ figure { margin: 0; }
   transform: translateY(-3px);
 }
 .item-price {
-  font-family: var(--display); font-size: 19px; color: var(--gold);
+  font-family: var(--display); font-size: 19px; color: var(--paper);
   font-variant-numeric: tabular-nums; flex: none;
 }
 
@@ -379,29 +379,31 @@ figure { margin: 0; }
 .ticket {
   position: relative; background: var(--paper); color: var(--ink);
   padding: 26px 24px 24px; border-radius: 3px;
+  /* Column, so a title that wraps to two lines pushes nothing out of line —
+     the prices stay on one baseline across the row. */
+  display: flex; flex-direction: column;
   transition: transform .3s var(--ease), box-shadow .3s;
   box-shadow: 0 14px 34px -18px #000;
 }
-.ticket:hover { transform: translateY(-6px) rotate(-.6deg); box-shadow: 0 26px 50px -20px #000; }
-/* Punched notches down each side, like a torn stub. */
-.ticket::before, .ticket::after {
-  content: ""; position: absolute; top: 50%; width: 18px; height: 18px;
-  background: #120b0a; border-radius: 50%; transform: translateY(-50%);
+.ticket:hover { transform: translateY(-4px); box-shadow: 0 22px 44px -22px #000; }
+/* A rule across the head of the card instead of the die-cut stub it was. */
+.ticket::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--red);
 }
-.ticket::before { left: -9px; }
-.ticket::after  { right: -9px; }
 
 .ticket-kind {
   font-family: var(--sign); font-size: 9px; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--red-deep); margin: 0 0 12px;
+  text-transform: uppercase; color: var(--grey); margin: 0 0 12px;
 }
 .ticket-name {
   font-family: var(--display); font-size: 21px; line-height: 1.06;
   text-transform: uppercase; margin: 0 0 16px; color: var(--ink);
 }
 .ticket-price {
-  font-family: var(--display); font-size: 46px; line-height: 1;
-  color: var(--red); font-variant-numeric: tabular-nums;
+  font-family: var(--display); font-size: 44px; line-height: 1;
+  color: var(--ink); font-variant-numeric: tabular-nums;
+  margin-top: auto;
 }
 .ticket-price sup { font-size: 20px; top: -1.1em; margin-right: 1px; }
 .ticket-sub {
@@ -423,10 +425,10 @@ figure { margin: 0; }
 }
 .shot img {
   width: 100%; height: 100%; object-fit: cover;
-  filter: saturate(.82) contrast(1.04);
+  filter: saturate(.6) contrast(1.03);
   transition: transform .6s var(--ease), filter .4s;
 }
-.shot:hover img { transform: scale(1.06); filter: saturate(1) contrast(1.08); }
+.shot:hover img { transform: scale(1.04); filter: saturate(.82) contrast(1.05); }
 .shot figcaption {
   position: absolute; left: 0; right: 0; bottom: 0;
   padding: 26px 16px 14px; font-size: 13px; line-height: 1.4; color: var(--paper);
@@ -465,7 +467,7 @@ figure { margin: 0; }
 
 .visit-info {
   background: var(--ink); border: 1px solid var(--line);
-  border-top: 3px solid var(--gold);
+  border-top: 1px solid var(--line);
   border-radius: 3px; padding: 26px;
   display: flex; flex-direction: column; gap: 20px;
 }
@@ -476,7 +478,7 @@ figure { margin: 0; }
   text-transform: uppercase; color: var(--grey); width: 74px; flex: none; padding-top: 3px;
 }
 .facts dd { margin: 0; font-size: 15px; line-height: 1.45; }
-.facts dd a { color: var(--gold); text-decoration: none; }
+.facts dd a { color: var(--paper); text-decoration: none; border-bottom: 1px solid var(--line); }
 .facts dd a:hover { text-decoration: underline; }
 
 .traits { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 7px; }
@@ -503,11 +505,11 @@ figure { margin: 0; }
 }
 .foot-cols h3 {
   font-family: var(--sign); font-size: 9.5px; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--gold); margin: 0 0 12px; font-weight: 400;
+  text-transform: uppercase; color: var(--grey); margin: 0 0 12px; font-weight: 400;
 }
 .foot-cols p { margin: 0 0 8px; font-size: 14.5px; color: var(--paper-2); }
 .foot-cols a { color: var(--paper); text-decoration: none; border-bottom: 1px solid #ffffff2e; }
-.foot-cols a:hover { color: var(--gold); border-color: var(--gold); }
+.foot-cols a:hover { color: var(--paper); border-color: var(--paper); }
 .foot-status { color: var(--grey) !important; font-size: 13px !important; }
 
 .foot-fine { margin: 24px 0 0; font-size: 12px; line-height: 1.6; color: #6a5f58; max-width: 76ch; }
@@ -523,7 +525,6 @@ figure { margin: 0; }
 @media (prefers-reduced-motion: reduce) {
   .rise { animation: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
-  .hero-img img { animation: none; }
 }
 
 /* ——————————————————————————— responsive ——————————————————————————— */
@@ -573,5 +574,5 @@ figure { margin: 0; }
   padding: 12px 16px; font-size: 13px; color: var(--grey);
   background: var(--ink); border-top: 1px solid var(--line);
 }
-.streetview figcaption a { color: var(--gold); text-decoration: none; border-bottom: 1px solid #f6b21b55; }
-.streetview figcaption a:hover { border-bottom-color: var(--gold); }
+.streetview figcaption a { color: var(--paper-2); text-decoration: none; border-bottom: 1px solid var(--line); }
+.streetview figcaption a:hover { border-bottom-color: var(--paper); }

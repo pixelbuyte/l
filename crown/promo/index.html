@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Crown Fried Chicken — promo</title>
+<link rel="stylesheet" href="../css/fonts.css">
+<style>
+  :root {
+    --ink: #0b0a09; --paper: #f2ece1; --paper-2: #c4bbb0;
+    --grey: #857c74; --red: #9e332b; --brass: #a8894e;
+    --display: "Alfa Slab One", Georgia, serif;
+    --sign: "Bungee", Impact, sans-serif;
+    --body: "Karla", Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1280px; height: 720px; overflow: hidden; }
+  body { background: var(--ink); color: var(--paper); font-family: var(--body); }
+
+  #stage { position: relative; width: 1280px; height: 720px; overflow: hidden; }
+  .scene { position: absolute; inset: 0; opacity: 0; will-change: opacity; }
+
+  .plate { position: absolute; inset: 0; overflow: hidden; }
+  .plate img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; filter: saturate(.58) contrast(1.06) brightness(.94);
+    will-change: transform;
+  }
+  .scrim {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(to right, #0b0a09f0 0%, #0b0a09c0 34%, #0b0a0955 62%, #0b0a0918 88%, transparent 100%),
+      linear-gradient(to top, var(--ink) 0%, #0b0a09b0 22%, #0b0a0930 48%, transparent 72%);
+  }
+
+  .lower { position: absolute; left: 84px; bottom: 92px; }
+  .kicker {
+    font-family: var(--sign); font-size: 13px; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--grey); margin-bottom: 18px;
+  }
+  .rule { height: 4px; background: var(--red); width: 0; }
+
+  h1 {
+    font-family: var(--display); font-weight: 400; text-transform: uppercase;
+    line-height: .84; letter-spacing: -.015em; font-size: 128px;
+  }
+  .sub {
+    font-family: var(--display); text-transform: uppercase;
+    font-size: 46px; line-height: 1.02; letter-spacing: -.01em;
+  }
+
+  /* card / centred scenes */
+  .mid { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+  .badge {
+    width: 128px; height: 128px; border-radius: 50%;
+    object-fit: cover; object-position: 38% 52%;
+    border: 3px solid var(--red); background: var(--paper);
+    margin: 0 auto 34px;
+  }
+
+  /* menu lines */
+  .board { position: absolute; left: 84px; right: 84px; top: 172px; }
+  .row {
+    display: flex; align-items: baseline; gap: 18px;
+    padding: 21px 0; border-bottom: 1px solid #ffffff16;
+    will-change: transform, opacity;
+  }
+  .row .n { font-family: var(--display); font-size: 34px; text-transform: uppercase; white-space: nowrap; }
+  .row .d {
+    flex: 1 1 auto; height: 1px; transform: translateY(-8px);
+    background-image: radial-gradient(circle, #ffffff40 1px, transparent 1px);
+    background-size: 7px 1px; background-repeat: repeat-x;
+  }
+  .row .p { font-family: var(--display); font-size: 34px; font-variant-numeric: tabular-nums; }
+
+  .head {
+    position: absolute; left: 84px; top: 84px;
+    font-family: var(--sign); font-size: 13px; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--grey);
+  }
+
+  .footline {
+    position: absolute; left: 84px; right: 84px; bottom: 76px;
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: var(--sign); font-size: 15px; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--paper-2);
+  }
+
+  /* letterbox bars keep it feeling shot rather than screenshotted */
+  .bar { position: absolute; left: 0; right: 0; height: 44px; background: var(--ink); z-index: 40; }
+  .bar.t { top: 0; } .bar.b { bottom: 0; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- A · open -->
+  <section class="scene" id="sA">
+    <div class="mid">
+      <img class="badge" id="aBadge" src="../img/crown-badge.webp" alt="">
+      <h1 style="font-size:104px" id="aWord">Crown</h1>
+      <div class="sub" id="aSub" style="margin-top:10px;color:var(--paper-2)">Fried Chicken</div>
+      <div class="rule" id="aRule" style="margin:32px auto 0"></div>
+    </div>
+  </section>
+
+  <!-- B · the building -->
+  <section class="scene" id="sB">
+    <div class="plate"><img id="bImg" src="../img/storefront.webp" alt=""><div class="scrim"></div></div>
+    <div class="lower">
+      <p class="kicker" id="bKick">Since the sign went up</p>
+      <h1 id="bH">443 Lincoln<br>Street</h1>
+      <div class="rule" id="bRule" style="margin-top:26px"></div>
+    </div>
+  </section>
+
+  <!-- C · the board -->
+  <section class="scene" id="sC">
+    <p class="head">The board · combos with fries or rice &amp; soda</p>
+    <div class="board" id="cBoard"></div>
+  </section>
+
+  <!-- D · hours -->
+  <section class="scene" id="sD">
+    <div class="plate"><img id="dImg" src="../img/front.webp" style="object-position:50% 44%" alt=""><div class="scrim"></div></div>
+    <div class="lower">
+      <p class="kicker" id="dKick">Seven days</p>
+      <h1 id="dH" style="font-size:104px">Ten till<br>midnight</h1>
+      <div class="rule" id="dRule" style="margin-top:26px"></div>
+    </div>
+  </section>
+
+  <!-- E · close -->
+  <section class="scene" id="sE">
+    <div class="mid">
+      <h1 id="eWord" style="font-size:88px">Crown<br>Fried Chicken</h1>
+      <div class="rule" id="eRule" style="margin:30px auto 28px"></div>
+      <div id="eAddr" style="font-size:21px;color:var(--paper-2);line-height:1.7">
+        443 Lincoln St, Worcester MA<br>(508) 595-0220
+      </div>
+    </div>
+  </section>
+
+  <div class="bar t"></div>
+  <div class="bar b"></div>
+</div>
+
+<script>
+/* Every property is computed from the frame number, so a capture is
+   reproducible and does not depend on wall-clock timing or CSS animation
+   state at the moment the screenshot lands. */
+'use strict';
+
+var MENU = [
+  ['2 Piece Chicken', '$4.50'],
+  ['6 Piece Wing Dings', '$5.25'],
+  ['21 Piece Shrimp', '$5.99'],
+  ['Philly Cheese Steak', '$5.99']
+];
+var board = document.getElementById('cBoard');
+MENU.forEach(function (m) {
+  var r = document.createElement('div');
+  r.className = 'row';
+  r.innerHTML = '<span class="n"></span><span class="d"></span><span class="p"></span>';
+  r.querySelector('.n').textContent = m[0];
+  r.querySelector('.p').textContent = m[1];
+  board.appendChild(r);
+});
+var ROWS = [].slice.call(board.children);
+
+function clamp(x, a, b) { return x < a ? a : x > b ? b : x; }
+function norm(t, a, b) { return clamp((t - a) / (b - a), 0, 1); }
+// smoothstep, then an ease-out that settles rather than bounces
+function ease(x) { return 1 - Math.pow(1 - x, 3); }
+function px(v) { return v.toFixed(2) + 'px'; }
+
+// Scene windows in seconds: [start, end]. Cross-fades overlap by .45s.
+var S = {
+  A: [0.0,  3.2],
+  B: [3.2,  6.8],
+  C: [6.8, 10.8],
+  D: [10.8, 13.8],
+  E: [13.8, 16.5]
+};
+var FADE = 0.45;
+
+function sceneAlpha(t, win) {
+  var a = win[0], b = win[1];
+  return Math.min(norm(t, a, a + FADE), 1 - norm(t, b - FADE, b));
+}
+
+function render(t) {
+  // A — badge settles, wordmark rises, rule draws
+  var el = document.getElementById('sA');
+  var a = sceneAlpha(t, S.A), la = norm(t, S.A[0], S.A[0] + 1.1);
+  el.style.opacity = a;
+  document.getElementById('aBadge').style.transform =
+    'scale(' + (0.86 + 0.14 * ease(la)).toFixed(3) + ')';
+  document.getElementById('aWord').style.transform =
+    'translateY(' + px(26 * (1 - ease(norm(t, S.A[0] + 0.18, S.A[0] + 1.3)))) + ')';
+  document.getElementById('aSub').style.opacity = norm(t, S.A[0] + 0.5, S.A[0] + 1.5);
+  document.getElementById('aRule').style.width =
+    px(148 * ease(norm(t, S.A[0] + 0.8, S.A[0] + 1.9)));
+
+  // B — slow push on the storefront
+  el = document.getElementById('sB');
+  a = sceneAlpha(t, S.B);
+  el.style.opacity = a;
+  var bp = norm(t, S.B[0], S.B[1]);
+  document.getElementById('bImg').style.transform =
+    'scale(' + (1.02 + 0.07 * bp).toFixed(4) + ') translate3d(' + px(-14 * bp) + ',0,0)';
+  document.getElementById('bKick').style.opacity = norm(t, S.B[0] + 0.25, S.B[0] + 1.0);
+  document.getElementById('bH').style.transform =
+    'translateY(' + px(30 * (1 - ease(norm(t, S.B[0] + 0.3, S.B[0] + 1.5)))) + ')';
+  document.getElementById('bH').style.opacity = norm(t, S.B[0] + 0.3, S.B[0] + 1.0);
+  document.getElementById('bRule').style.width =
+    px(148 * ease(norm(t, S.B[0] + 0.9, S.B[0] + 2.0)));
+
+  // C — the board, one line at a time
+  el = document.getElementById('sC');
+  el.style.opacity = sceneAlpha(t, S.C);
+  ROWS.forEach(function (r, i) {
+    var p = ease(norm(t, S.C[0] + 0.35 + i * 0.34, S.C[0] + 1.25 + i * 0.34));
+    r.style.opacity = p;
+    r.style.transform = 'translateY(' + px(22 * (1 - p)) + ')';
+  });
+
+  // D — hours over the sign
+  el = document.getElementById('sD');
+  el.style.opacity = sceneAlpha(t, S.D);
+  var dp = norm(t, S.D[0], S.D[1]);
+  document.getElementById('dImg').style.transform =
+    'scale(' + (1.06 - 0.05 * dp).toFixed(4) + ')';
+  document.getElementById('dKick').style.opacity = norm(t, S.D[0] + 0.2, S.D[0] + 0.9);
+  document.getElementById('dH').style.transform =
+    'translateY(' + px(26 * (1 - ease(norm(t, S.D[0] + 0.25, S.D[0] + 1.4)))) + ')';
+  document.getElementById('dH').style.opacity = norm(t, S.D[0] + 0.25, S.D[0] + 0.95);
+  document.getElementById('dRule').style.width =
+    px(148 * ease(norm(t, S.D[0] + 0.8, S.D[0] + 1.8)));
+
+  // E — sign-off
+  el = document.getElementById('sE');
+  el.style.opacity = sceneAlpha(t, S.E);
+  document.getElementById('eWord').style.transform =
+    'translateY(' + px(22 * (1 - ease(norm(t, S.E[0] + 0.15, S.E[0] + 1.3)))) + ')';
+  document.getElementById('eRule').style.width =
+    px(148 * ease(norm(t, S.E[0] + 0.7, S.E[0] + 1.7)));
+  document.getElementById('eAddr').style.opacity = norm(t, S.E[0] + 0.9, S.E[0] + 1.8);
+}
+
+window.RENDER = render;
+window.DURATION = 16.5;
+render(0);
+</script>
+</body>
+</html>
