@@ -27,13 +27,14 @@ jobs:
           node test/run.js
           node day/test/run.js
           node heart/test/run.js
+          node crown/test/run.js
           node body/test/run.js
       - name: Prepare site
         run: |
           mkdir -p _site
           cp -r index.html humanize.html css js data _site/
-          cp -r day heart body _site/
-          rm -rf _site/day/test _site/heart/test _site/body/test _site/heart/tools
+          cp -r day heart crown body _site/
+          rm -rf _site/day/test _site/heart/test _site/crown/test _site/body/test _site/heart/tools
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
