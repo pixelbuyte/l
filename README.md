@@ -9,7 +9,8 @@ Five projects, unrelated to each other, sharing a repository.
   See [`day/README.md`](day/README.md).
 - **[A Working Heart](heart/)** (`heart/`) — a four-chambered heart drawn in
   SVG and driven by a model of the cardiac cycle, with the ECG, the pressure
-  traces and the blood all taken from the same numbers.
+  traces and the blood all taken from the same numbers. The same model also
+  drives a [3D version](heart/3d/) built on three.js.
   See [`heart/README.md`](heart/README.md).
 - **[Crown Fried Chicken](crown/)** (`crown/`) — a site for the fried chicken
   counter at 443 Lincoln St, Worcester, built on its Street View panorama and

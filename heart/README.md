@@ -146,11 +146,21 @@ js/flow.js          blood cells walked along the routes in the SVG
 js/sound.js         the two heart sounds, synthesised
 js/charts.js        the ECG, the pressure plot and the pressure-volume loop
 js/app.js           the clock, the controls, everything that touches the DOM
+3d/                 the same heart in three dimensions (three.js, vendored)
 test/run.js         the test suite
 ```
 
 `js/cycle.js` touches no DOM and decides everything; every other file only
 draws what it says. That is what makes the whole model runnable in node.
+
+## In three dimensions
+
+[`3d/`](3d/) renders the same model with three.js: four chambers that
+contract apex-first, hinged valve leaflets, great vessels that swell with
+pressure, and blood streams whose brightness and speed follow the flow.
+It loads `js/cycle.js` unchanged and calls `HEART.cycle.state()` every
+frame; nothing in the 3D scene has its own clock or its own numbers.
+three.js is vendored in `3d/vendor/` so the page works offline.
 
 ## Tests
 
