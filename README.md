@@ -1,6 +1,6 @@
 # l
 
-Four projects, unrelated to each other, sharing a repository.
+Five projects, unrelated to each other, sharing a repository.
 
 - **How People Write** (`index.html`, `humanize.html`) — a corpus of human
   prose and a rewriter that runs on it. Described below.
@@ -15,6 +15,10 @@ Four projects, unrelated to each other, sharing a repository.
   counter at 443 Lincoln St, Worcester, built on its Street View panorama and
   its published menu, with an open/closed clock that reads Worcester time.
   See [`crown/README.md`](crown/README.md).
+- **[Bodyworks](body/)** (`body/`) — a configurator for a humanoid platform:
+  four body variants as engineering elevations, swappable effectors, and a
+  live bill of materials priced to the individual motor.
+  See [`body/README.md`](body/README.md).
 
 ---
 
