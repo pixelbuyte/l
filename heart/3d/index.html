@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Working Heart — in three dimensions</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M16 28 L4 15 A6 6 0 0 1 16 8 A6 6 0 0 1 28 15 Z' fill='%23c0392b'/></svg>">
+<style>
+  :root { color-scheme: dark; --ink:#f3e9e4; --dim:#9c8a86; --line:#3a2a2d; --accent:#ff7a5c; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; height:100%; background:#0b0709; color:var(--ink);
+    font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; overflow:hidden; }
+  #stage { position:fixed; inset:0; display:block; width:100%; height:100%; }
+  .hud { position:fixed; left:20px; top:18px; max-width:340px; pointer-events:none; }
+  .hud h1 { margin:0 0 2px; font-size:18px; font-weight:600; letter-spacing:-.01em; }
+  .hud p  { margin:0 0 14px; color:var(--dim); font-size:12.5px; max-width:300px; }
+  .phase { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin-bottom:8px; }
+  .grid { display:grid; grid-template-columns:auto auto; gap:2px 14px; font-variant-numeric:tabular-nums; }
+  .grid dt { color:var(--dim); } .grid dd { margin:0; }
+  .valves { display:flex; gap:6px; margin-top:12px; }
+  .v { padding:3px 8px; border:1px solid var(--line); border-radius:999px; font-size:11px; color:var(--dim); transition:.15s; }
+  .v.open { color:#ffd8cf; border-color:var(--accent); background:rgba(255,122,92,.14); }
+  .ctl { position:fixed; right:20px; bottom:18px; background:rgba(20,12,14,.72); border:1px solid var(--line);
+    border-radius:12px; padding:12px 14px; backdrop-filter: blur(8px); min-width:230px; }
+  .ctl label { display:flex; justify-content:space-between; font-size:12px; color:var(--dim); margin-bottom:4px; }
+  .ctl output { color:var(--ink); font-variant-numeric:tabular-nums; }
+  .ctl input[type=range] { width:100%; accent-color:var(--accent); margin:0 0 10px; }
+  .foot { position:fixed; left:20px; bottom:18px; color:var(--dim); font-size:11.5px; max-width:360px; pointer-events:none; }
+  .foot a { color:var(--ink); }
+</style>
+</head>
+<body>
+<canvas id="stage"></canvas>
+
+<div class="hud">
+  <h1>A Working Heart</h1>
+  <p>Chambers, valves, vessels and blood all driven by the one cardiac-cycle model in <code>cycle.js</code>. Drag to orbit.</p>
+  <div class="phase" id="phase">—</div>
+  <dl class="grid">
+    <dt>LV volume</dt><dd id="vol">—</dd>
+    <dt>LV pressure</dt><dd id="plv">—</dd>
+    <dt>Aortic pressure</dt><dd id="pao">—</dd>
+    <dt>Flow</dt><dd id="flow">—</dd>
+    <dt>Ejection fraction</dt><dd id="ef">—</dd>
+  </dl>
+  <div class="valves">
+    <span class="v" id="v-mitral">mitral</span>
+    <span class="v" id="v-tricuspid">tricuspid</span>
+    <span class="v" id="v-aortic">aortic</span>
+    <span class="v" id="v-pulmonary">pulmonary</span>
+  </div>
+</div>
+
+<div class="ctl">
+  <label>Heart rate <output id="hr-out">72 bpm</output></label>
+  <input id="hr" type="range" min="35" max="200" step="1" value="72">
+  <label>Contractility <output id="c-out">1.00</output></label>
+  <input id="c" type="range" min="0.5" max="1.8" step="0.05" value="1">
+  <label>Filling <output id="f-out">1.00</output></label>
+  <input id="f" type="range" min="0.5" max="1.4" step="0.05" value="1">
+</div>
+
+<div class="foot">Same numbers as the <a href="../">two-dimensional page</a>: the 3D scene calls <code>HEART.cycle.state()</code> every frame and moves nothing on its own.</div>
+
+<script src="../js/cycle.js"></script>
+<script src="./scene.js"></script>
+<script type="importmap">
+{ "imports": {
+  "three": "./vendor/three.module.js",
+  "three/addons/controls/OrbitControls.js": "./vendor/OrbitControls.js"
+} }
+</script>
+<script type="module">
+  import * as THREE from 'three';
+  import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+  const canvas = document.getElementById('stage');
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  const size = () => [Math.floor(innerWidth), Math.floor(innerHeight)];
+  let [w, h] = size();
+  const heart = window.HEART3D(THREE, OrbitControls, canvas, w, h, { hr: 72 });
+  addEventListener('resize', () => { [w, h] = size(); heart.resize(w, h); });
+
+  /* readout */
+  const $ = id => document.getElementById(id);
+  const fmt = (n, d) => Number(n).toFixed(d);
+  function tick() {
+    const s = heart.state(), hh = heart.hemo();
+    if (s) {
+      $('phase').textContent = s.phaseLabel + ' · ' + (s.systole ? 'systole' : 'diastole');
+      $('vol').textContent  = fmt(s.volume, 0) + ' mL';
+      $('plv').textContent  = fmt(s.pressure.lv, 0) + ' mmHg';
+      $('pao').textContent  = fmt(s.pressure.ao, 0) + ' mmHg';
+      $('flow').textContent = (s.flow >= 0 ? 'out ' : 'in ') + fmt(Math.abs(s.flow), 0) + ' mL/s';
+      $('ef').textContent   = fmt(hh.ef * 100, 0) + ' %';
+      for (const k of ['mitral', 'tricuspid', 'aortic', 'pulmonary'])
+        $('v-' + k).classList.toggle('open', s.valves[k] > 0.05);
+    }
+    requestAnimationFrame(tick);
+  }
+  tick();
+
+  /* controls */
+  const hr = $('hr'), c = $('c'), f = $('f');
+  function push() {
+    $('hr-out').textContent = hr.value + ' bpm';
+    $('c-out').textContent = fmt(c.value, 2);
+    $('f-out').textContent = fmt(f.value, 2);
+    heart.setRate(+hr.value, +c.value, +f.value);
+  }
+  for (const el of [hr, c, f]) el.addEventListener('input', push);
+</script>
+</body>
+</html>
