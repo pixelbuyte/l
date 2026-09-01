@@ -177,13 +177,48 @@ a { color: var(--line); }
 
 .effector * , .effector { fill: color-mix(in srgb, var(--line) 9%, transparent); stroke: var(--line); stroke-width: 1.6; }
 .effector .pivot { fill: var(--accent); stroke: none; }
+.effector .pivot-line { fill: none; stroke: var(--line-2); stroke-width: 1; }
 
 .joint {
   fill: var(--card); stroke: var(--line); stroke-width: 1.8;
   cursor: help; transition: fill .15s ease, stroke .15s ease;
 }
-.joint.lit, .effector.lit, .jets.lit .dark {
+.hub { fill: color-mix(in srgb, var(--line) 55%, var(--card)); stroke: var(--line-2); stroke-width: 1; pointer-events: none; }
+.act.lit .joint, .effector.lit, .jets.lit .dark, .jets.lit .nozzle {
   stroke: var(--accent); fill: color-mix(in srgb, var(--accent) 26%, transparent);
+}
+.act.lit .hub { fill: var(--accent); }
+
+/* the parts the rig is built from */
+.shell.head { fill: url(#g-head); }
+.pauldron { fill: url(#g-pauldron); stroke: var(--line); stroke-width: 1.8; stroke-linejoin: round; }
+.ring  { fill: color-mix(in srgb, var(--line) 16%, var(--card)); stroke: var(--line-2); stroke-width: 1.3; }
+.collar { fill: none; stroke: var(--line-2); stroke-width: 1.6; }
+.dot   { fill: var(--accent); }
+.ground { fill: color-mix(in srgb, var(--line) 12%, transparent); stroke: none; }
+.strut { fill: none; stroke: var(--line-2); stroke-width: 1.4; opacity: .8; }
+.nozzle { fill: color-mix(in srgb, var(--accent) 22%, transparent); stroke: var(--accent); stroke-width: 1.2; }
+.core-in { fill: var(--accent); opacity: .85; }
+.core-tick { fill: none; stroke: var(--accent); stroke-width: 1.4; }
+.lens { fill: var(--card); }
+.glint { fill: none; stroke: #fff; stroke-width: 1.4; opacity: .55; stroke-linecap: round; }
+.glint-dot { fill: #fff; opacity: .7; }
+.visor { filter: drop-shadow(0 0 4px color-mix(in srgb, var(--accent) 70%, transparent)); }
+.limb { fill: url(#g-limb); }
+.shell { fill: url(#g-shell); }
+.plate { fill: url(#g-plate); }
+#g-shell .s0, #g-limb .s0, #g-head .s0, #g-pauldron .s0, #g-plate .s0 { stop-color: var(--line); }
+#g-shell .s1, #g-limb .s1, #g-head .s1, #g-pauldron .s1, #g-plate .s1 { stop-color: var(--line); }
+#g-shell .s0 { stop-opacity: .24; } #g-shell .s1 { stop-opacity: .05; }
+#g-limb .s0 { stop-opacity: .26; }  #g-limb .s1 { stop-opacity: .04; }
+#g-head .s0 { stop-opacity: .30; }  #g-head .s1 { stop-opacity: .06; }
+#g-pauldron .s0 { stop-opacity: .34; } #g-pauldron .s1 { stop-opacity: .10; }
+#g-plate .s0 { stop-opacity: .22; } #g-plate .s1 { stop-opacity: .10; }
+@media (prefers-color-scheme: light) {
+  #g-shell .s0, #g-limb .s0, #g-head .s0, #g-pauldron .s0, #g-plate .s0 { stop-opacity: .16; }
+  #g-shell .s1, #g-limb .s1, #g-head .s1, #g-plate .s1 { stop-opacity: .04; }
+  #g-pauldron .s1 { stop-opacity: .08; }
+  .glint, .glint-dot { opacity: .9; }
 }
 
 /* the sweep line: quiet, slow, and off entirely under reduced motion */

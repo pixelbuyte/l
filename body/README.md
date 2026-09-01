@@ -8,6 +8,7 @@ page.
 ```
 python3 -m http.server 8000     # then visit localhost:8000/body/
 node body/test/run.js           # 350 assertions
+node body/tools/rig.js          # redraws the four bodies as SVG
 ```
 
 No build step, no dependencies, no backend. The only network requests are two
@@ -76,13 +77,17 @@ that the encoder count equals the joint count it claims to encode.
 
 ```
 index.html          the page, and the four SVG elevations
+tools/rig.js        the parametric rig that draws them; prints SVG
 css/body.css        one stylesheet — blueprint dark, paper light
 data/bodies.js      the four bodies, the effectors, the parts list, the adder
 js/app.js           selection, the joint↔row link, the distress demo
 test/run.js         the test suite
 ```
 
-Every right arm and right leg on the plate is the left one mirrored — the
-drawing carries half the limbs the page shows. The effectors are `<defs>`
+All four bodies are the same rig — helmet, neck, chest, abdomen, pelvis, one
+arm, one leg — sized by a dozen numbers each and shaded by five gradients, so a
+proportion change is one number, not a redraw. Every right arm and right leg
+on the plate is the left one mirrored — the drawing carries half the limbs the
+page shows. The effectors are `<defs>`
 symbols worn through `<use>`, which is what makes them interchangeable in the
 drawing the way they are interchangeable on the chuck.

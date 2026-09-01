@@ -52,33 +52,46 @@
           <title id="plate-t">Front elevation of the selected body variant</title>
 
           <defs>
+            <!-- volume: every shell is lit from the upper left -->
+            <linearGradient id="g-shell" x1="0" y1="0" x2="1" y2="0.6"><stop offset="0" class="s0"/><stop offset="1" class="s1"/></linearGradient>
+            <linearGradient id="g-limb" x1="0" y1="0" x2="1" y2="0.2"><stop offset="0" class="s0"/><stop offset="1" class="s1"/></linearGradient>
+            <linearGradient id="g-head" x1="0" y1="0" x2="0.8" y2="1"><stop offset="0" class="s0"/><stop offset="1" class="s1"/></linearGradient>
+            <linearGradient id="g-pauldron" x1="0" y1="0" x2="1" y2="1"><stop offset="0" class="s0"/><stop offset="1" class="s1"/></linearGradient>
+            <linearGradient id="g-plate" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="s0"/><stop offset="1" class="s1"/></linearGradient>
+
             <!-- End effectors. Wrist at origin, business end pointing down.
                  Every body wears them through the same <use>, which is what
                  makes them interchangeable in the drawing the way they are
                  interchangeable on the chuck. -->
             <g id="fx-hand">
-              <rect x="-11" y="0" width="22" height="24" rx="6"/>
-              <rect x="-10.5" y="26" width="4.4" height="16" rx="2.2"/>
-              <rect x="-4.7" y="26" width="4.4" height="19" rx="2.2"/>
-              <rect x="1.1"  y="26" width="4.4" height="18" rx="2.2"/>
-              <rect x="6.9"  y="26" width="4.4" height="14" rx="2.2"/>
-              <rect x="-17" y="6" width="5" height="13" rx="2.5" transform="rotate(14 -17 6)"/>
+              <path d="M-12 0 L12 0 Q14 0 14 2 L13 22 Q13 26 9 26 L-9 26 Q-13 26 -13 22 L-14 2 Q-14 0 -12 0 Z"/>
+              <path d="M-8 6 L8 6 M-9 12 L9 12" class="pivot-line"/>
+              <rect x="-11.5" y="27" width="5" height="17" rx="2.5"/>
+              <rect x="-5.5"  y="27" width="5" height="21" rx="2.5"/>
+              <rect x="0.5"   y="27" width="5" height="19" rx="2.5"/>
+              <rect x="6.5"   y="27" width="5" height="15" rx="2.5"/>
+              <circle cx="-9" cy="34" r="1.2" class="pivot"/><circle cx="-3" cy="36" r="1.2" class="pivot"/>
+              <circle cx="3" cy="35" r="1.2" class="pivot"/><circle cx="9" cy="33" r="1.2" class="pivot"/>
+              <path d="M-14 6 L-22 16 Q-24 19 -21 21 L-19 22 Q-17 23 -15 20 L-11 13 Z"/>
+              <circle cx="-17" cy="14" r="1.2" class="pivot"/>
             </g>
             <g id="fx-scissor">
-              <rect x="-9" y="0" width="18" height="14" rx="5"/>
-              <path d="M-7 12 L-2 46 L1 46 L-1.5 12 Z"/>
-              <path d="M7 12 L2 46 L-1 46 L1.5 12 Z"/>
-              <circle cx="0" cy="16" r="3.2" class="pivot"/>
+              <path d="M-10 0 L10 0 Q12 0 12 2 L11 14 Q11 17 8 17 L-8 17 Q-11 17 -11 14 L-12 2 Q-12 0 -10 0 Z"/>
+              <path d="M-7 15 L-3 48 L1 48 L-1.5 15 Z"/>
+              <path d="M7 15 L3 48 L-1 48 L1.5 15 Z"/>
+              <circle cx="0" cy="19" r="3.4" class="pivot"/>
             </g>
             <g id="fx-gripper">
-              <rect x="-10" y="0" width="20" height="13" rx="5"/>
-              <path d="M-9 12 C-14 24 -12 36 -4 42 L-1 38 C-7 33 -8 24 -4 15 Z"/>
-              <path d="M9 12 C14 24 12 36 4 42 L1 38 C7 33 8 24 4 15 Z"/>
+              <path d="M-11 0 L11 0 Q13 0 13 2 L12 13 Q12 16 9 16 L-9 16 Q-12 16 -12 13 L-13 2 Q-13 0 -11 0 Z"/>
+              <path d="M-10 15 C-16 26 -14 38 -5 44 L-2 40 C-8 35 -9 26 -5 17 Z"/>
+              <path d="M10 15 C16 26 14 38 5 44 L2 40 C8 35 9 26 5 17 Z"/>
+              <circle cx="-7" cy="18" r="1.4" class="pivot"/><circle cx="7" cy="18" r="1.4" class="pivot"/>
             </g>
             <g id="fx-chuck">
-              <rect x="-10" y="0" width="20" height="12" rx="5"/>
-              <path d="M-9 14 L9 14 L12 26 L6 36 L-6 36 L-12 26 Z"/>
-              <circle cx="0" cy="25" r="5" class="pivot"/>
+              <path d="M-11 0 L11 0 Q13 0 13 2 L12 12 Q12 15 9 15 L-9 15 Q-12 15 -12 12 L-13 2 Q-13 0 -11 0 Z"/>
+              <path d="M-10 16 L10 16 L13 28 L7 38 L-7 38 L-13 28 Z"/>
+              <path d="M-10 22 L10 22" class="pivot-line"/>
+              <circle cx="0" cy="28" r="5" class="pivot"/>
             </g>
           </defs>
 
@@ -87,156 +100,106 @@
 
           <!-- ===================== WARDEN ===================== -->
           <g id="body-warden" class="bod">
-            <!-- jets first: they sit behind the frame -->
-            <g class="jets" data-joint="jet">
-              <g id="w-jet-l">
-                <rect x="78" y="146" width="22" height="74" rx="10" class="dark"/>
-                <path d="M100 162 L120 158 M100 200 L118 204" class="hair"/>
-                <path d="M82 220 L96 220 M84 226 L94 226" class="hair"/>
-                <rect x="96" y="294" width="17" height="50" rx="8" class="dark"/>
-                <path d="M113 306 L146 300 M113 332 L150 330" class="hair"/>
-                <path d="M98 344 L110 344" class="hair"/>
-              </g>
-              <use href="#w-jet-l" transform="translate(360 0) scale(-1 1)"/>
-            </g>
-
-            <!-- head -->
-            <rect x="152" y="42" width="56" height="54" rx="16" class="shell"/>
-            <rect x="160" y="60" width="40" height="11" rx="5.5" class="visor"/>
-            <circle cx="180" cy="110" r="5" class="joint" data-joint="neck"><title>Neck — 2 DoF</title></circle>
-
-            <!-- torso -->
-            <path d="M124 130 L236 130 Q244 130 242 142 L230 240 Q229 248 220 248 L140 248 Q131 248 130 240 L118 142 Q116 130 124 130 Z" class="shell"/>
-            <rect x="160" y="150" width="40" height="50" rx="9" class="core"/>
-            <path d="M150 214 L210 214 M154 226 L206 226" class="hair"/>
-            <g id="w-pad-l"><rect x="98" y="120" width="52" height="32" rx="11" class="plate"/></g>
-            <use href="#w-pad-l" transform="translate(360 0) scale(-1 1)"/>
-            <rect x="148" y="252" width="64" height="22" rx="8" class="plate"/>
-            <circle cx="180" cy="263" r="5" class="joint" data-joint="waist"><title>Waist — 3 DoF</title></circle>
-            <path d="M142 280 L218 280 L206 326 L154 326 Z" class="shell"/>
-
-            <!-- left arm, mirrored for the right -->
-            <g id="w-arm-l">
-              <circle cx="122" cy="152" r="6" class="joint" data-joint="shoulder"><title>Shoulder — 3 DoF</title></circle>
-              <rect x="108" y="158" width="27" height="94" rx="13" class="limb"/>
-              <circle cx="121" cy="258" r="5" class="joint" data-joint="elbow"><title>Elbow — 1 DoF</title></circle>
-              <rect x="110" y="264" width="23" height="78" rx="11" class="limb"/>
-              <circle cx="121" cy="348" r="4.5" class="joint" data-joint="wrist"><title>Wrist — 2 DoF</title></circle>
-              <use href="#fx-hand" class="fx-slot effector" x="121" y="352" data-joint="hand"/>
-            </g>
-            <use href="#w-arm-l" transform="translate(360 0) scale(-1 1)"/>
-
-            <!-- left leg, mirrored for the right -->
-            <g id="w-leg-l">
-              <circle cx="161" cy="322" r="6" class="joint" data-joint="hip"><title>Hip — 3 DoF</title></circle>
-              <rect x="146" y="328" width="31" height="114" rx="14" class="limb"/>
-              <circle cx="161" cy="450" r="5.5" class="joint" data-joint="knee"><title>Knee — 1 DoF</title></circle>
-              <rect x="149" y="456" width="25" height="104" rx="12" class="limb"/>
-              <circle cx="161" cy="568" r="5" class="joint" data-joint="ankle"><title>Ankle — 2 DoF</title></circle>
-              <path d="M144 574 L176 574 L179 594 L140 594 Z" class="shell"/>
-            </g>
-            <use href="#w-leg-l" transform="translate(360 0) scale(-1 1)"/>
+          <ellipse cx="180" cy="596" rx="62" ry="5" class="ground"/>
+          <g class="jets" data-joint="jet"><title>Microturbines — 4</title><g id="w-jet-l"><path d="M65 148 Q65 140 73 140 L81 140 Q89 140 89 148 L89 196 L93 214 L61 214 L65 196 Z" class="dark"/><path d="M67 214 L87 214 L84 222 L70 222 Z" class="nozzle"/><path d="M70 152 L84 152 M70 157 L84 157 M70 162 L84 162 M70 167 L84 167" class="hair"/><path d="M89 162 L99 158 M89 186 L99 190" class="strut"/><path d="M119 294 Q119 288 125 288 L131 288 Q137 288 137 294 L137 328 L140 340 L116 340 L119 328 Z" class="dark"/><path d="M120 340 L136 340 L134 346 L122 346 Z" class="nozzle"/><path d="M123 296 L133 296 M123 301 L133 301 M123 306 L133 306" class="hair"/><path d="M137 302 L147 300 M137 322 L147 324" class="strut"/></g><use href="#w-jet-l" transform="translate(360 0) scale(-1 1)"/></g>
+          <g id="w-ear-l"><rect x="144" y="62.3" width="9" height="21.1" rx="3.5" class="plate"/><circle cx="148.5" cy="72.9" r="1.6" class="dot"/></g><use href="#w-ear-l" transform="translate(360 0) scale(-1 1)"/>
+          <path d="M151 66 C151 40 209 40 209 66 L209 80 Q209 94 201 98 L194 102 L166 102 L159 98 Q151 94 151 80 Z" class="shell head"/>
+          <path d="M157 56 Q180 50 203 56" class="hair"/>
+          <path d="M158 62 L202 62 Q205 62 204 65 L201 75 Q200 77 198 77 L162 77 Q160 77 159 75 L156 65 Q155 62 158 62 Z" class="visor"/><path d="M163 66 L189 66" class="glint"/>
+          <path d="M169 88 L191 88 M169 92 L191 92" class="hair"/>
+          <rect x="171" y="102" width="18" height="30" rx="3" class="dark"/>
+          <g class="act" data-joint="neck"><title>Neck — 2 DoF</title><circle cx="180" cy="116.3" r="5.5" class="joint"/><circle cx="180" cy="116.3" r="2.3" class="hub"/></g>
+          <path d="M154 128 Q180 138 206 128" class="collar"/>
+          <path d="M118 142 Q118 130 130 130 L230 130 Q242 130 242 142 L236 200 L124 200 Z" class="dark"/>
+          <g id="w-pec-l"><path d="M178 136 L130 136 Q120 136 120 146 L122 180 Q122 194 136 194 L170 194 Q178 194 178 186 Z" class="shell"/><path d="M126 152 L128 178" class="hair"/><path d="M137 168 L155 168 M137 173 L155 173 M137 178 L155 178" class="hair"/></g><use href="#w-pec-l" transform="translate(360 0) scale(-1 1)"/>
+          <circle cx="180" cy="164.2" r="15" class="core"/><circle cx="180" cy="164.2" r="8.5" class="core-in"/><path d="M180 149.2 L180 155.2 M180 173.2 L180 179.2 M165 164.2 L171 164.2 M189 164.2 L195 164.2" class="core-tick"/>
+          <path d="M128 200 L232 200 L225.7 221.7 Q225.7 223.7 222.7 223.7 L137.3 223.7 Q134.3 223.7 134.3 221.7 Z" class="plate"/>
+          <path d="M134.3 224.7 L225.7 224.7 L219.3 246.3 Q219.3 248.3 216.3 248.3 L143.7 248.3 Q140.7 248.3 140.7 246.3 Z" class="plate"/>
+          <path d="M140.7 249.3 L219.3 249.3 L213 271 Q213 273 210 273 L150 273 Q147 273 147 271 Z" class="plate"/>
+          <rect x="143" y="270" width="74" height="12" rx="6" class="ring"/>
+          <g class="act" data-joint="waist"><title>Waist — 3 DoF</title><circle cx="180" cy="276" r="5.5" class="joint"/><circle cx="180" cy="276" r="2.3" class="hub"/></g>
+          <path d="M141 284 L219 284 Q223 284 222 290 L215 330 L196 330 L180 342 L164 330 L145 330 L138 290 Q137 284 141 284 Z" class="shell"/>
+          <path d="M153 292 L207 292" class="hair"/>
+          <g id="w-arm-l"><path d="M93 160 Q93 154 99 154 L115 154 Q121 154 121 160 L118.5 234 Q118.5 242 110.5 242 L103.5 242 Q95.5 242 95.5 234 Z" class="limb"/><path d="M100.8 164 L101.8 234" class="hair"/><rect x="97.5" y="184" width="19" height="28" rx="3" class="plate"/><g class="act" data-joint="elbow"><title>Elbow — 1 DoF</title><circle cx="107" cy="250" r="6.5" class="joint"/><circle cx="107" cy="250" r="2.7" class="hub"/></g><path d="M95 264 Q95 258 101 258 L113 258 Q119 258 119 264 L116.2 318 Q116.2 326 108.2 326 L105.8 326 Q97.8 326 97.8 318 Z" class="limb"/><path d="M102 266 L102.7 320" class="hair"/><path d="M101.1 272 L112.9 272 M101.1 277 L112.9 277 M101.1 282 L112.9 282" class="hair"/><rect x="96.9" y="324" width="20.2" height="8" rx="3" class="ring"/><g class="act" data-joint="wrist"><title>Wrist — 2 DoF</title><circle cx="107" cy="335" r="4.5" class="joint"/><circle cx="107" cy="335" r="1.9" class="hub"/></g><use href="#fx-hand" class="fx-slot effector" x="107" y="339" data-joint="hand"/><path d="M83.6 160 Q83.6 134 113 134 L139 134 Q147 134 147 142 L145 152 Q143 162 115.4 162 L91.6 162 Q83.6 162 83.6 160 Z" class="pauldron"/><path d="M93 144 L135 144" class="hair"/><g class="act" data-joint="shoulder"><title>Shoulder — 3 DoF</title><circle cx="107" cy="150" r="7" class="joint"/><circle cx="107" cy="150" r="2.9" class="hub"/></g></g><use href="#w-arm-l" transform="translate(360 0) scale(-1 1)"/>
+          <g id="w-leg-l"><path d="M141 334 Q141 328 147 328 L169 328 Q175 328 175 334 L172.3 428 Q172.3 436 164.3 436 L151.7 436 Q143.7 436 143.7 428 Z" class="limb"/><path d="M149.8 340 L151.1 426" class="hair"/><rect x="147.1" y="358.6" width="21.8" height="36.6" rx="3" class="plate"/><path d="M143.7 430 Q158 420 172.3 430 L171.6 452 Q158 460 144.4 452 Z" class="pauldron"/><g class="act" data-joint="knee"><title>Knee — 1 DoF</title><circle cx="158" cy="444" r="6.5" class="joint"/><circle cx="158" cy="444" r="2.7" class="hub"/></g><path d="M142.7 462 Q142.7 456 148.7 456 L167.3 456 Q173.3 456 173.3 462 L169.9 536 Q169.9 544 161.9 544 L154.1 544 Q146.1 544 146.1 536 Z" class="limb"/><path d="M151.2 466 L152.2 536" class="hair"/><path d="M172.3 468 Q177 488 170.2 532" class="hair"/><rect x="145.1" y="542" width="25.8" height="9" rx="3" class="ring"/><g class="act" data-joint="ankle"><title>Ankle — 2 DoF</title><circle cx="158" cy="554" r="5" class="joint"/><circle cx="158" cy="554" r="2.1" class="hub"/></g><path d="M141.2 560 L174.8 560 L178 588 Q178 594 175.6 594 L140.4 594 Q138 594 138 588 Z" class="shell"/><path d="M140.4 586 L175.6 586" class="hair"/><path d="M154 560 L154 585" class="hair"/><g class="act" data-joint="hip"><title>Hip — 3 DoF</title><circle cx="158" cy="322" r="7" class="joint"/><circle cx="158" cy="322" r="2.9" class="hub"/></g></g><use href="#w-leg-l" transform="translate(360 0) scale(-1 1)"/>
           </g>
 
           <!-- ===================== AIDE ===================== -->
           <g id="body-aide" class="bod">
-            <rect x="156" y="60" width="48" height="48" rx="20" class="shell"/>
-            <circle cx="170" cy="82" r="3.5" class="visor"/>
-            <circle cx="190" cy="82" r="3.5" class="visor"/>
-            <circle cx="180" cy="118" r="4.5" class="joint"/>
-            <path d="M134 138 L226 138 Q233 138 232 148 L224 238 Q223 246 215 246 L145 246 Q137 246 136 238 L128 148 Q127 138 134 138 Z" class="shell"/>
-            <rect x="152" y="154" width="56" height="66" rx="16" class="core soft"/>
-            <rect x="152" y="250" width="56" height="20" rx="8" class="plate"/>
-            <path d="M148 274 L212 274 L202 320 L158 320 Z" class="shell"/>
-            <g id="a-arm-l">
-              <circle cx="132" cy="156" r="5" class="joint"/>
-              <rect x="120" y="162" width="23" height="88" rx="11" class="limb"/>
-              <circle cx="131" cy="256" r="4.5" class="joint"/>
-              <rect x="122" y="262" width="19" height="74" rx="9.5" class="limb"/>
-              <circle cx="131" cy="342" r="4" class="joint"/>
-              <use href="#fx-hand" class="fx-slot effector" x="131" y="346"/>
-            </g>
-            <use href="#a-arm-l" transform="translate(360 0) scale(-1 1)"/>
-            <g id="a-leg-l">
-              <circle cx="164" cy="316" r="5" class="joint"/>
-              <rect x="151" y="322" width="26" height="116" rx="13" class="limb"/>
-              <circle cx="164" cy="446" r="4.5" class="joint"/>
-              <rect x="153" y="452" width="21" height="108" rx="10.5" class="limb"/>
-              <circle cx="164" cy="566" r="4" class="joint"/>
-              <path d="M148 572 L176 572 L179 594 L144 594 Z" class="shell"/>
-            </g>
-            <use href="#a-leg-l" transform="translate(360 0) scale(-1 1)"/>
+          <ellipse cx="180" cy="596" rx="56" ry="5" class="ground"/>
+          <g id="a-ear-l"><rect x="147" y="77.4" width="9" height="18.4" rx="3.5" class="plate"/><circle cx="151.5" cy="86.6" r="1.6" class="dot"/></g><use href="#a-ear-l" transform="translate(360 0) scale(-1 1)"/>
+          <path d="M154 88 C154 58 206 58 206 88 L206 90 Q206 104 202 108 L194 112 L166 112 L158 108 Q154 104 154 90 Z" class="shell head"/>
+          <path d="M160 70 Q180 64 200 70" class="hair"/>
+          <circle cx="169" cy="83" r="5" class="visor"/><circle cx="191" cy="83" r="5" class="visor"/><circle cx="167.5" cy="81.5" r="1.5" class="glint-dot"/><circle cx="189.5" cy="81.5" r="1.5" class="glint-dot"/>
+          <path d="M169 98 L191 98 M169 102 L191 102" class="hair"/>
+          <rect x="171" y="112" width="18" height="26" rx="3" class="dark"/>
+          <g class="act"><circle cx="180" cy="124.1" r="5.5" class="joint"/><circle cx="180" cy="124.1" r="2.3" class="hub"/></g>
+          <path d="M154 134 Q180 144 206 134" class="collar"/>
+          <path d="M124 148 Q124 136 136 136 L224 136 Q236 136 236 148 L230 202 L130 202 Z" class="dark"/>
+          <g id="a-pec-l"><path d="M178 142 L136 142 Q126 142 126 152 L128 182 Q128 196 142 196 L170 196 Q178 196 178 188 Z" class="shell"/><path d="M132 158 L134 180" class="hair"/><path d="M143 170 L161 170 M143 175 L161 175 M143 180 L161 180" class="hair"/></g><use href="#a-pec-l" transform="translate(360 0) scale(-1 1)"/>
+          <rect x="164" y="148.2" width="32" height="40" rx="12" class="core soft"/><circle cx="180" cy="168.2" r="6" class="core-in"/>
+          <path d="M134 202 L226 202 L220.3 221.7 Q220.3 223.7 217.3 223.7 L142.7 223.7 Q139.7 223.7 139.7 221.7 Z" class="plate"/>
+          <path d="M139.7 224.7 L220.3 224.7 L214.7 244.3 Q214.7 246.3 211.7 246.3 L148.3 246.3 Q145.3 246.3 145.3 244.3 Z" class="plate"/>
+          <path d="M145.3 247.3 L214.7 247.3 L209 267 Q209 269 206 269 L154 269 Q151 269 151 267 Z" class="plate"/>
+          <rect x="147" y="266" width="66" height="12" rx="6" class="ring"/>
+          <g class="act"><circle cx="180" cy="272" r="5.5" class="joint"/><circle cx="180" cy="272" r="2.3" class="hub"/></g>
+          <path d="M145 280 L215 280 Q219 280 218 286 L211 326 L196 326 L180 338 L164 326 L149 326 L142 286 Q141 280 145 280 Z" class="shell"/>
+          <path d="M157 288 L203 288" class="hair"/>
+          <g id="a-arm-l"><path d="M103 164 Q103 158 109 158 L121 158 Q127 158 127 164 L124.8 234 Q124.8 242 116.8 242 L113.2 242 Q105.2 242 105.2 234 Z" class="limb"/><path d="M109.7 168 L110.5 234" class="hair"/><rect x="106.8" y="186.6" width="16.3" height="26.9" rx="3" class="plate"/><g class="act"><circle cx="115" cy="250" r="6.5" class="joint"/><circle cx="115" cy="250" r="2.7" class="hub"/></g><path d="M104.7 264 Q104.7 258 110.7 258 L119.3 258 Q125.3 258 125.3 264 L122.9 314.1 Q122.9 322 115 322 L115 322 Q107.1 322 107.1 314.1 Z" class="limb"/><path d="M110.7 266 L111.3 316" class="hair"/><path d="M110 272 L120 272 M110 277 L120 277 M110 282 L120 282" class="hair"/><rect x="106.4" y="320" width="17.3" height="8" rx="3" class="ring"/><g class="act"><circle cx="115" cy="331" r="4.5" class="joint"/><circle cx="115" cy="331" r="1.9" class="hub"/></g><use href="#fx-hand" class="fx-slot effector" x="115" y="335"/><path d="M94.1 164 Q94.1 138 121 138 L145 138 Q153 138 153 146 L151 156 Q149 166 122.2 166 L102.1 166 Q94.1 166 94.1 164 Z" class="pauldron"/><path d="M103 148 L141 148" class="hair"/><g class="act"><circle cx="115" cy="154" r="7" class="joint"/><circle cx="115" cy="154" r="2.9" class="hub"/></g></g><use href="#a-arm-l" transform="translate(360 0) scale(-1 1)"/>
+          <g id="a-leg-l"><path d="M144 330 Q144 324 150 324 L166 324 Q172 324 172 330 L169.8 426 Q169.8 434 161.8 434 L154.2 434 Q146.2 434 146.2 426 Z" class="limb"/><path d="M151.3 336 L152.3 424" class="hair"/><rect x="149" y="355.2" width="17.9" height="37.2" rx="3" class="plate"/><path d="M146.2 428 Q158 418 169.8 428 L169.2 450 Q158 458 146.8 450 Z" class="pauldron"/><g class="act"><circle cx="158" cy="442" r="6.5" class="joint"/><circle cx="158" cy="442" r="2.7" class="hub"/></g><path d="M145.4 460 Q145.4 454 151.4 454 L164.6 454 Q170.6 454 170.6 460 L167.8 538 Q167.8 546 159.8 546 L156.2 546 Q148.2 546 148.2 538 Z" class="limb"/><path d="M152.4 464 L153.2 538" class="hair"/><path d="M169.8 466 Q173.7 486 168.1 534" class="hair"/><rect x="147.4" y="544" width="21.3" height="9" rx="3" class="ring"/><g class="act"><circle cx="158" cy="556" r="5" class="joint"/><circle cx="158" cy="556" r="2.1" class="hub"/></g><path d="M143.7 562 L172.3 562 L175 588 Q175 594 173 594 L143 594 Q141 594 141 588 Z" class="shell"/><path d="M143 586 L173 586" class="hair"/><path d="M154.6 562 L154.6 585" class="hair"/><g class="act"><circle cx="158" cy="318" r="7" class="joint"/><circle cx="158" cy="318" r="2.9" class="hub"/></g></g><use href="#a-leg-l" transform="translate(360 0) scale(-1 1)"/>
           </g>
 
           <!-- ===================== SWIFT ===================== -->
           <g id="body-swift" class="bod">
-            <g id="s-wing-l">
-              <path d="M148 148 C108 168 76 206 60 254 C92 240 124 212 148 182 Z" class="plate"/>
-              <path d="M140 162 C116 176 96 198 82 226" class="hair"/>
-            </g>
-            <use href="#s-wing-l" transform="translate(360 0) scale(-1 1)"/>
-            <rect x="158" y="48" width="44" height="46" rx="15" class="shell"/>
-            <circle cx="180" cy="70" r="9" class="visor"/>
-            <circle cx="180" cy="104" r="4" class="joint"/>
-            <path d="M142 124 L218 124 Q225 124 224 134 L216 232 Q215 240 208 240 L152 240 Q145 240 144 232 L136 134 Q135 124 142 124 Z" class="shell"/>
-            <rect x="164" y="140" width="32" height="42" rx="8" class="core"/>
-            <path d="M158 200 L202 200 M160 212 L200 212" class="hair"/>
-            <rect x="154" y="244" width="52" height="18" rx="7" class="plate"/>
-            <path d="M150 266 L210 266 L200 306 L160 306 Z" class="shell"/>
-            <g class="jets">
-              <rect x="166" y="308" width="12" height="36" rx="6" class="dark"/>
-              <rect x="182" y="308" width="12" height="36" rx="6" class="dark"/>
-            </g>
-            <g id="s-arm-l">
-              <circle cx="140" cy="142" r="4.5" class="joint"/>
-              <rect x="129" y="148" width="20" height="86" rx="10" class="limb"/>
-              <circle cx="139" cy="240" r="4" class="joint"/>
-              <rect x="131" y="246" width="17" height="70" rx="8.5" class="limb"/>
-              <circle cx="139" cy="322" r="3.5" class="joint"/>
-              <use href="#fx-gripper" class="fx-slot effector" x="139" y="326"/>
-            </g>
-            <use href="#s-arm-l" transform="translate(360 0) scale(-1 1)"/>
-            <g id="s-leg-l">
-              <circle cx="166" cy="302" r="4.5" class="joint"/>
-              <rect x="154" y="308" width="23" height="128" rx="11.5" class="limb"/>
-              <circle cx="166" cy="444" r="4" class="joint"/>
-              <rect x="157" y="450" width="18" height="118" rx="9" class="limb"/>
-              <circle cx="166" cy="574" r="3.5" class="joint"/>
-              <path d="M152 580 L176 580 L178 594 L148 594 Z" class="shell"/>
-            </g>
-            <use href="#s-leg-l" transform="translate(360 0) scale(-1 1)"/>
+          <ellipse cx="180" cy="596" rx="50" ry="5" class="ground"/>
+          <g id="s-wing-l"><path d="M150 140 C100 154 64 202 56 258 C88 236 124 198 150 172 Z" class="plate"/><path d="M138 154 C104 174 82 206 70 240" class="hair"/></g><use href="#s-wing-l" transform="translate(360 0) scale(-1 1)"/>
+          <g class="jets"><path d="M150 320 L162 320 L164 354 L148 354 Z" class="dark"/><path d="M198 320 L210 320 L212 354 L196 354 Z" class="dark"/><path d="M149 354 L163 354 L161 360 L151 360 Z M197 354 L211 354 L209 360 L199 360 Z" class="nozzle"/></g>
+          <g id="s-ear-l"><rect x="148" y="65.4" width="9" height="18.4" rx="3.5" class="plate"/><circle cx="152.5" cy="74.6" r="1.6" class="dot"/></g><use href="#s-ear-l" transform="translate(360 0) scale(-1 1)"/>
+          <path d="M155 70 C155 46 205 46 205 70 L205 78 Q205 92 195 96 L194 100 L166 100 L165 96 Q155 92 155 78 Z" class="shell head"/>
+          <path d="M161 54 Q180 48 199 54" class="hair"/>
+          <circle cx="180" cy="68" r="11" class="visor"/><circle cx="180" cy="68" r="5" class="lens"/><path d="M174 62 Q178 59 182 61" class="glint"/>
+          <path d="M169 86 L191 86 M169 90 L191 90" class="hair"/>
+          <rect x="171" y="100" width="18" height="24" rx="3" class="dark"/>
+          <g class="act"><circle cx="180" cy="111" r="5.5" class="joint"/><circle cx="180" cy="111" r="2.3" class="hub"/></g>
+          <path d="M154 120 Q180 130 206 120" class="collar"/>
+          <path d="M128 134 Q128 122 140 122 L220 122 Q232 122 232 134 L226 186 L134 186 Z" class="dark"/>
+          <g id="s-pec-l"><path d="M178 128 L140 128 Q130 128 130 138 L132 166 Q132 180 146 180 L170 180 Q178 180 178 172 Z" class="shell"/><path d="M136 144 L138 164" class="hair"/><path d="M147 154 L165 154 M147 159 L165 159 M147 164 L165 164" class="hair"/></g><use href="#s-pec-l" transform="translate(360 0) scale(-1 1)"/>
+          <circle cx="180" cy="153.1" r="15" class="core"/><circle cx="180" cy="153.1" r="8.5" class="core-in"/><path d="M180 138.1 L180 144.1 M180 162.1 L180 168.1 M165 153.1 L171 153.1 M189 153.1 L195 153.1" class="core-tick"/>
+          <path d="M138 186 L222 186 L216.3 207 Q216.3 209 213.3 209 L146.7 209 Q143.7 209 143.7 207 Z" class="plate"/>
+          <path d="M143.7 210 L216.3 210 L210.7 231 Q210.7 233 207.7 233 L152.3 233 Q149.3 233 149.3 231 Z" class="plate"/>
+          <path d="M149.3 234 L210.7 234 L205 255 Q205 257 202 257 L158 257 Q155 257 155 255 Z" class="plate"/>
+          <rect x="151" y="254" width="58" height="12" rx="6" class="ring"/>
+          <g class="act"><circle cx="180" cy="260" r="5.5" class="joint"/><circle cx="180" cy="260" r="2.3" class="hub"/></g>
+          <path d="M149 268 L211 268 Q215 268 214 274 L207 312 L196 312 L180 324 L164 312 L153 312 L146 274 Q145 268 149 268 Z" class="shell"/>
+          <path d="M161 276 L199 276" class="hair"/>
+          <g id="s-arm-l"><path d="M111 150 Q111 144 117 144 L125 144 Q131 144 131 150 L129.2 216 Q129.2 224 121.2 224 L120.8 224 Q112.8 224 112.8 216 Z" class="limb"/><path d="M116.6 154 L117.3 216" class="hair"/><rect x="114.2" y="171.3" width="13.6" height="25.8" rx="3" class="plate"/><g class="act"><circle cx="121" cy="232" r="6.5" class="joint"/><circle cx="121" cy="232" r="2.7" class="hub"/></g><path d="M112.4 246 Q112.4 240 118.4 240 L123.6 240 Q129.6 240 129.6 246 L127.6 295.4 Q127.6 302 121 302 L121 302 Q114.4 302 114.4 295.4 Z" class="limb"/><path d="M117.4 248 L117.9 296" class="hair"/><path d="M116.8 254 L125.2 254 M116.8 259 L125.2 259 M116.8 264 L125.2 264" class="hair"/><rect x="113.8" y="300" width="14.4" height="8" rx="3" class="ring"/><g class="act"><circle cx="121" cy="311" r="4.5" class="joint"/><circle cx="121" cy="311" r="1.9" class="hub"/></g><use href="#fx-gripper" class="fx-slot effector" x="121" y="315"/><path d="M102.6 150 Q102.6 124 127 124 L149 124 Q157 124 157 132 L155 142 Q153 152 127 152 L110.6 152 Q102.6 152 102.6 150 Z" class="pauldron"/><path d="M111 134 L145 134" class="hair"/><g class="act"><circle cx="121" cy="140" r="7" class="joint"/><circle cx="121" cy="140" r="2.9" class="hub"/></g></g><use href="#s-arm-l" transform="translate(360 0) scale(-1 1)"/>
+          <g id="s-leg-l"><path d="M148 316 Q148 310 154 310 L166 310 Q172 310 172 316 L170.1 424 Q170.1 432 162.1 432 L157.9 432 Q149.9 432 149.9 424 Z" class="limb"/><path d="M154.2 322 L155.1 422" class="hair"/><rect x="152.3" y="344.8" width="15.4" height="40.8" rx="3" class="plate"/><path d="M149.9 426 Q160 416 170.1 426 L169.6 448 Q160 456 150.4 448 Z" class="pauldron"/><g class="act"><circle cx="160" cy="440" r="6.5" class="joint"/><circle cx="160" cy="440" r="2.7" class="hub"/></g><path d="M149.2 458 Q149.2 452 155.2 452 L164.8 452 Q170.8 452 170.8 458 L168.4 546 Q168.4 554 160.4 554 L159.6 554 Q151.6 554 151.6 546 Z" class="limb"/><path d="M155.2 462 L155.9 546" class="hair"/><path d="M170.1 464 Q173.4 484 168.6 542" class="hair"/><rect x="150.9" y="552" width="18.2" height="9" rx="3" class="ring"/><g class="act"><circle cx="160" cy="564" r="5" class="joint"/><circle cx="160" cy="564" r="2.1" class="hub"/></g><path d="M147.4 570 L172.6 570 L175 588 Q175 594 173.2 594 L146.8 594 Q145 594 145 588 Z" class="shell"/><path d="M146.8 586 L173.2 586" class="hair"/><path d="M157 570 L157 585" class="hair"/><g class="act"><circle cx="160" cy="304" r="7" class="joint"/><circle cx="160" cy="304" r="2.9" class="hub"/></g></g><use href="#s-leg-l" transform="translate(360 0) scale(-1 1)"/>
           </g>
 
           <!-- ===================== FORGE ===================== -->
           <g id="body-forge" class="bod">
-            <path d="M138 64 C150 40 210 40 222 64" class="cage"/>
-            <rect x="154" y="68" width="52" height="46" rx="12" class="shell"/>
-            <rect x="161" y="82" width="38" height="10" rx="5" class="visor"/>
-            <circle cx="180" cy="124" r="5" class="joint"/>
-            <path d="M116 142 L244 142 Q252 142 250 154 L238 250 Q237 258 228 258 L132 258 Q123 258 122 250 L110 154 Q108 142 116 142 Z" class="shell"/>
-            <path d="M142 164 L166 164 L154 186 L130 186 Z M170 164 L194 164 L182 186 L158 186 Z M198 164 L222 164 L210 186 L186 186 Z" class="chevron"/>
-            <path d="M136 214 L224 214 M140 230 L220 230" class="hair"/>
-            <rect x="142" y="262" width="76" height="24" rx="9" class="plate"/>
-            <circle cx="180" cy="274" r="5" class="joint"/>
-            <path d="M134 290 L226 290 L214 338 L146 338 Z" class="shell"/>
-            <g id="f-arm-l">
-              <circle cx="114" cy="164" r="6" class="joint"/>
-              <rect x="99" y="170" width="30" height="86" rx="14" class="limb"/>
-              <circle cx="114" cy="262" r="5.5" class="joint"/>
-              <rect x="98" y="268" width="33" height="76" rx="15" class="limb heavy"/>
-              <circle cx="114" cy="352" r="5" class="joint"/>
-              <use href="#fx-chuck" class="fx-slot effector" x="114" y="356"/>
-            </g>
-            <use href="#f-arm-l" transform="translate(360 0) scale(-1 1)"/>
-            <g id="f-leg-l">
-              <circle cx="158" cy="334" r="6" class="joint"/>
-              <rect x="141" y="340" width="34" height="98" rx="15" class="limb"/>
-              <circle cx="158" cy="446" r="5.5" class="joint"/>
-              <rect x="144" y="452" width="28" height="94" rx="13" class="limb"/>
-              <circle cx="158" cy="558" r="5" class="joint"/>
-              <path d="M132 564 L186 564 L192 594 L126 594 Z" class="shell"/>
-            </g>
-            <use href="#f-leg-l" transform="translate(360 0) scale(-1 1)"/>
+          <ellipse cx="180" cy="596" rx="82" ry="5" class="ground"/>
+          <path d="M141 92 C145 50 215 50 219 92" class="cage"/><path d="M141 92 L141 106 M219 92 L219 106" class="cage"/>
+          <g id="f-ear-l"><rect x="142" y="85.4" width="9" height="18.4" rx="3.5" class="plate"/><circle cx="146.5" cy="94.6" r="1.6" class="dot"/></g><use href="#f-ear-l" transform="translate(360 0) scale(-1 1)"/>
+          <path d="M149 84 C149 66 211 66 211 84 L211 98 Q211 112 207 116 L194 120 L166 120 L153 116 Q149 112 149 98 Z" class="shell head"/>
+          <path d="M155 76 Q180 70 205 76" class="hair"/>
+          <path d="M156 82 L204 82 Q207 82 206 85 L203 95 Q202 97 200 97 L160 97 Q158 97 157 95 L154 85 Q153 82 156 82 Z" class="visor"/><path d="M161 86 L191 86" class="glint"/>
+          <path d="M169 106 L191 106 M169 110 L191 110" class="hair"/>
+          <rect x="171" y="120" width="18" height="22" rx="3" class="dark"/>
+          <g class="act"><circle cx="180" cy="129.9" r="5.5" class="joint"/><circle cx="180" cy="129.9" r="2.3" class="hub"/></g>
+          <path d="M154 138 Q180 148 206 138" class="collar"/>
+          <path d="M108 152 Q108 140 120 140 L240 140 Q252 140 252 152 L246 218 L114 218 Z" class="dark"/>
+          <g id="f-pec-l"><path d="M178 146 L120 146 Q110 146 110 156 L112 198 Q112 212 126 212 L170 212 Q178 212 178 204 Z" class="shell"/><path d="M116 162 L118 196" class="hair"/><path d="M127 186 L145 186 M127 191 L145 191 M127 196 L145 196" class="hair"/></g><use href="#f-pec-l" transform="translate(360 0) scale(-1 1)"/>
+          <path d="M146 166.4 L166 166.4 L154 184.4 L134 184.4 Z M170 166.4 L190 166.4 L178 184.4 L158 184.4 Z M194 166.4 L214 166.4 L202 184.4 L182 184.4 Z" class="chevron"/>
+          <path d="M118 218 L242 218 L235 236.3 Q235 238.3 232 238.3 L128 238.3 Q125 238.3 125 236.3 Z" class="plate"/>
+          <path d="M125 239.3 L235 239.3 L228 257.7 Q228 259.7 225 259.7 L135 259.7 Q132 259.7 132 257.7 Z" class="plate"/>
+          <path d="M132 260.7 L228 260.7 L221 279 Q221 281 218 281 L142 281 Q139 281 139 279 Z" class="plate"/>
+          <rect x="135" y="278" width="90" height="12" rx="6" class="ring"/>
+          <g class="act"><circle cx="180" cy="284" r="5.5" class="joint"/><circle cx="180" cy="284" r="2.3" class="hub"/></g>
+          <path d="M132 292 L228 292 Q232 292 231 298 L224 340 L196 340 L180 352 L164 340 L136 340 L129 298 Q128 292 132 292 Z" class="shell"/>
+          <path d="M144 300 L216 300" class="hair"/>
+          <g id="f-arm-l"><path d="M75 174 Q75 168 81 168 L105 168 Q111 168 111 174 L107.8 244 Q107.8 252 99.8 252 L86.2 252 Q78.2 252 78.2 244 Z" class="limb"/><path d="M85.1 178 L86.3 244" class="hair"/><rect x="80.8" y="196.6" width="24.5" height="26.9" rx="3" class="plate"/><g class="act"><circle cx="93" cy="260" r="6.5" class="joint"/><circle cx="93" cy="260" r="2.7" class="hub"/></g><path d="M77.5 274 Q77.5 268 83.5 268 L102.5 268 Q108.5 268 108.5 274 L104.9 330 Q104.9 338 96.9 338 L89.1 338 Q81.1 338 81.1 330 Z" class="limb"/><path d="M86.5 276 L87.5 332" class="hair"/><path d="M85.4 282 L100.6 282 M85.4 287 L100.6 287 M85.4 292 L100.6 292" class="hair"/><rect x="80" y="336" width="25.9" height="8" rx="3" class="ring"/><g class="act"><circle cx="93" cy="347" r="4.5" class="joint"/><circle cx="93" cy="347" r="1.9" class="hub"/></g><use href="#fx-chuck" class="fx-slot effector" x="93" y="351"/><path d="M64.7 174 Q64.7 148 99 148 L129 148 Q137 148 137 156 L135 166 Q133 176 103.8 176 L72.7 176 Q64.7 176 64.7 174 Z" class="pauldron"/><path d="M75 158 L125 158" class="hair"/><g class="act"><circle cx="93" cy="164" r="7" class="joint"/><circle cx="93" cy="164" r="2.9" class="hub"/></g></g><use href="#f-arm-l" transform="translate(360 0) scale(-1 1)"/>
+          <g id="f-leg-l"><path d="M134 344 Q134 338 140 338 L168 338 Q174 338 174 344 L170.8 428 Q170.8 436 162.8 436 L145.2 436 Q137.2 436 137.2 428 Z" class="limb"/><path d="M144.4 350 L145.8 426" class="hair"/><rect x="141.2" y="365.6" width="25.6" height="33.6" rx="3" class="plate"/><path d="M137.2 430 Q154 420 170.8 430 L170 452 Q154 460 138 452 Z" class="pauldron"/><g class="act"><circle cx="154" cy="444" r="6.5" class="joint"/><circle cx="154" cy="444" r="2.7" class="hub"/></g><path d="M136 462 Q136 456 142 456 L166 456 Q172 456 172 462 L168 528 Q168 536 160 536 L148 536 Q140 536 140 528 Z" class="limb"/><path d="M146 466 L147.2 528" class="hair"/><path d="M170.8 468 Q176.4 488 168.4 524" class="hair"/><rect x="138.8" y="534" width="30.4" height="9" rx="3" class="ring"/><g class="act"><circle cx="154" cy="546" r="5" class="joint"/><circle cx="154" cy="546" r="2.1" class="hub"/></g><path d="M130.5 552 L177.5 552 L182 588 Q182 594 178.6 594 L129.4 594 Q126 594 126 588 Z" class="shell"/><path d="M129.4 586 L178.6 586" class="hair"/><path d="M148.4 552 L148.4 585" class="hair"/><g class="act"><circle cx="154" cy="332" r="7" class="joint"/><circle cx="154" cy="332" r="2.9" class="hub"/></g></g><use href="#f-leg-l" transform="translate(360 0) scale(-1 1)"/>
           </g>
 
           <!-- dimension line, repositioned per body -->
