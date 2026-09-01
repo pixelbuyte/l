@@ -208,6 +208,41 @@
 
   function pct(mins) { return Math.max(0, Math.min(100, (mins / 1440) * 100)); }
 
+  /*
+   * The sky behind the day: night, dawn, daylight, dusk, night — with the
+   * transitions where they actually fall today, not at decorative thirds. The
+   * twilight ramps run roughly 45 minutes either side of the sun crossing the
+   * horizon, which is about right at temperate latitudes and wrong at the
+   * poles, where there is no crossing to be either side of anyway.
+   */
+  function sky() {
+    var g = el('div', 'band-sky');
+    var v = function (name) {
+      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    };
+    var night = v('--sky-night'), dawnC = v('--sky-dawn');
+    var dayC = v('--sky-day'), duskC = v('--sky-dusk');
+
+    if (sun.sunrise === null || sun.sunset === null) {
+      // Polar day or polar night: one flat sky, and no lying about twilight.
+      g.style.background = sun.alwaysUp ? dayC : night;
+      return g;
+    }
+
+    var stops = [
+      night + ' 0%',
+      night + ' ' + pct(sun.sunrise - 45) + '%',
+      dawnC + ' ' + pct(sun.sunrise) + '%',
+      dayC + ' ' + pct(sun.sunrise + 50) + '%',
+      dayC + ' ' + pct(sun.sunset - 50) + '%',
+      duskC + ' ' + pct(sun.sunset) + '%',
+      night + ' ' + pct(sun.sunset + 45) + '%',
+      night + ' 100%'
+    ];
+    g.style.background = 'linear-gradient(90deg, ' + stops.join(', ') + ')';
+    return g;
+  }
+
   function drawBand(p) {
     var scale = $('band-scale');
     if (!scale.children.length) {
@@ -227,20 +262,7 @@
 
     var track = $('band-track');
     track.textContent = '';
-
-    // Dark at both ends.
-    if (sun.sunrise !== null) {
-      var dawn = el('div', 'band-night');
-      dawn.style.left = '0%';
-      dawn.style.width = pct(sun.sunrise) + '%';
-      track.appendChild(dawn);
-    }
-    if (sun.sunset !== null) {
-      var dusk = el('div', 'band-night');
-      dusk.style.left = pct(sun.sunset) + '%';
-      dusk.style.right = '0';
-      track.appendChild(dusk);
-    }
+    track.appendChild(sky());
 
     var now = nowMinutes();
     p.blocks.forEach(function (b) {
@@ -276,7 +298,13 @@
     var flags = [];
     p.blocks.forEach(function (b) {
       if (b.hard && b.deadline !== null) {
-        flags.push({ at: b.deadline, label: short(b.label) + ' ' + t(b.deadline) });
+        // A flag is a deadline, so it reddens only when that deadline is the
+        // one broken — same rule as the cards below. A block squeezed by a
+        // later deadline is marked on its own row, not on the sun's flag.
+        flags.push({
+          at: b.deadline, label: short(b.label) + ' ' + t(b.deadline),
+          kind: b.kind, late: b.missedBy > 0
+        });
       }
     });
     flags.sort(function (a, b2) { return a.at - b2.at; });
@@ -284,10 +312,13 @@
     var labels = flags.map(function (f) {
       var line = el('div', 'band-flag');
       line.style.left = pct(f.at) + '%';
+      line.dataset.kind = f.kind;
       track.appendChild(line);
 
       var tagEl = el('b', pct(f.at) > 70 ? 'right' : null, f.label);
       tagEl.style.left = pct(f.at) + '%';
+      tagEl.dataset.kind = f.kind;
+      if (f.late) tagEl.dataset.status = 'late';
       lane.appendChild(tagEl);
       return tagEl;
     });
@@ -340,7 +371,7 @@
 
     p.blocks.forEach(function (b) {
       if (prevEnd !== null && b.start - prevEnd >= 5) {
-        var gap = el('div', 'gap');
+        var gap = el('div', 'gap' + (b.drivenBy === 'notBefore' && b.id === 'dusk' ? ' dusk' : ''));
         gap.setAttribute('data-reveal', '');
         gap.appendChild(el('span', null, ''));
         gap.appendChild(el('span', 'num', t(prevEnd) + '–' + t(b.start)));
@@ -351,6 +382,8 @@
 
       var row = el('div', 'row');
       row.dataset.row = b.id;
+      row.dataset.kind = b.kind;
+      if (b.status === 'late') row.dataset.status = 'late';
       row.setAttribute('data-reveal', '');
       if (b.status === 'late') row.classList.add('late');
       if (state.done[b.id]) row.classList.add('done');
@@ -484,8 +517,18 @@
     hard.forEach(function (b) {
       var art = el('article');
       art.setAttribute('data-reveal', '');
-      var missed = b.status === 'late';
-      if (missed) art.classList.add('miss');
+      art.dataset.kind = b.kind;
+
+      /*
+       * Each card is about one deadline, so it turns red only when that
+       * deadline is the one broken — not when the block is merely squeezed by
+       * something later in the day. The walk can be five minutes short of the
+       * room work needs and still finish two hours before sunset; colouring
+       * its card red would be saying the sun set early. The row in the list
+       * carries the squeeze, with a chip that says how much.
+       */
+      var missed = b.id === 'ready' ? b.slack < 0 : b.missedBy > 0;
+      if (missed) { art.classList.add('miss'); art.dataset.status = 'late'; }
 
       art.appendChild(el('span', 'tag ' + (missed ? '' : 'ink'), b.id === 'ready'
         ? 'Within 30 minutes' : (b.deadlineLabel || 'deadline').replace(/^by /, 'By ')));
@@ -497,8 +540,10 @@
       // knowing there is how much of the block survived.
       var margin, caption;
       if (b.elastic) {
-        margin = b.minutes;
-        caption = b.status === 'late' ? 'and it does not fit' : 'is what is left of it';
+        // When an elastic block overruns, what matters is by how much, not how
+        // long the stump that was left is.
+        margin = missed ? b.missedBy : b.minutes;
+        caption = missed ? 'past the line, at its shortest' : 'is what is left of it';
       } else if (b.id === 'ready') {
         margin = b.slack;
         caption = margin >= 0 ? 'to spare' : 'over the line';

@@ -61,6 +61,25 @@ Your coordinates are guessed from the browser's time zone, which costs no
 permission and lands within a degree or so. Pressing **use my location**
 replaces the guess; typing into **sunset** overrides both.
 
+## Colour
+
+Five spot inks, one per kind of hour — ochre for getting ready and eating, gold
+for prayer, green for the walk and the workout, cobalt for work, violet for
+reciting and reading after dark — plus one red that appears only when a
+deadline does not fit. The point is that the shape of a day is legible before a
+word of it is read: how much is routine, how much is work, where the green is.
+
+The band behind the day carries the actual sky, with night, dawn, daylight and
+dusk placed from the sunrise and sunset already computed for today rather than
+at decorative thirds.
+
+Two constraints the palette is held to. Every ink clears 4.5:1 against the
+stock in both directions, so the same value can set type on paper and carry
+paper-coloured type on a bar. And nothing is carried by hue alone — a block
+that overruns is hatched as well as red, and every block is labelled and timed
+either way — so the page still works in greyscale, in print, and for the
+roughly one reader in twelve who will not separate red from green.
+
 ## Layout
 
 ```
