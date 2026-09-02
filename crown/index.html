@@ -143,25 +143,19 @@
     </div>
 
     <aside class="hero-card rise" style="--d:340ms" id="heroCard">
-      <div class="hc-row hc-status">
+      <p class="hc-status">
         <span class="status big" id="statusPill2" data-state="unknown">
           <i class="dot"></i><span id="statusText2">Checking hours</span>
         </span>
-      </div>
-      <div class="hc-row">
-        <span class="hc-k">Hours</span>
-        <span class="hc-v">Every day · 10am – midnight</span>
-      </div>
-      <div class="hc-row">
-        <span class="hc-k">Address</span>
-        <span class="hc-v">443 Lincoln St<br>Worcester, MA 01605</span>
-      </div>
-      <div class="hc-row">
-        <span class="hc-k">Phone</span>
-        <span class="hc-v"><a href="tel:+15085950220">(508) 595-0220</a></span>
-      </div>
+      </p>
+      <dl class="hc-list">
+        <div><dt>Hours</dt><dd>10am – midnight, every day</dd></div>
+        <div><dt>Address</dt><dd>443 Lincoln St, Worcester MA</dd></div>
+        <div><dt>Phone</dt><dd><a href="tel:+15085950220">(508) 595-0220</a></dd></div>
+      </dl>
       <a class="hc-go" href="https://www.google.com/maps/dir/?api=1&amp;destination=443%20Lincoln%20St%2C%20Worcester%2C%20MA%2001605" target="_blank" rel="noopener">
-        Get directions <span aria-hidden="true">→</span>
+        Get directions
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
     </aside>
   </section>
@@ -259,7 +253,7 @@
         <dl class="facts">
           <div><dt>Address</dt><dd>443 Lincoln St<br>Worcester, MA 01605</dd></div>
           <div><dt>Phone</dt><dd><a href="tel:+15085950220">(508) 595-0220</a></dd></div>
-          <div><dt>Hours</dt><dd>Every day<br>10:00am – 12:00am</dd></div>
+          <div><dt>Hours</dt><dd>10am – midnight<br>every day</dd></div>
           <div><dt>Parking</dt><dd>Own lot, off Lincoln St</dd></div>
         </dl>
         <ul class="traits" id="traits"></ul>
@@ -301,7 +295,7 @@
       </div>
       <div>
         <h3>Open</h3>
-        <p>Every day<br>10:00am – 12:00am</p>
+        <p>10am – midnight<br>every day</p>
         <p class="foot-status" id="statusText3">—</p>
       </div>
     </div>
