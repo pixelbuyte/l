@@ -342,16 +342,19 @@ figure { margin: 0; }
 .plates {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px;
 }
-.plate { display: flex; flex-direction: column;
+.plate { display: flex; flex-direction: column; overflow: hidden;
   background: var(--ink); border: 1px solid var(--line); border-radius: var(--r);
-  padding: 26px 24px 22px;
   transition: border-color .3s; }
 .plate:hover { border-color: #4a3a33; }
 
-/* The drawing is line art in the one accent colour — unmistakably a drawing,
-   which is the point: it cannot be mistaken for a photograph of the food. */
-.plate-art { width: 72px; height: 72px; color: var(--red-lit); margin-bottom: 22px; flex: none; }
-.plate:hover .plate-art { color: var(--red-lit); }
+.plate-pic { margin: 0; aspect-ratio: 4 / 3; overflow: hidden; background: var(--ink-3); }
+.plate-pic img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: saturate(.92) contrast(1.03);
+  transition: transform .6s var(--ease);
+}
+.plate:hover .plate-pic img { transform: scale(1.04); }
+.plate-body { display: flex; flex-direction: column; flex: 1; padding: 20px 22px 18px; }
 
 .plate-kind { font-family: var(--body); font-weight: 600; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--grey); margin: 0 0 10px; }
 .plate-name {
