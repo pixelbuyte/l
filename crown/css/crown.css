@@ -287,8 +287,6 @@ figure { margin: 0; }
 /* ——————————————————————————— sections ——————————————————————————— */
 
 .sec { padding: clamp(60px, 10vh, 118px) var(--pad); max-width: 1320px; margin: 0 auto; }
-/* Full-bleed grounds. The page alternates cream, warm tint, cream, so the
-   sections separate on tone rather than on a stack of borders. */
 /* A grid rather than an auto margin on each child: the track is centred, the
    children fill it, and a narrow child like the section head still starts at
    the same left edge as everything else on the page. */
