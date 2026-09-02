@@ -45,7 +45,10 @@
   PLACE.directionsUrl = 'https://www.google.com/maps/dir/?api=1&destination=' +
     encodeURIComponent(PLACE.street + ', ' + PLACE.city + ', ' + PLACE.state + ' ' + PLACE.zip);
 
-  // The menu board. `note` is the combo each section is served as — at this
+  // The menu board. `accent` is the colour that section owns on the page —
+  // the tinted panel head, its tags, its plate card. Four earthy hues, one
+  // each, so a reader tells chicken from seafood before reading a word.
+  // `note` is the combo each section is served as — at this
   // counter almost everything is a plate, not an item. `photo` is a picture of
   // that dish from this shop's own Google Maps listing (via Restaurant Guru,
   // which mirrors the listing's photos); the item that has one is the item
@@ -54,6 +57,7 @@
     {
       id: 'chicken',
       label: 'Chicken',
+      accent: 'brick',
       note: 'with fries or rice & soda',
       blurb: 'The thing on the sign. Fried to order, so give it a minute.',
       items: [
@@ -66,6 +70,7 @@
     {
       id: 'wings',
       label: 'Wings',
+      accent: 'amber',
       note: 'with fries or rice & soda',
       blurb: 'Wing dings or hot wings — say which at the counter.',
       items: [
@@ -78,6 +83,7 @@
     {
       id: 'seafood',
       label: 'Seafood',
+      accent: 'slate',
       note: 'with fries or rice & soda',
       blurb: 'Fried shrimp and whiting. The window has said SEAFOOD for years.',
       items: [
@@ -90,6 +96,7 @@
     {
       id: 'subs',
       label: 'Subs & Burgers',
+      accent: 'olive',
       note: 'with fries & soda',
       blurb: 'Griddle side of the kitchen. Steak and cheese comes out fast.',
       items: [

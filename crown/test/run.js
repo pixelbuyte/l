@@ -277,6 +277,17 @@ MENU.forEach(function (sec) {
   });
 });
 ok('the plates section is on the page', html.indexOf('id="plates"') > -1);
+
+/* Colour is structural here — each section of the board owns one of four
+ * accents — so an unknown or missing accent would silently fall back to the
+ * house red and two sections would look identical. */
+var ACCENTS = ['brick', 'amber', 'slate', 'olive'];
+var seenAccent = {};
+MENU.forEach(function (sec) {
+  ok('section ' + sec.id + ' names a known accent', ACCENTS.indexOf(sec.accent) > -1, String(sec.accent));
+  ok('accent ' + sec.accent + ' is used by only one section', !seenAccent[sec.accent]);
+  seenAccent[sec.accent] = true;
+});
 ok('the page credits the food photographs', /photographs from the Crown Fried Chicken listing/.test(html));
 ok('no drawn plates are left behind', html.indexOf('id="p-chicken"') === -1);
 
@@ -286,6 +297,13 @@ var css = fs.readFileSync(path.join(base, 'css/crown.css'), 'utf8');
 });
 ok('every gallery span class is styled',
    Object.keys(spans).every(function (s) { return css.indexOf('.shot.' + s) > -1; }));
+ACCENTS.forEach(function (a) {
+  ok('accent ' + a + ' is defined in the stylesheet', css.indexOf('[data-accent="' + a + '"]') > -1);
+  ok('accent ' + a + ' has a tint, a hue and a deep tone',
+     ['--' + a + ':', '--' + a + '-d:', '--' + a + '-t:'].every(function (v) { return css.indexOf(v) > -1; }));
+});
+ok('the page is on a light ground', /--cream:\s*#f|--cream:\s*#ff/i.test(css));
+
 ok('every status state is styled',
    ['open', 'closing', 'closed'].every(function (s) {
      return css.indexOf('[data-state="' + s + '"]') > -1;

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Crown Fried Chicken — 443 Lincoln St, Worcester</title>
 <meta name="description" content="Fried chicken, wings, seafood and subs at 443 Lincoln Street, Worcester. Open every day, 10am to midnight. (508) 595-0220.">
-<meta name="theme-color" content="#0c0a09">
+<meta name="theme-color" content="#fffdf7">
 <link rel="icon" href="img/crown.svg" type="image/svg+xml">
 
 <meta property="og:type" content="restaurant">
@@ -47,8 +47,6 @@
 </head>
 
 <body>
-<div class="grain" aria-hidden="true"></div>
-
 <a class="skip" href="#menu">Skip to the menu</a>
 
 <header class="nav" id="nav">
@@ -88,14 +86,8 @@
 <main id="top">
 
   <!-- ————————————————————————— hero ————————————————————————— -->
-  <section class="hero">
-    <div class="hero-img">
-      <img src="img/storefront.webp"
-           srcset="img/storefront-sm.webp 800w, img/storefront.webp 1440w"
-           sizes="100vw" alt="The Crown Fried Chicken storefront at 443 Lincoln Street, Worcester"
-           width="1440" height="810" fetchpriority="high">
-    </div>
-
+  <div class="hero-wrap">
+    <section class="hero">
     <div class="hero-body">
       <p class="eyebrow rise" style="--d:0ms">Lincoln Street · Worcester</p>
       <h1 class="rise" style="--d:80ms">
@@ -113,23 +105,37 @@
       </div>
     </div>
 
-    <aside class="hero-card rise" style="--d:340ms" id="heroCard">
-      <p class="hc-status">
+    <figure class="hero-shot rise" style="--d:180ms">
+      <img src="img/storefront.webp"
+           srcset="img/storefront-sm.webp 800w, img/storefront.webp 1440w"
+           sizes="(max-width: 1080px) 100vw, 48vw"
+           alt="The Crown Fried Chicken storefront at 443 Lincoln Street, Worcester"
+           width="1440" height="810" fetchpriority="high">
+    </figure>
+    </section>
+
+    <aside class="hero-strip rise" style="--d:340ms" id="heroCard">
+      <div class="hs-item">
+        <span class="hs-k">Right now</span>
         <span class="status big" id="statusPill2" data-state="unknown">
           <i class="dot"></i><span id="statusText2">Checking hours</span>
         </span>
-      </p>
-      <dl class="hc-list">
-        <div><dt>Hours</dt><dd>10am – midnight, every day</dd></div>
-        <div><dt>Address</dt><dd>443 Lincoln St, Worcester MA</dd></div>
-        <div><dt>Phone</dt><dd><a href="tel:+15085950220">(508) 595-0220</a></dd></div>
-      </dl>
-      <a class="hc-go" href="https://www.google.com/maps/dir/?api=1&amp;destination=443%20Lincoln%20St%2C%20Worcester%2C%20MA%2001605" target="_blank" rel="noopener">
-        Get directions
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
+      </div>
+      <div class="hs-item">
+        <span class="hs-k">Hours</span>
+        <span class="hs-v">10am – midnight, every day</span>
+      </div>
+      <div class="hs-item">
+        <span class="hs-k">Address</span>
+        <span class="hs-v">443 Lincoln St, Worcester MA</span>
+      </div>
+      <div class="hs-item">
+        <span class="hs-k">Phone</span>
+        <span class="hs-v"><a href="tel:+15085950220">(508) 595-0220</a></span>
+      </div>
+      <a class="btn btn-red hs-go" href="https://www.google.com/maps/dir/?api=1&amp;destination=443%20Lincoln%20St%2C%20Worcester%2C%20MA%2001605" target="_blank" rel="noopener">Get directions</a>
     </aside>
-  </section>
+  </div>
 
   <!-- ————————————————————————— marquee ————————————————————————— -->
   <div class="marquee" aria-hidden="true">
@@ -138,7 +144,7 @@
 
 
   <!-- ————————————————————————— plates ————————————————————————— -->
-  <section class="sec sec-plates" id="plates">
+  <section class="sec sec-tint" id="plates">
     <div class="sec-head reveal">
       <p class="eyebrow">Off the fryer</p>
       <h2>What people order</h2>
@@ -194,7 +200,7 @@
   </section>
 
   <!-- ————————————————————————— gallery ————————————————————————— -->
-  <section class="sec" id="gallery">
+  <section class="sec sec-tint" id="gallery">
     <div class="sec-head reveal">
       <p class="eyebrow">The corner</p>
       <h2>What it looks like</h2>
@@ -208,7 +214,7 @@
   </section>
 
   <!-- ————————————————————————— visit ————————————————————————— -->
-  <section class="sec sec-dark" id="visit">
+  <section class="sec" id="visit">
     <div class="sec-head reveal">
       <p class="eyebrow">Getting there</p>
       <h2>Visit</h2>
