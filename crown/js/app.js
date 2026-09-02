@@ -58,6 +58,7 @@
     MENU.forEach(function (sec) {
       var panel = el('section', 'panel');
       panel.id = 'sec-' + sec.id;
+      panel.setAttribute('data-accent', sec.accent);
 
       var head = el('div', 'panel-head');
       head.appendChild(el('h3', null, sec.label));
@@ -164,6 +165,7 @@
                  sec.items.filter(function (it) { return it.tag; })[0] || sec.items[0];
 
       var card = el('article', 'plate reveal');
+      card.setAttribute('data-accent', sec.accent);
       card.style.transitionDelay = (i * 70) + 'ms';
 
       if (pick.photo) {
