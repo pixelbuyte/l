@@ -46,7 +46,10 @@
     encodeURIComponent(PLACE.street + ', ' + PLACE.city + ', ' + PLACE.state + ' ' + PLACE.zip);
 
   // The menu board. `note` is the combo each section is served as — at this
-  // counter almost everything is a plate, not an item.
+  // counter almost everything is a plate, not an item. `photo` is a picture of
+  // that dish from this shop's own Google Maps listing (via Restaurant Guru,
+  // which mirrors the listing's photos); the item that has one is the item
+  // the plates section shows.
   var MENU = [
     {
       id: 'chicken',
@@ -54,7 +57,8 @@
       note: 'with fries or rice & soda',
       blurb: 'The thing on the sign. Fried to order, so give it a minute.',
       items: [
-        { name: '2 Piece Chicken', price: 4.50, tag: 'Most ordered' },
+        { name: '2 Piece Chicken', price: 4.50, tag: 'Most ordered',
+          photo: { src: 'img/food-chicken.webp', w: 320, h: 320 } },
         { name: '3 Piece Chicken', price: 5.50 },
         { name: '5 Piece Chicken', price: 7.50, tag: 'Feeds two' }
       ]
@@ -66,7 +70,8 @@
       blurb: 'Wing dings or hot wings — say which at the counter.',
       items: [
         { name: '4 Piece Wings', price: 5.25 },
-        { name: '6 Piece Wing Dings or Hot Wings', price: 5.25, tag: 'Best value' },
+        { name: '6 Piece Wing Dings or Hot Wings', price: 5.25, tag: 'Best value',
+          photo: { src: 'img/food-wings.webp', w: 244, h: 244 } },
         { name: '10 Piece Wing Dings or Hot Wings', price: 7.50 }
       ]
     },
@@ -76,7 +81,8 @@
       note: 'with fries or rice & soda',
       blurb: 'Fried shrimp and whiting. The window has said SEAFOOD for years.',
       items: [
-        { name: '21 Piece Shrimp', price: 5.99, tag: 'Twenty-one of them' },
+        { name: '21 Piece Shrimp', price: 5.99, tag: 'Twenty-one of them',
+          photo: { src: 'img/food-shrimp.webp', w: 259, h: 259 } },
         { name: '6 Piece Jumbo Shrimp', price: 5.99 },
         { name: '2 Piece Whiting Fish', price: 5.25 }
       ]
@@ -88,7 +94,8 @@
       blurb: 'Griddle side of the kitchen. Steak and cheese comes out fast.',
       items: [
         { name: 'Chicken Sandwich', price: 4.50 },
-        { name: 'Grilled Chicken Sandwich', price: 4.99 },
+        { name: 'Grilled Chicken Sandwich', price: 4.99, tag: 'Off the grill',
+          photo: { src: 'img/food-sandwich.webp', w: 222, h: 222 } },
         { name: 'Fried Fish Sandwich', price: 4.50 },
         { name: 'Cheeseburger', price: 4.50 },
         { name: 'Italian Cheeseburger', price: 4.75 },

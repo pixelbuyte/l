@@ -264,6 +264,22 @@ ok('text stays visible while fonts load', /font-display:\s*swap/.test(fontCss));
   ok(fam + ' is declared in @font-face', fontCss.indexOf("'" + fam + "'") > -1);
 });
 
+/* The photographed plates. Each section of the board shows one dish, and the
+ * picture must be a real file of this kitchen's food with its dimensions
+ * declared, or the card renders a broken image and the grid jumps. */
+MENU.forEach(function (sec) {
+  var shot = sec.items.filter(function (i) { return i.photo; });
+  ok('section ' + sec.id + ' has one photographed item', shot.length === 1);
+  shot.forEach(function (i) {
+    ok(i.name + ' photo exists on disk', fs.existsSync(path.join(base, i.photo.src)));
+    ok(i.name + ' photo declares its size', i.photo.w > 0 && i.photo.h > 0);
+    ok(i.name + ' photo is square', i.photo.w === i.photo.h);
+  });
+});
+ok('the plates section is on the page', html.indexOf('id="plates"') > -1);
+ok('the page credits the food photographs', /photographs from the Crown Fried Chicken listing/.test(html));
+ok('no drawn plates are left behind', html.indexOf('id="p-chicken"') === -1);
+
 var css = fs.readFileSync(path.join(base, 'css/crown.css'), 'utf8');
 ['Alfa Slab One', 'Bungee', 'Karla'].forEach(function (fam) {
   ok(fam + ' is used by the stylesheet', css.indexOf(fam) > -1);

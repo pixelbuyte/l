@@ -147,6 +147,51 @@
     });
   }
 
+  /* ——— plates ————————————————————————————————————————————
+     One photographed plate per section of the board, captioned with the real
+     item and its real price. Every picture is of this kitchen's food, taken
+     from the shop's own Google Maps listing — never a stock photograph of
+     somebody else's chicken. */
+
+  function buildPlates() {
+    var wrap = document.getElementById('plates-grid');
+    if (!wrap) return;
+
+    MENU.forEach(function (sec, i) {
+      // The item with a photograph is the one worth showing; failing that the
+      // tagged one, failing that the first.
+      var pick = sec.items.filter(function (it) { return it.photo; })[0] ||
+                 sec.items.filter(function (it) { return it.tag; })[0] || sec.items[0];
+
+      var card = el('article', 'plate reveal');
+      card.style.transitionDelay = (i * 70) + 'ms';
+
+      if (pick.photo) {
+        var fig = el('figure', 'plate-pic');
+        var img = el('img');
+        img.src = pick.photo.src;
+        img.alt = pick.name + ' at Crown Fried Chicken';
+        img.width = pick.photo.w; img.height = pick.photo.h;
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        fig.appendChild(img);
+        card.appendChild(fig);
+      }
+
+      var body = el('div', 'plate-body');
+      body.appendChild(el('p', 'plate-kind', sec.label));
+      body.appendChild(el('h3', 'plate-name', pick.name));
+
+      var foot = el('div', 'plate-foot');
+      foot.appendChild(el('span', 'plate-note', sec.note));
+      foot.appendChild(el('span', 'plate-price', money(pick.price)));
+      body.appendChild(foot);
+      card.appendChild(body);
+
+      wrap.appendChild(card);
+    });
+  }
+
   /* ——— gallery ——————————————————————————————————————————————— */
 
   function buildGallery() {
@@ -237,6 +282,7 @@
   buildMarquee();
   buildBoard();
   buildTickets();
+  buildPlates();
   buildGallery();
   buildTraits();
   paintStatus();

@@ -43,16 +43,23 @@ would be making up.
 
 ### The photographs
 
-There are no food photographs, because the ones on the Google Maps listing are
-served by an interface we could not read. Every image here is instead rendered
-out of Google's Street View panorama of the block: the equirectangular tiles are
+The four food photographs in `img/food-*.webp` are this kitchen's own, from
+its Google Maps listing. Google serves the listing through an interface we
+could not read directly, so they were taken from Restaurant Guru, which mirrors
+the listing's photos; they arrive as watermarked collages, and the clean tiles
+were cut out and squared. They are small (220–320 px) for that reason. The item
+that carries a `photo` in `data/place.js` is the one the plates section shows.
+
+The building photographs are rendered out of Google's Street View panorama of
+the block: the equirectangular tiles are
 fetched at zoom 4 (8192 × 4096), stitched, and reprojected gnomonically to a
 rectilinear frame at a chosen heading and field of view — which is why the
 storefront looks photographed rather than cropped out of a panorama. Imagery is
 © Google and credited on the page.
 
-To swap in real photographs, drop them in `img/` and edit the `GALLERY` array in
-`data/place.js`. Keep the spans tiling the grid — the tests check that.
+To swap in better photographs, drop them in `img/` and edit the `photo` fields
+or the `GALLERY` array in `data/place.js`. Keep the gallery spans tiling the
+grid — the tests check that.
 
 ## The one piece of real logic
 
