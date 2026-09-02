@@ -88,7 +88,7 @@ figure { margin: 0; }
 .btn-ghost { color: var(--paper); border-color: #ffffff2e; }
 .btn-ghost:hover { border-color: #ffffff70; background: #ffffff0a; }
 
-/* Open / closed pill, driven from the real 10am–midnight hours. */
+/* Open / closed state, driven from the real 10am–midnight hours. */
 .status { display: inline-flex; align-items: center; gap: 9px;
   font-family: var(--body); font-weight: 600; font-size: 13.5px;
   color: var(--paper-2); }
@@ -321,7 +321,7 @@ figure { margin: 0; }
   box-shadow: 0 14px 34px -18px #000; }
 .ticket:hover { box-shadow: 0 22px 44px -22px #000; }
 
-.ticket-kind { font-family: var(--body); font-weight: 600; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--grey); color: #8a7c72; margin: 0 0 12px; }
+.ticket-kind { font-family: var(--body); font-weight: 600; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #8a7c72; margin: 0 0 12px; }
 .ticket-name {
   font-family: var(--display); font-size: 21px; line-height: 1.06;
   text-transform: uppercase; margin: 0 0 16px; color: var(--ink);
