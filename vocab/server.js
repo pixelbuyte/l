@@ -5,6 +5,8 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const Anthropic = require('@anthropic-ai/sdk');
+const offline = require('./offline');
+const { ollamaAvailable, createOllamaClient } = require('./ollama');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -45,8 +47,8 @@ const upload = multer({
   }
 });
 
-// Default client; tests override this with app.set('anthropic', stub)
-app.set('anthropic', new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY }));
+// The LLM client is set at startup (see chooseProvider) or by tests. With no client the
+// app runs fully offline using the bundled dictionary and on-device OCR.
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -67,6 +69,11 @@ app.post('/api/translate', async (req, res) => {
   }
 
   const hasChoices = Array.isArray(choices) && choices.length > 0;
+
+  if (!app.get('anthropic')) {
+    const r = offline.translate(text.trim(), hasChoices ? choices.filter(c => c && typeof c.text === 'string') : []);
+    return res.status(r.status).json(r.body);
+  }
 
   const prompt = hasChoices
     ? `Translate this Spanish text to English, then identify which of the provided choices is the correct translation.
@@ -135,6 +142,12 @@ app.post('/api/analyze-image', upload.single('image'), async (req, res) => {
   const imageBase64 = req.file.buffer.toString('base64');
   const mediaType = req.file.mimetype;
   const hasChoices = Array.isArray(choices) && choices.length > 0;
+
+  if (!app.get('anthropic')) {
+    const usable = hasChoices ? choices.filter(c => c && typeof c.text === 'string' && c.text.trim()) : [];
+    const r = await offline.analyzeImage(req.file.buffer, usable);
+    return res.status(r.status).json(r.body);
+  }
 
   const prompt = hasChoices
     ? `This image shows a Spanish vocabulary exercise or quiz. Your tasks:
@@ -260,6 +273,11 @@ app.post('/api/answer', upload.single('image'), async (req, res) => {
     .filter(t => typeof t === 'string' && t.trim())
     .map(t => t.trim());
 
+  if (!app.get('anthropic')) {
+    const answer = req.file ? await offline.answerImage(req.file.buffer, text, choices) : offline.answerText(text, choices);
+    return res.json({ answer });
+  }
+
   const content = [];
   if (req.file) {
     content.push({
@@ -293,7 +311,8 @@ app.post('/api/answer', upload.single('image'), async (req, res) => {
 
 // GET /api/health
 app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok', model: MODEL });
+  const provider = app.get('provider') || (app.get('anthropic') ? 'custom' : 'offline');
+  res.json({ status: 'ok', provider, model: provider === 'offline' ? 'offline' : provider === 'ollama' ? process.env.OLLAMA_MODEL || 'qwen2.5vl' : MODEL });
 });
 
 // JSON error handler (catches multer rejections and other Express errors)
@@ -303,11 +322,43 @@ app.use((err, _req, res, _next) => {
   res.status(status).json({ error: err.message || 'Bad request' });
 });
 
+// PROVIDER=auto (default): Anthropic if ANTHROPIC_API_KEY is set, else a local Ollama
+// vision model if one is running, else fully offline. Force one with PROVIDER=anthropic|ollama|offline.
+async function chooseProvider(env = process.env) {
+  const want = (env.PROVIDER || 'auto').toLowerCase();
+  if (want === 'offline') return { name: 'offline', client: null };
+
+  if ((want === 'auto' || want === 'anthropic') && env.ANTHROPIC_API_KEY) {
+    return { name: 'anthropic', client: new Anthropic({ apiKey: env.ANTHROPIC_API_KEY }) };
+  }
+  if (want === 'anthropic') throw new Error('PROVIDER=anthropic requires ANTHROPIC_API_KEY');
+
+  const host = (env.OLLAMA_HOST || 'http://localhost:11434').replace(/\/$/, '');
+  const model = env.OLLAMA_MODEL || 'qwen2.5vl';
+  if (await ollamaAvailable(host, model)) {
+    return { name: 'ollama', client: createOllamaClient({ host, model }) };
+  }
+  if (want === 'ollama') throw new Error(`PROVIDER=ollama: model "${model}" not found at ${host} (run: ollama pull ${model})`);
+
+  return { name: 'offline', client: null };
+}
+
 if (require.main === module) {
-  app.listen(PORT, () => {
-    console.log(`Spanish Vocab App → http://localhost:${PORT}`);
-    console.log(`Model: ${MODEL}`);
-  });
+  chooseProvider()
+    .then(({ name, client }) => {
+      app.set('provider', name);
+      if (client) app.set('anthropic', client);
+      else offline.warmUp();
+      app.listen(PORT, () => {
+        console.log(`Spanish Vocab App → http://localhost:${PORT}`);
+        console.log(name === 'offline' ? 'Mode: offline (no API key; bundled dictionary + on-device OCR)' : `Mode: ${name}`);
+      });
+    })
+    .catch(err => {
+      console.error(err.message);
+      process.exit(1);
+    });
 }
 
 module.exports = app;
+module.exports.chooseProvider = chooseProvider;

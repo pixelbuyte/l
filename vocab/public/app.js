@@ -384,10 +384,25 @@ function initTheme() {
   });
 }
 
+// ── Engine badge ──────────────────────────────────────────────────────────────
+
+async function showProvider() {
+  try {
+    const res = await fetch('/api/health');
+    const { provider } = await res.json();
+    const labels = { offline: 'Offline', ollama: 'Local model', anthropic: 'Claude' };
+    const badge = $('provider-badge');
+    badge.textContent = labels[provider] || provider;
+    badge.title = provider === 'offline' ? 'No API key: bundled dictionary + on-device OCR' : `Engine: ${provider}`;
+    badge.hidden = false;
+  } catch {}
+}
+
 // ── Bootstrap ──────────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
+  showProvider();
 
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => switchTab(btn.dataset.tab));

@@ -1,8 +1,8 @@
 # Spanish Vocabulary Recognition App
 
-Standalone Spanish-to-English vocabulary app powered by Claude's multimodal AI.
-Upload a screenshot or photo of Spanish text, or type directly—the app translates
-it and finds the correct answer among multiple-choice options.
+Standalone Spanish-to-English vocabulary app. **Runs with no API key**: out of the box it
+uses a bundled dictionary and on-device OCR. Optionally plug in a local vision model (Ollama)
+or Claude for open-vocabulary translation.
 
 ## Features
 
@@ -20,8 +20,7 @@ it and finds the correct answer among multiple-choice options.
 
 ### 1. Prerequisites
 
-- Node.js 18+
-- An Anthropic API key — get one at <https://console.anthropic.com>
+- Node.js 18+ (nothing else; no API key, no internet needed after `npm install`)
 
 ### 2. Install dependencies
 
@@ -30,33 +29,50 @@ cd vocab
 npm install
 ```
 
-### 3. Configure environment
-
-```sh
-cp .env.example .env
-# Edit .env and set ANTHROPIC_API_KEY=sk-ant-...
-```
-
-Optional settings in `.env`:
-
-| Variable | Default | Description |
-|---|---|---|
-| `ANTHROPIC_API_KEY` | *(required)* | Your Anthropic API key |
-| `CLAUDE_MODEL` | `claude-sonnet-5-5` | Model to use. Try `claude-haiku-5-5` for even lower latency |
-| `PORT` | `3000` | HTTP port |
-
-### 4. Start the server
+### 3. Start the server
 
 ```sh
 npm start
-# → http://localhost:3000
+# → http://localhost:3000   (header badge shows the active engine)
 ```
 
-For development with auto-reload:
+For development with auto-reload: `npm run dev`.
 
-```sh
-npm run dev
-```
+## Engines
+
+The server picks an engine at startup (`PROVIDER=auto`, the default):
+
+| Engine | Chosen when | Needs | Covers |
+|---|---|---|---|
+| **Claude** | `ANTHROPIC_API_KEY` is set | API key, internet | Any Spanish text, any layout, best accuracy |
+| **Local model** | no key, and Ollama is running with a vision model | `ollama pull qwen2.5vl` | Open vocabulary, fully local |
+| **Offline** | neither of the above | nothing | ~400 bundled classroom and everyday words and phrases; on-device OCR |
+
+Force one with `PROVIDER=offline|ollama|anthropic`. Configure via `.env` (`cp .env.example .env`):
+
+| Variable | Default | Description |
+|---|---|---|
+| `PROVIDER` | `auto` | `auto`, `offline`, `ollama`, or `anthropic` |
+| `ANTHROPIC_API_KEY` | *(unset)* | Enables the Claude engine |
+| `CLAUDE_MODEL` | `claude-sonnet-5-5` | Claude model. Try `claude-haiku-5-5` for even lower latency |
+| `OLLAMA_HOST` | `http://localhost:11434` | Ollama server |
+| `OLLAMA_MODEL` | `qwen2.5vl` | Any Ollama vision model (e.g. `llama3.2-vision`, `gemma3`) |
+| `PORT` | `3000` | HTTP port |
+
+### How offline mode works
+
+- **Text:** looks the word up in `dictionary.js` (articles, accents, and case are ignored).
+  Add your own words there, one per line: `spanish | preferred english; alternate`.
+- **Screenshots:** reads the image with Tesseract (Spanish model bundled via npm), finds flat-coloured
+  buttons/cards and reads each separately (so white-on-colour text works, light or dark mode), picks
+  the Spanish question as the largest line that is a dictionary word, then selects the visible option
+  whose text matches its translation. Scores, timers, and tabs are ignored. Position and colour of the
+  chosen option come from the pixels. Typically under a second per screenshot.
+- **Limits:** only knows the bundled words. Unknown words return `Unknown word.`; unreadable images
+  return `Unclear image.`. It translates Spanish to English only, and reads printed text (not
+  handwriting). Use the Claude or local-model engine for anything outside the dictionary.
+- Images are processed in memory and never leave your machine in offline or local-model mode.
+
 
 ## Usage
 
@@ -187,9 +203,9 @@ Returns `{ "status": "ok", "model": "..." }`.
 npm test
 ```
 
-Runs 26 unit/integration tests with a stubbed Anthropic client—no API key needed.
-Tests cover translation, choice matching, image analysis, error cases, and MIME-type
-validation.
+Runs 52 tests, no API key or network needed. The Claude path is tested with a stubbed client; the
+offline engine is tested with real OCR on rendered quiz screenshots (`tests/fixtures/`, light and dark
+mode, plus an unreadable image); provider selection and the Ollama adapter use fake local servers.
 
 ## Notes
 

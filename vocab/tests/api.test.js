@@ -10,7 +10,7 @@
 
 const { describe, it, before, after } = require('node:test');
 const assert = require('node:assert/strict');
-const http = require('node:http');
+const { makeClient } = require('./helpers');
 
 // Load the server; it won't start listening until we call app.listen()
 const app = require('../server.js');
@@ -37,72 +37,15 @@ app.set('anthropic', stubClient);
 // ── HTTP helper ────────────────────────────────────────────────────────────
 
 let server;
+let request;
+let imageRequest;
 
-function request(method, path, body, headers = {}) {
-  return new Promise((resolve, reject) => {
-    const payload = body ? JSON.stringify(body) : null;
-    const opts = {
-      hostname: '127.0.0.1',
-      port: server.address().port,
-      path,
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        ...(payload ? { 'Content-Length': Buffer.byteLength(payload) } : {}),
-        ...headers
-      }
-    };
-    const req = http.request(opts, res => {
-      let data = '';
-      res.on('data', c => (data += c));
-      res.on('end', () => resolve({ status: res.statusCode, body: JSON.parse(data) }));
-    });
-    req.on('error', reject);
-    if (payload) req.write(payload);
-    req.end();
+before(() => new Promise(resolve => {
+  server = app.listen(0, '127.0.0.1', () => {
+    ({ request, imageRequest } = makeClient(server));
+    resolve();
   });
-}
-
-function imageRequest(fields, fileBuffer, mimeType = 'image/png', path = '/api/analyze-image') {
-  return new Promise((resolve, reject) => {
-    const boundary = '----TestBoundary' + Date.now();
-    const parts = [];
-
-    for (const [name, value] of Object.entries(fields)) {
-      parts.push(`--${boundary}\r\nContent-Disposition: form-data; name="${name}"\r\n\r\n${value}`);
-    }
-
-    parts.push(
-      `--${boundary}\r\nContent-Disposition: form-data; name="image"; filename="test.png"\r\nContent-Type: ${mimeType}\r\n\r\n`
-    );
-
-    const preamble = Buffer.from(parts.join('\r\n') + '\r\n');
-    const closing = Buffer.from(`\r\n--${boundary}--\r\n`);
-    const body = Buffer.concat([preamble, fileBuffer, closing]);
-
-    const opts = {
-      hostname: '127.0.0.1',
-      port: server.address().port,
-      path,
-      method: 'POST',
-      headers: {
-        'Content-Type': `multipart/form-data; boundary=${boundary}`,
-        'Content-Length': body.length
-      }
-    };
-
-    const req = http.request(opts, res => {
-      let data = '';
-      res.on('data', c => (data += c));
-      res.on('end', () => resolve({ status: res.statusCode, body: JSON.parse(data) }));
-    });
-    req.on('error', reject);
-    req.write(body);
-    req.end();
-  });
-}
-
-before(() => new Promise(resolve => { server = app.listen(0, '127.0.0.1', resolve); }));
+}));
 after(() => new Promise(resolve => server.close(resolve)));
 
 // 1×1 transparent PNG for image tests
