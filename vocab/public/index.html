@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spanish Vocabulary</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="app-header">
+  <span class="header-flag">🇪🇸</span>
+  <h1>Spanish Vocabulary</h1>
+  <span class="provider-badge" id="provider-badge" hidden></span>
+  <button class="theme-btn" id="theme-btn" title="Toggle dark mode">◐</button>
+</header>
+
+<main class="main">
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn" data-tab="instant" role="tab">Instant answer</button>
+    <button class="tab-btn" data-tab="translate" role="tab">Translate</button>
+    <button class="tab-btn" data-tab="image" role="tab">Analyze image</button>
+  </div>
+
+  <!-- ── Instant answer tab ── -->
+  <div class="tab-panel" id="panel-instant">
+    <form class="card" id="instant-form" novalidate>
+      <div class="card-title">Answer only</div>
+
+      <div class="drop-zone" id="instant-drop-zone" role="button" tabindex="0" aria-label="Add screenshot">
+        <input type="file" id="instant-file-input" accept="image/jpeg,image/png,image/gif,image/webp" aria-label="Choose screenshot">
+        <div id="instant-drop-placeholder">
+          <div class="drop-icon">📷</div>
+          <div class="drop-label">Paste, drop, or click to add a screenshot</div>
+          <div class="drop-sub">JPEG, PNG, GIF, WebP · max 10 MB</div>
+        </div>
+        <img id="instant-preview" class="image-preview" alt="Screenshot preview" style="display:none">
+      </div>
+
+      <div class="field" style="margin-top:16px">
+        <label for="instant-text">Or type Spanish</label>
+        <textarea id="instant-text" rows="2" placeholder="e.g. la pluma"></textarea>
+      </div>
+
+      <div class="choices-section">
+        <div class="section-header">
+          <span class="card-title" style="margin:0">Answer choices (optional)</span>
+        </div>
+        <div class="choices-list" id="choices-list-n"></div>
+        <button type="button" class="btn-add" id="add-choice-n"><span>+</span> Add a choice</button>
+      </div>
+
+      <button type="submit" class="btn-primary" id="btn-instant">Answer</button>
+    </form>
+
+    <div class="status" id="status-instant"></div>
+    <div class="card result-panel" id="result-instant" role="region" aria-label="Answer" aria-live="polite"></div>
+  </div>
+
+  <!-- ── Translate tab ── -->
+  <div class="tab-panel" id="panel-translate">
+    <form class="card" id="translate-form" novalidate>
+      <div class="card-title">Spanish → English</div>
+
+      <div class="field">
+        <label for="translate-text">Spanish word or phrase</label>
+        <textarea id="translate-text" placeholder="e.g. manzana, buenos días, hablar con fluidez…" rows="3" required></textarea>
+      </div>
+
+      <div class="choices-section">
+        <div class="section-header">
+          <span class="card-title" style="margin:0">Answer choices (optional)</span>
+        </div>
+        <div class="choices-list" id="choices-list-t"></div>
+        <button type="button" class="btn-add" id="add-choice-t"><span>+</span> Add a choice</button>
+      </div>
+
+      <button type="submit" class="btn-primary" id="btn-translate">Translate</button>
+    </form>
+
+    <div class="status" id="status-translate"></div>
+    <div class="card result-panel" id="result-translate" role="region" aria-label="Translation result"></div>
+  </div>
+
+  <!-- ── Analyze image tab ── -->
+  <div class="tab-panel" id="panel-image">
+    <form class="card" id="image-form" novalidate>
+      <div class="card-title">Extract &amp; translate from image</div>
+
+      <div class="drop-zone" id="image-drop-zone" role="button" tabindex="0" aria-label="Upload image">
+        <input type="file" id="image-file-input" accept="image/jpeg,image/png,image/gif,image/webp" aria-label="Choose image file">
+        <div id="image-drop-placeholder">
+          <div class="drop-icon">📷</div>
+          <div class="drop-label">Paste, drop, or click to add an image</div>
+          <div class="drop-sub">JPEG, PNG, GIF, WebP · max 10 MB</div>
+        </div>
+        <img id="image-preview" class="image-preview" alt="Preview" style="display:none">
+      </div>
+
+      <div class="choices-section" style="margin-top:16px">
+        <div class="section-header">
+          <span class="card-title" style="margin:0">Answer choices (optional)</span>
+        </div>
+        <p style="font-size:.825rem;color:var(--text-muted);margin-bottom:10px">
+          Add choices to identify the correct answer, its color, and its position in the image.
+        </p>
+        <div class="choices-list" id="choices-list-i"></div>
+        <button type="button" class="btn-add" id="add-choice-i"><span>+</span> Add a choice</button>
+      </div>
+
+      <button type="submit" class="btn-primary" id="btn-analyze">Analyze image</button>
+    </form>
+
+    <div class="status" id="status-image"></div>
+    <div class="card result-panel" id="result-image" role="region" aria-label="Image analysis result"></div>
+  </div>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
