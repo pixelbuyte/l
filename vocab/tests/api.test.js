@@ -63,7 +63,7 @@ function request(method, path, body, headers = {}) {
   });
 }
 
-function imageRequest(fields, fileBuffer, mimeType = 'image/png') {
+function imageRequest(fields, fileBuffer, mimeType = 'image/png', path = '/api/analyze-image') {
   return new Promise((resolve, reject) => {
     const boundary = '----TestBoundary' + Date.now();
     const parts = [];
@@ -83,7 +83,7 @@ function imageRequest(fields, fileBuffer, mimeType = 'image/png') {
     const opts = {
       hostname: '127.0.0.1',
       port: server.address().port,
-      path: '/api/analyze-image',
+      path,
       method: 'POST',
       headers: {
         'Content-Type': `multipart/form-data; boundary=${boundary}`,
@@ -192,6 +192,98 @@ describe('POST /api/translate', () => {
     const res = await request('POST', '/api/translate', { text: 'hola' });
     assert.equal(res.status, 500);
     assert.ok(res.body.error.includes('rate limit'));
+  });
+});
+
+// ── /api/answer ───────────────────────────────────────────────────────────────
+
+describe('POST /api/answer', () => {
+  it('returns only the answer for plain text', async () => {
+    nextResponse = 'classroom';
+    const res = await request('POST', '/api/answer', { text: 'el salón de clase' });
+    assert.equal(res.status, 200);
+    assert.deepEqual(res.body, { answer: 'classroom' });
+  });
+
+  it('sends the instant system prompt, low effort, and the text', async () => {
+    nextResponse = 'pen';
+    await request('POST', '/api/answer', { text: 'la pluma' });
+    assert.match(lastRequest.system, /ONLY the answer/);
+    assert.equal(lastRequest.output_config.effort, 'low');
+    const textBlock = lastRequest.messages[0].content.find(b => b.type === 'text');
+    assert.ok(textBlock.text.includes('la pluma'));
+  });
+
+  it('strips quotes, markdown, extra lines, and trailing periods', async () => {
+    nextResponse = '**"Pencil sharpener."**\nBecause sacapuntas sharpens pencils.';
+    const res = await request('POST', '/api/answer', { text: 'el sacapuntas' });
+    assert.equal(res.body.answer, 'Pencil sharpener');
+  });
+
+  it('snaps the answer to the exact option text', async () => {
+    nextResponse = 'door';
+    const res = await request('POST', '/api/answer', {
+      text: 'la puerta',
+      choices: [{ text: 'Window' }, { text: 'The Door' }, { text: 'Floor' }]
+    });
+    assert.equal(res.body.answer, 'The Door');
+    const prompt = lastRequest.messages[0].content.find(b => b.type === 'text').text;
+    assert.ok(prompt.includes('- Window') && prompt.includes('- Floor'));
+  });
+
+  it('does not snap when the match is ambiguous', async () => {
+    nextResponse = 'tape';
+    const res = await request('POST', '/api/answer', {
+      text: 'la cinta pegante',
+      choices: ['red tape', 'tape recorder']
+    });
+    assert.equal(res.body.answer, 'tape');
+  });
+
+  it('answers from a screenshot with visible options', async () => {
+    nextResponse = 'calculator';
+    const res = await imageRequest({}, PNG_1PX, 'image/png', '/api/answer');
+    assert.equal(res.status, 200);
+    assert.deepEqual(res.body, { answer: 'calculator' });
+    const content = lastRequest.messages[0].content;
+    assert.equal(content[0].type, 'image');
+    assert.equal(content[0].source.media_type, 'image/png');
+  });
+
+  it('accepts choices alongside an image', async () => {
+    nextResponse = 'pupil';
+    const choices = JSON.stringify(['teacher', 'pupil']);
+    const res = await imageRequest({ choices }, PNG_1PX, 'image/png', '/api/answer');
+    assert.equal(res.body.answer, 'pupil');
+  });
+
+  it('returns "Unclear image." for unreadable screenshots', async () => {
+    nextResponse = 'Unclear image.';
+    const res = await imageRequest({}, PNG_1PX, 'image/png', '/api/answer');
+    assert.equal(res.status, 200);
+    assert.equal(res.body.answer, 'Unclear image.');
+  });
+
+  it('never snaps "Unclear image." to a choice', async () => {
+    nextResponse = 'unclear image';
+    const res = await request('POST', '/api/answer', { text: 'x', choices: ['image', 'unclear'] });
+    assert.equal(res.body.answer, 'Unclear image.');
+  });
+
+  it('returns 400 with neither text nor image', async () => {
+    const res = await request('POST', '/api/answer', {});
+    assert.equal(res.status, 400);
+  });
+
+  it('returns 400 for malformed choices JSON', async () => {
+    const res = await imageRequest({ text: 'hola', choices: '{nope' }, PNG_1PX, 'image/png', '/api/answer');
+    assert.equal(res.status, 400);
+  });
+
+  it('returns 500 when the model throws', async () => {
+    nextResponse = new Error('overloaded');
+    const res = await request('POST', '/api/answer', { text: 'hola' });
+    assert.equal(res.status, 500);
   });
 });
 

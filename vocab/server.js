@@ -8,7 +8,28 @@ const Anthropic = require('@anthropic-ai/sdk');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const MODEL = process.env.CLAUDE_MODEL || 'claude-opus-5-5';
+const MODEL = process.env.CLAUDE_MODEL || 'claude-sonnet-5-5';
+const UNCLEAR = 'Unclear image.';
+
+const INSTANT_SYSTEM = `You are a Spanish-to-English vocabulary answer engine. Output ONLY the answer: one answer, preferably 1-3 words, no explanations, no quotes, no numbering, no formatting, never repeat the question.
+
+Rules:
+- Given a Spanish word or phrase (typed or in a screenshot), give its English translation.
+- If multiple-choice options are given or visible, reply with the correct option EXACTLY as written in the options.
+- Choose the meaning that fits the question and context (school vocabulary, classroom objects, everyday phrases, verbs, nouns, common expressions).
+- Ignore browser tabs, scores, timers, and any other screen elements; use only the question and its answer choices.
+- If the image is unreadable or no Spanish question can be found, reply exactly: ${UNCLEAR}
+- Do not guess when the image is unreadable. Do not search the web.
+
+Examples:
+el salón de clase -> classroom
+la pluma -> pen
+el alumno / la alumna -> pupil
+la calculadora -> calculator
+la cinta pegante -> tape
+el sacapuntas -> pencil sharpener
+la puerta -> door
+el piso -> floor`;
 
 const ALLOWED_MIME_TYPES = new Set(['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
 
@@ -195,6 +216,78 @@ If the image is unreadable, return ONLY: { "image_quality": "unreadable", "error
   } catch (err) {
     console.error('[analyze-image]', err.message);
     res.status(500).json({ error: err.message || 'Image analysis failed' });
+  }
+});
+
+const normalize = s => s.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, '').replace(/\s+/g, ' ').trim();
+
+// Reduce model output to a bare answer: first line, no markdown/quotes.
+function cleanAnswer(raw) {
+  const line = String(raw).split('\n').map(l => l.trim()).find(Boolean) || '';
+  const stripped = line.replace(/^[\s"'`*_>#-]+|[\s"'`*_]+$/g, '');
+  if (normalize(stripped) === normalize(UNCLEAR)) return UNCLEAR;
+  return stripped.replace(/\.$/, '');
+}
+
+// Return the supplied choice text the answer corresponds to, exactly as written.
+function snapToChoice(answer, choices) {
+  if (answer === UNCLEAR || !choices.length) return answer;
+  const a = normalize(answer);
+  const exact = choices.find(c => normalize(c) === a);
+  if (exact) return exact;
+  const partial = choices.filter(c => a && (normalize(c).includes(a) || a.includes(normalize(c))));
+  return partial.length === 1 ? partial[0] : answer;
+}
+
+// POST /api/answer
+// JSON { text?, choices? } or multipart (image?, text?, choices?). Returns { answer } only.
+app.post('/api/answer', upload.single('image'), async (req, res) => {
+  const text = typeof req.body.text === 'string' ? req.body.text.trim() : '';
+  if (!req.file && !text) {
+    return res.status(400).json({ error: 'text or image is required' });
+  }
+
+  let rawChoices = req.body.choices || [];
+  if (typeof rawChoices === 'string') {
+    try {
+      rawChoices = JSON.parse(rawChoices);
+    } catch {
+      return res.status(400).json({ error: 'choices must be valid JSON' });
+    }
+  }
+  const choices = (Array.isArray(rawChoices) ? rawChoices : [])
+    .map(c => (typeof c === 'string' ? c : c && c.text))
+    .filter(t => typeof t === 'string' && t.trim())
+    .map(t => t.trim());
+
+  const content = [];
+  if (req.file) {
+    content.push({
+      type: 'image',
+      source: { type: 'base64', media_type: req.file.mimetype, data: req.file.buffer.toString('base64') }
+    });
+  }
+  const parts = [];
+  if (text) parts.push(text);
+  if (choices.length) parts.push(`Options:\n${choices.map(c => `- ${c}`).join('\n')}`);
+  if (req.file && !parts.length) parts.push('Answer the vocabulary question in the screenshot.');
+  content.push({ type: 'text', text: parts.join('\n\n') });
+
+  try {
+    const response = await app.get('anthropic').messages.create({
+      model: MODEL,
+      max_tokens: 1024,
+      output_config: { effort: 'low' },
+      system: INSTANT_SYSTEM,
+      messages: [{ role: 'user', content }]
+    });
+
+    const block = response.content.find(b => b.type === 'text');
+    const answer = block ? snapToChoice(cleanAnswer(block.text), choices) : UNCLEAR;
+    res.json({ answer: answer || UNCLEAR });
+  } catch (err) {
+    console.error('[answer]', err.message);
+    res.status(500).json({ error: err.message || 'Answer failed' });
   }
 });
 

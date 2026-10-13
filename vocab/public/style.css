@@ -360,6 +360,19 @@ textarea { min-height: 80px; }
   font-style: italic;
 }
 
+/* ── Instant answer ── */
+
+.answer-big {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: center;
+  padding: 12px 0;
+  overflow-wrap: anywhere;
+}
+
+.answer-big.unclear { color: var(--warning); font-size: 1.5rem; }
+
 /* ── Match result ── */
 
 .match-section { margin-top: 16px; }

@@ -6,6 +6,7 @@ it and finds the correct answer among multiple-choice options.
 
 ## Features
 
+- **Instant answer** — answer-only mode: paste, drop, or type; returns just the English answer (1–3 words), snapped exactly to your options, or `Unclear image.` when the screenshot can't be read
 - **Translate text** — instant Spanish → English translation with part-of-speech info
 - **Image analysis** — extract and translate Spanish words from photos or screenshots
 - **Multiple-choice matching** — add answer choices to identify the correct translation,
@@ -41,7 +42,7 @@ Optional settings in `.env`:
 | Variable | Default | Description |
 |---|---|---|
 | `ANTHROPIC_API_KEY` | *(required)* | Your Anthropic API key |
-| `CLAUDE_MODEL` | `claude-opus-5-5` | Model to use. Try `claude-haiku-5-5` for lower latency |
+| `CLAUDE_MODEL` | `claude-sonnet-5-5` | Model to use. Try `claude-haiku-5-5` for even lower latency |
 | `PORT` | `3000` | HTTP port |
 
 ### 4. Start the server
@@ -58,6 +59,14 @@ npm run dev
 ```
 
 ## Usage
+
+### Instant answer
+
+1. Open the **Instant answer** tab (default)
+2. Paste a screenshot (Ctrl/Cmd+V), drop one, or type Spanish; the answer appears immediately
+3. Optionally list answer choices; the reply is returned exactly as one of them
+
+The answer-only rules (no explanation, no repeating the question, ignore tabs/scores/timers, `Unclear image.` for unreadable input) live in `INSTANT_SYSTEM` in `server.js`. The app only reads what you give it — it never clicks, automates a browser, or touches other sites or games.
 
 ### Translate text
 
@@ -86,6 +95,16 @@ the response returns `image_quality: "unreadable"` with a short explanation.
 The app shows a `⚠` status and does not display a false translation.
 
 ## API reference
+
+### `POST /api/answer`
+
+Answer-only endpoint. JSON `{ "text": "la puerta", "choices": ["Window", "Door"] }` or multipart with `image` (optional), `text` (optional), `choices` (JSON array string, optional); at least one of `text`/`image` is required.
+
+```json
+{ "answer": "Door" }
+```
+
+Unreadable screenshots return `{ "answer": "Unclear image." }`. Uses low reasoning effort for speed.
 
 ### `POST /api/translate`
 
@@ -168,7 +187,7 @@ Returns `{ "status": "ok", "model": "..." }`.
 npm test
 ```
 
-Runs 14 unit/integration tests with a stubbed Anthropic client—no API key needed.
+Runs 26 unit/integration tests with a stubbed Anthropic client—no API key needed.
 Tests cover translation, choice matching, image analysis, error cases, and MIME-type
 validation.
 

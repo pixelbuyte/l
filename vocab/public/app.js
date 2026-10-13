@@ -3,11 +3,14 @@
 // ── State ──────────────────────────────────────────────────────────────────
 
 const state = {
-  activeTab: 'translate',
+  activeTab: 'instant',
+  instantChoices: [],
   translateChoices: [],
   imageChoices: [],
-  imageFile: null,
+  files: { instant: null, image: null },
 };
+
+const UNCLEAR = 'Unclear image.';
 
 // ── DOM helpers ──────────────────────────────────────────────────────────────
 
@@ -49,13 +52,13 @@ function clearStatus(tab) {
 
 function hideResult(tab) {
   const r = $(`result-${tab}`);
-  if (r) r.className = 'result-panel';
+  if (r) r.className = 'card result-panel';
   clearStatus(tab);
 }
 
 // ── Choices builder ──────────────────────────────────────────────────────────
 
-function buildChoicesUI(containerId, listId, addBtnId, stateKey) {
+function buildChoicesUI(listId, addBtnId, stateKey) {
   const list = $(listId);
   const addBtn = $(addBtnId);
 
@@ -69,6 +72,7 @@ function buildChoicesUI(containerId, listId, addBtnId, stateKey) {
       inp.placeholder = `Choice ${i + 1}`;
       inp.addEventListener('input', e => { state[stateKey][i].text = e.target.value; });
       const del = el('button', 'btn-icon', '✕');
+      del.type = 'button';
       del.title = 'Remove choice';
       del.addEventListener('click', () => {
         state[stateKey].splice(i, 1);
@@ -87,6 +91,87 @@ function buildChoicesUI(containerId, listId, addBtnId, stateKey) {
   });
 
   renderChoices();
+}
+
+// ── Image drop zones (shared by Instant and Analyze tabs) ──────────────────
+
+function setImage(tab, file) {
+  if (!file || !file.type.startsWith('image/')) return;
+  state.files[tab] = file;
+  $(`${tab}-drop-zone`).classList.add('has-image');
+  const preview = $(`${tab}-preview`);
+  if (preview.src) URL.revokeObjectURL(preview.src);
+  preview.src = URL.createObjectURL(file);
+  preview.style.display = 'block';
+  $(`${tab}-drop-placeholder`).style.display = 'none';
+}
+
+function initDropZone(tab) {
+  const zone = $(`${tab}-drop-zone`);
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.classList.remove('drag-over');
+    setImage(tab, e.dataTransfer?.files?.[0]);
+    if (tab === 'instant') submitInstant();
+  });
+  $(`${tab}-file-input`).addEventListener('change', e => {
+    setImage(tab, e.target.files?.[0]);
+    if (tab === 'instant') submitInstant();
+  });
+}
+
+// Paste a screenshot straight into the active image-capable tab.
+function handlePaste(e) {
+  const tab = state.activeTab;
+  if (tab !== 'instant' && tab !== 'image') return;
+  const item = [...(e.clipboardData?.items || [])].find(i => i.type.startsWith('image/'));
+  if (!item) return;
+  e.preventDefault();
+  setImage(tab, item.getAsFile());
+  if (tab === 'instant') submitInstant();
+}
+
+// ── Instant answer mode ─────────────────────────────────────────────────────
+
+let instantRun = 0;
+
+async function submitInstant() {
+  const text = $('instant-text').value.trim();
+  const file = state.files.instant;
+  if (!text && !file) {
+    showError('instant', 'Enter Spanish text or add a screenshot');
+    return;
+  }
+
+  const run = ++instantRun;
+  const choices = state.instantChoices.map(c => c.text.trim()).filter(Boolean);
+  showLoading('instant', 'Answering…');
+  hideResult('instant');
+  $('btn-instant').disabled = true;
+
+  try {
+    const form = new FormData();
+    if (file) form.append('image', file);
+    if (text) form.append('text', text);
+    if (choices.length) form.append('choices', JSON.stringify(choices));
+
+    const res = await fetch('/api/answer', { method: 'POST', body: form });
+    const data = await res.json();
+    if (run !== instantRun) return;
+    if (!res.ok) throw new Error(data.error || 'Request failed');
+
+    clearStatus('instant');
+    const panel = $('result-instant');
+    panel.innerHTML = '';
+    panel.append(el('div', data.answer === UNCLEAR ? 'answer-big unclear' : 'answer-big', data.answer));
+    panel.className = 'card result-panel visible';
+  } catch (err) {
+    if (run === instantRun) showError('instant', err.message);
+  } finally {
+    if (run === instantRun) $('btn-instant').disabled = false;
+  }
 }
 
 // ── Translate mode ──────────────────────────────────────────────────────────
@@ -124,28 +209,19 @@ function renderTranslateResult(query, data, choices) {
   const panel = $('result-translate');
   panel.innerHTML = '';
 
-  // Header: Spanish word + POS
   const hdr = el('div', 'result-header');
-  const sp = el('span', 'result-spanish', query);
-  hdr.append(sp);
-  if (data.part_of_speech) {
-    hdr.append(el('span', 'result-pos', data.part_of_speech));
-  }
+  hdr.append(el('span', 'result-spanish', query));
+  if (data.part_of_speech) hdr.append(el('span', 'result-pos', data.part_of_speech));
   panel.append(hdr);
 
-  // Translation
-  const tr = el('div', 'result-translation', `"${data.translation}"`);
-  panel.append(tr);
-
-  // Notes
+  panel.append(el('div', 'result-translation', `"${data.translation}"`));
   if (data.notes) panel.append(el('div', 'result-notes', data.notes));
 
-  // Choice matching
   if (choices.length > 0 && data.match) {
     panel.append(renderChoiceMatch(choices, data.match));
   }
 
-  panel.className = 'result-panel visible';
+  panel.className = 'card result-panel visible';
 }
 
 function renderChoiceMatch(choices, match) {
@@ -158,56 +234,32 @@ function renderChoiceMatch(choices, match) {
     const isMatch = match.index === i;
     if (isMatch) {
       chip.classList.add('correct');
-      const icon = el('span', 'chip-icon', '✓');
-      chip.append(icon);
+      chip.append(el('span', 'chip-icon', '✓'));
     }
     chip.append(document.createTextNode(choice.text));
     if (isMatch && match.confidence) {
       const meta = el('div', 'chip-meta');
-      const badge = el('span', `conf-badge ${match.confidence}`, match.confidence);
-      meta.append('Confidence: ', badge);
+      meta.append('Confidence: ', el('span', `conf-badge ${match.confidence}`, match.confidence));
       chip.append(meta);
     }
     grid.append(chip);
   });
+  section.append(grid);
 
   if (match.index === -1) {
-    const note = el('p');
+    const note = el('p', null, 'No matching choice found for this translation.');
     note.style.cssText = 'font-size:.85rem;color:var(--text-muted);margin-top:8px;';
-    note.textContent = 'No matching choice found for this translation.';
-    section.append(grid, note);
-  } else {
-    section.append(grid);
+    section.append(note);
   }
 
   return section;
 }
 
-// ── Image mode ──────────────────────────────────────────────────────────────
-
-function handleImageDrop(e) {
-  e.preventDefault();
-  const file = e.dataTransfer?.files?.[0] || e.target?.files?.[0];
-  if (!file || !file.type.startsWith('image/')) return;
-  state.imageFile = file;
-  previewImage(file);
-}
-
-function previewImage(file) {
-  const zone = $('drop-zone');
-  const placeholder = $('drop-placeholder');
-  const preview = $('image-preview');
-
-  zone.classList.add('has-image');
-  const url = URL.createObjectURL(file);
-  preview.src = url;
-  preview.style.display = 'block';
-  placeholder.style.display = 'none';
-}
+// ── Analyze image mode ─────────────────────────────────────────────────────
 
 async function handleImageAnalyze(e) {
   e.preventDefault();
-  if (!state.imageFile) {
+  if (!state.files.image) {
     showError('image', 'Please select an image first');
     return;
   }
@@ -219,7 +271,7 @@ async function handleImageAnalyze(e) {
 
   try {
     const form = new FormData();
-    form.append('image', state.imageFile);
+    form.append('image', state.files.image);
     if (choices.length > 0) form.append('choices', JSON.stringify(choices));
 
     const res = await fetch('/api/analyze-image', { method: 'POST', body: form });
@@ -241,7 +293,6 @@ function renderImageResult(data, choices) {
   const panel = $('result-image');
   panel.innerHTML = '';
 
-  // Image quality badge
   if (data.image_quality) {
     const badge = el('div', `quality-badge ${data.image_quality}`);
     badge.textContent = data.image_quality === 'clear' ? '✓ Clear image' : '⚠ Image may be blurry';
@@ -249,34 +300,19 @@ function renderImageResult(data, choices) {
   }
 
   if (data.extracted_text) {
-    // Main result: extracted text + translation
     const hdr = el('div', 'result-header');
     hdr.append(el('span', 'result-spanish', data.extracted_text));
     panel.append(hdr);
-
-    if (data.translation) {
-      panel.append(el('div', 'result-translation', `"${data.translation}"`));
-    }
+    if (data.translation) panel.append(el('div', 'result-translation', `"${data.translation}"`));
   }
 
   if (data.notes) panel.append(el('div', 'result-notes', data.notes));
 
-  // Choice match
-  if (choices.length > 0 && data.match) {
-    panel.append(renderChoiceMatch(choices, data.match));
-  }
+  if (choices.length > 0 && data.match) panel.append(renderChoiceMatch(choices, data.match));
+  if (data.visual_choices && data.visual_choices.length > 0) panel.append(renderVisualMap(data.visual_choices));
+  if (data.items && data.items.length > 0) panel.append(renderItemsList(data.items));
 
-  // Visual position map
-  if (data.visual_choices && data.visual_choices.length > 0) {
-    panel.append(renderVisualMap(data.visual_choices));
-  }
-
-  // OCR items (no-choice mode)
-  if (data.items && data.items.length > 0) {
-    panel.append(renderItemsList(data.items));
-  }
-
-  panel.className = 'result-panel visible';
+  panel.className = 'card result-panel visible';
 }
 
 function renderVisualMap(visualChoices) {
@@ -288,10 +324,9 @@ function renderVisualMap(visualChoices) {
   visualChoices.forEach(vc => {
     const chip = el('div', 'map-choice');
     chip.textContent = vc.text;
-    chip.style.left = `${vc.position.x_percent ?? 50}%`;
-    chip.style.top = `${vc.position.y_percent ?? 50}%`;
+    chip.style.left = `${vc.position?.x_percent ?? 50}%`;
+    chip.style.top = `${vc.position?.y_percent ?? 50}%`;
 
-    // Apply actual background color from image if detected
     const bg = vc.background_color;
     if (bg && bg !== 'none' && bg !== 'transparent') {
       chip.style.background = bg;
@@ -326,29 +361,24 @@ function renderItemsList(items) {
   return section;
 }
 
-// Estimate contrast color (black or white) for a given hex background
 function getContrastColor(hex) {
-  try {
-    const clean = hex.replace('#', '');
-    if (clean.length !== 6) return 'var(--text)';
-    const r = parseInt(clean.slice(0, 2), 16);
-    const g = parseInt(clean.slice(2, 4), 16);
-    const b = parseInt(clean.slice(4, 6), 16);
-    const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-    return lum > 0.5 ? '#111' : '#fff';
-  } catch {
-    return 'var(--text)';
-  }
+  const clean = String(hex).replace('#', '');
+  if (!/^[0-9a-f]{6}$/i.test(clean)) return 'var(--text)';
+  const r = parseInt(clean.slice(0, 2), 16);
+  const g = parseInt(clean.slice(2, 4), 16);
+  const b = parseInt(clean.slice(4, 6), 16);
+  return (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.5 ? '#111' : '#fff';
 }
 
 // ── Theme toggle ──────────────────────────────────────────────────────────────
 
 function initTheme() {
-  const stored = localStorage.getItem('vocab-theme');
-  if (stored) document.documentElement.dataset.theme = stored;
+  try {
+    const stored = localStorage.getItem('vocab-theme');
+    if (stored) document.documentElement.dataset.theme = stored;
+  } catch {}
   $('theme-btn').addEventListener('click', () => {
-    const curr = document.documentElement.dataset.theme;
-    const next = curr === 'dark' ? 'light' : 'dark';
+    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
     document.documentElement.dataset.theme = next;
     try { localStorage.setItem('vocab-theme', next); } catch {}
   });
@@ -359,25 +389,28 @@ function initTheme() {
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
 
-  // Tab buttons
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => switchTab(btn.dataset.tab));
   });
 
-  // Translate form
-  buildChoicesUI('choices-container-t', 'choices-list-t', 'add-choice-t', 'translateChoices');
+  // Instant answer
+  buildChoicesUI('choices-list-n', 'add-choice-n', 'instantChoices');
+  initDropZone('instant');
+  $('instant-form').addEventListener('submit', e => { e.preventDefault(); submitInstant(); });
+  $('instant-text').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitInstant(); }
+  });
+
+  // Translate
+  buildChoicesUI('choices-list-t', 'add-choice-t', 'translateChoices');
   $('translate-form').addEventListener('submit', handleTranslate);
 
-  // Image upload
-  const zone = $('drop-zone');
-  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
-  zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
-  zone.addEventListener('drop', e => { zone.classList.remove('drag-over'); handleImageDrop(e); });
-  $('file-input').addEventListener('change', handleImageDrop);
-
-  buildChoicesUI('choices-container-i', 'choices-list-i', 'add-choice-i', 'imageChoices');
+  // Analyze image
+  initDropZone('image');
+  buildChoicesUI('choices-list-i', 'add-choice-i', 'imageChoices');
   $('image-form').addEventListener('submit', handleImageAnalyze);
 
-  // Set initial tab
-  switchTab('translate');
+  document.addEventListener('paste', handlePaste);
+
+  switchTab('instant');
 });
